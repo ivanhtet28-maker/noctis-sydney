@@ -8,14 +8,31 @@
 (function () {
   "use strict";
 
-  // Resolve the brand slug from URL → sessionStorage → null.
+  // Resolve the brand slug from URL → pathname → sessionStorage → null.
+  // On Vercel, /empire is rewritten server-side to /index.html?b=empire but
+  // window.location keeps the original pathname, so client-side JS only sees
+  // /empire. We therefore check the pathname for a single-segment match
+  // against the brands registry.
   function getBrand() {
     var url = new URL(window.location.href);
     var slug = (url.searchParams.get("b") || url.searchParams.get("for") || "").toLowerCase().trim();
     var STORAGE_KEY = "noctisBrandSlug";
 
+    // Try the pathname if the query param didn't yield anything.
+    // Match a single-segment path like /empire, /mr-rental, /sydney-luxury.
+    if (!slug) {
+      var path = (url.pathname || "/").replace(/\/+$/, ""); // strip trailing slash
+      var match = path.match(/^\/([a-z0-9][a-z0-9-]{0,40})$/i);
+      if (match) {
+        var candidate = match[1].toLowerCase();
+        if (window.NOCTIS_BRANDS && window.NOCTIS_BRANDS[candidate]) {
+          slug = candidate;
+        }
+      }
+    }
+
     // If a slug arrives in the URL, treat it as authoritative — overwrite
-    // any previously-stored slug. Empty slug means "reset to Noctis".
+    // any previously-stored slug. Empty slug means "fall back to storage".
     if (slug) {
       try { sessionStorage.setItem(STORAGE_KEY, slug); } catch (e) {}
     } else {

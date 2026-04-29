@@ -1,12 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/", "destination": "/index.html" },
     { "source": "/crm", "destination": "/crm/index.html" },
     { "source": "/journal", "destination": "/journal/index.html" },
-    { "source": "/:slug([a-z0-9][a-z0-9-]{0,30})", "destination": "/index.html?b=:slug" }
+    { "source": "/:slug((?!fleet|journal|legal|crm|images|assets|scripts|robots|sitemap|favicon|.*\\.).+)", "destination": "/index.html?b=:slug" }
   ],
   "headers": [
     {

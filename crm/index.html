@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Concierge Inbox · Noctis CRM</title>
+<meta name="robots" content="noindex, nofollow" />
+<meta name="theme-color" content="#0A0A0A" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230A0A0A'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='Georgia,serif' font-size='42' font-style='italic' fill='%23F5F1EA'%3EN%3C/text%3E%3C/svg%3E" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+:root {
+  --ink: #0A0A0A;
+  --bg-1: #0d0d0d;
+  --bg-2: #121212;
+  --bg-3: #161616;
+  --bg-4: #1c1c1c;
+  --line: #1f1f1f;
+  --line-2: #2a2a2a;
+  --cream: #F5F1EA;
+  --muted: #8C8576;
+  --subtle: #5A564F;
+  --accent: #6B0F1A;
+  --hot: #E0524C;
+  --warm: #E0A12F;
+  --cold: #5B6F8E;
+  --ok: #5DCC83;
+}
+
+* { box-sizing: border-box; }
+html, body {
+  background: var(--ink);
+  color: var(--cream);
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Inter', -apple-system, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-size: 14px;
+}
+.font-serif { font-family: 'Fraunces', serif; }
+.mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
+a { color: var(--cream); text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+input, textarea, select { font-family: inherit; font-size: inherit; color: inherit; }
+
+/* ----- Layout ----- */
+.app {
+  display: grid;
+  grid-template-columns: 220px 380px 1fr;
+  height: 100vh;
+}
+@media (max-width: 1100px) {
+  .app { grid-template-columns: 60px 320px 1fr; }
+  .sidebar .lbl { display: none; }
+}
+@media (max-width: 768px) {
+  .app { grid-template-columns: 1fr; grid-template-rows: 60px 1fr; }
+  .sidebar { display: none; }
+  .inbox { display: none; }
+  .app.show-detail .detail { display: flex; }
+  .app.show-inbox .inbox { display: flex; }
+}
+
+/* ----- Sidebar ----- */
+.sidebar {
+  background: var(--bg-1);
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+}
+.brand {
+  padding: 22px 22px 24px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.brand .mark {
+  width: 30px; height: 30px;
+  border-radius: 8px;
+  background: var(--ink);
+  border: 1px solid var(--line-2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Fraunces', serif; font-style: italic;
+  color: var(--cream); font-size: 18px;
+}
+.brand .label { font-family: 'Fraunces', serif; font-size: 17px; letter-spacing: -0.018em; }
+.brand .label small { display: block; font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; margin-top: 2px; }
+
+.nav {
+  padding: 12px 12px;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.nav .group { padding: 18px 12px 8px; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--subtle); }
+.nav button.item {
+  background: none;
+  border: none;
+  color: rgba(245,241,234,0.75);
+  text-align: left;
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  width: 100%;
+  transition: background .15s, color .15s;
+}
+.nav button.item:hover { background: var(--bg-3); color: var(--cream); }
+.nav button.item.active { background: var(--bg-4); color: var(--cream); }
+.nav button.item .count {
+  margin-left: auto; font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--muted);
+  background: var(--bg-3); padding: 1px 7px; border-radius: 10px;
+}
+.nav button.item.active .count { background: rgba(245,241,234,0.1); color: var(--cream); }
+.nav .swatch { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.nav .swatch.hot  { background: var(--hot); }
+.nav .swatch.warm { background: var(--warm); }
+.nav .swatch.cold { background: var(--cold); }
+
+.user {
+  margin-top: auto;
+  padding: 16px 16px 20px;
+  border-top: 1px solid var(--line);
+  display: flex; align-items: center; gap: 10px;
+}
+.user .avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--bg-3);
+  border: 1px solid var(--line-2);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--cream); font-weight: 500; font-size: 13px;
+}
+.user .info .name { font-size: 13px; color: var(--cream); }
+.user .info .role { font-size: 11px; color: var(--muted); }
+
+/* ----- Inbox column ----- */
+.inbox {
+  background: var(--bg-1);
+  border-right: 1px solid var(--line);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.inbox-head {
+  padding: 18px 20px 12px;
+  border-bottom: 1px solid var(--line);
+}
+.inbox-head .ttl { font-family: 'Fraunces', serif; font-size: 22px; letter-spacing: -0.018em; margin: 0; }
+.inbox-head .stats {
+  display: flex; gap: 18px; margin-top: 14px;
+}
+.inbox-head .stat .n {
+  font-family: 'Fraunces', serif; font-size: 22px; line-height: 1;
+}
+.inbox-head .stat .lbl {
+  display: block; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); margin-top: 4px;
+}
+.inbox-head .stat .n.hot  { color: var(--hot); }
+.inbox-head .stat .n.warm { color: var(--warm); }
+.inbox-head .stat .n.ok   { color: var(--ok); }
+
+.inbox-search {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+}
+.inbox-search input {
+  width: 100%;
+  background: var(--bg-3);
+  border: 1px solid var(--line-2);
+  border-radius: 6px;
+  padding: 8px 12px;
+  outline: none;
+  font-size: 13px;
+  color: var(--cream);
+  transition: border-color .2s;
+}
+.inbox-search input:focus { border-color: rgba(245,241,234,0.3); }
+.inbox-search input::placeholder { color: var(--subtle); }
+
+.inbox-list { overflow-y: auto; flex: 1; }
+.inbox-item {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  transition: background .15s;
+  position: relative;
+}
+.inbox-item:hover { background: var(--bg-2); }
+.inbox-item.active { background: var(--bg-3); }
+.inbox-item.active::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+  background: var(--cream);
+}
+.inbox-item .row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 4px;
+}
+.inbox-item .name { font-weight: 500; font-size: 14px; color: var(--cream); }
+.inbox-item .name.unread::after { content: "•"; color: var(--ok); margin-left: 6px; }
+.inbox-item .time { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+.inbox-item .preview {
+  font-size: 12px; color: rgba(245,241,234,0.55);
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-top: 2px;
+}
+.inbox-item .meta {
+  display: flex; gap: 8px; margin-top: 8px; align-items: center; flex-wrap: wrap;
+}
+.tag {
+  font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase;
+  padding: 2px 8px; border-radius: 10px;
+  background: var(--bg-3); color: rgba(245,241,234,0.65);
+  border: 1px solid var(--line-2);
+}
+.tag.hot   { background: rgba(224,82,76,0.15); color: var(--hot); border-color: rgba(224,82,76,0.3); }
+.tag.warm  { background: rgba(224,161,47,0.15); color: var(--warm); border-color: rgba(224,161,47,0.3); }
+.tag.cold  { background: rgba(91,111,142,0.15); color: var(--cold); border-color: rgba(91,111,142,0.3); }
+.tag.car   { color: var(--cream); border-color: var(--line-2); background: var(--bg-3); }
+.tag.ok    { background: rgba(93,204,131,0.12); color: var(--ok); border-color: rgba(93,204,131,0.3); }
+
+/* Source tag/pill — shown per inquiry */
+.source-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase;
+  padding: 2px 8px 2px 6px; border-radius: 10px;
+  background: var(--bg-3); color: rgba(245,241,234,0.7);
+  border: 1px solid var(--line-2);
+}
+.source-pill svg { flex-shrink: 0; }
+.source-pill[data-channel="instagram"] { color: #E0524C; border-color: rgba(224,82,76,0.25); background: rgba(224,82,76,0.08); }
+.source-pill[data-channel="google"]    { color: #5DCC83; border-color: rgba(93,204,131,0.25); background: rgba(93,204,131,0.08); }
+.source-pill[data-channel="referral"]  { color: #E0A12F; border-color: rgba(224,161,47,0.25); background: rgba(224,161,47,0.08); }
+.source-pill[data-channel="signal"]    { color: #5B9DEB; border-color: rgba(91,157,235,0.25); background: rgba(91,157,235,0.08); }
+.source-pill[data-channel="pinterest"] { color: #BB494E; border-color: rgba(187,73,78,0.25); background: rgba(187,73,78,0.08); }
+.source-pill[data-channel="sms"]       { color: #5DCC83; border-color: rgba(93,204,131,0.25); background: rgba(93,204,131,0.08); }
+.source-pill[data-channel="direct"]    { color: rgba(245,241,234,0.6); }
+.source-pill[data-channel="email"]     { color: #E0A12F; border-color: rgba(224,161,47,0.25); background: rgba(224,161,47,0.08); }
+
+/* Source-detail card in the detail pane */
+.source-card {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg-2);
+  padding: 18px 22px;
+  display: flex; align-items: center; gap: 18px;
+}
+.source-card .ico {
+  width: 42px; height: 42px; border-radius: 8px;
+  background: var(--bg-3); border: 1px solid var(--line-2);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.source-card .info { flex: 1; min-width: 0; }
+.source-card .info .lbl { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.source-card .info .ch { font-family: 'Fraunces', serif; font-size: 18px; letter-spacing: -0.018em; color: var(--cream); margin-top: 2px; }
+.source-card .info .det { font-size: 12px; color: rgba(245,241,234,0.55); margin-top: 4px; line-height: 1.5; }
+
+/* AI conversation transcript */
+.transcript {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg-2);
+  padding: 22px 22px 22px;
+}
+.transcript .head {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 16px;
+}
+.transcript .head .ttl {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+}
+.transcript .head .ttl::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--ok);
+  box-shadow: 0 0 0 0 rgba(93,204,131,0.5);
+  animation: nc-blink 2.4s ease-out infinite;
+}
+@keyframes nc-blink { 0%,100% { opacity: 0.35 } 50% { opacity: 1 } }
+.transcript .head .meta { font-size: 11px; color: var(--subtle); font-family: 'JetBrains Mono', monospace; }
+
+.transcript .feed { display: flex; flex-direction: column; gap: 10px; }
+.transcript .bubble {
+  max-width: 78%;
+  padding: 10px 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  border-radius: 14px;
+}
+.transcript .bubble .t {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+  color: var(--subtle);
+  font-family: 'JetBrains Mono', monospace;
+}
+.transcript .bubble.bot {
+  align-self: flex-start;
+  background: var(--bg-3);
+  border: 1px solid var(--line-2);
+  border-bottom-left-radius: 4px;
+  color: rgba(245,241,234,0.92);
+}
+.transcript .bubble.bot .t { color: rgba(93,204,131,0.7); }
+.transcript .bubble.user {
+  align-self: flex-end;
+  background: rgba(107,15,26,0.4);
+  border: 1px solid rgba(107,15,26,0.5);
+  border-bottom-right-radius: 4px;
+  color: var(--cream);
+}
+.transcript .bubble.user .t { color: rgba(245,241,234,0.55); text-align: right; }
+
+.transcript .foot {
+  margin-top: 14px; padding-top: 14px;
+  border-top: 1px dashed var(--line);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 10px;
+  font-size: 11px; color: var(--muted); letter-spacing: 0.04em;
+}
+.transcript .foot .extracted { display: flex; gap: 6px; flex-wrap: wrap; }
+
+/* ----- Detail pane ----- */
+.detail {
+  display: flex; flex-direction: column;
+  background: var(--bg-1);
+  overflow: hidden;
+}
+.detail-head {
+  padding: 22px 32px 18px;
+  border-bottom: 1px solid var(--line);
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 24px;
+}
+.detail-head .lhs h2 {
+  font-family: 'Fraunces', serif; font-size: 26px; letter-spacing: -0.022em; margin: 0;
+}
+.detail-head .lhs .sub {
+  margin-top: 6px; color: var(--muted); font-size: 13px;
+}
+.detail-head .actions { display: flex; gap: 8px; }
+.btn {
+  background: var(--bg-3); border: 1px solid var(--line-2); color: var(--cream);
+  font-size: 12px; padding: 8px 14px; border-radius: 6px; letter-spacing: 0.04em;
+  transition: background .15s, border .15s;
+}
+.btn:hover { background: var(--bg-4); border-color: rgba(245,241,234,0.25); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--cream); }
+.btn.primary:hover { background: #821426; border-color: #821426; }
+
+.detail-body { flex: 1; overflow-y: auto; padding: 28px 32px 100px; display: grid; grid-template-columns: 1fr; gap: 24px; }
+
+/* AI qualification card */
+.ai-card {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: linear-gradient(180deg, var(--bg-2), var(--bg-1));
+  padding: 22px 24px;
+}
+.ai-card .head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.ai-card .head .who { display: flex; align-items: center; gap: 10px; }
+.ai-card .head .av {
+  width: 28px; height: 28px; border-radius: 50%; background: var(--bg-3);
+  border: 1px solid var(--line-2); display: flex; align-items: center; justify-content: center;
+  font-family: 'Fraunces', serif; font-style: italic; font-size: 14px;
+}
+.ai-card .head .who .name { font-size: 12px; letter-spacing: 0.04em; }
+.ai-card .head .who .role { font-size: 10px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+.ai-card .verdict { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.ai-card .verdict .score {
+  font-family: 'Fraunces', serif; font-size: 32px; line-height: 1;
+}
+.ai-card .verdict .score.hot  { color: var(--hot); }
+.ai-card .verdict .score.warm { color: var(--warm); }
+.ai-card .verdict .score.cold { color: var(--cold); }
+.ai-card .verdict .label {
+  font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+}
+.ai-card p { margin: 0 0 12px; line-height: 1.5; color: rgba(245,241,234,0.85); font-size: 14px; }
+.ai-card ul { margin: 6px 0 0; padding-left: 20px; color: rgba(245,241,234,0.7); font-size: 13px; line-height: 1.7; }
+.ai-card .signals {
+  margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap;
+  border-top: 1px dashed var(--line); padding-top: 14px;
+}
+
+/* Original message */
+.message {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg-2);
+  padding: 22px 24px;
+}
+.message .head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px; }
+.message .from { font-family: 'Fraunces', serif; font-size: 18px; }
+.message .from small { display: block; font-family: 'Inter', sans-serif; color: var(--muted); font-size: 12px; margin-top: 2px; }
+.message .ts { color: var(--muted); font-size: 12px; font-family: 'JetBrains Mono', monospace; }
+.message .grid {
+  display: grid; grid-template-columns: 110px 1fr; gap: 8px 20px;
+  margin-bottom: 18px;
+}
+.message .grid dt { color: var(--muted); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; align-self: center; }
+.message .grid dd { margin: 0; color: var(--cream); font-size: 13px; }
+.message .body {
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: rgba(245,241,234,0.88);
+  white-space: pre-wrap;
+}
+
+/* Suggested reply */
+.reply-card {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg-2);
+  padding: 22px 24px;
+}
+.reply-card .head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.reply-card .head .ttl { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.reply-card textarea {
+  width: 100%;
+  background: var(--bg-1);
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  padding: 14px;
+  color: var(--cream);
+  font-size: 14px;
+  line-height: 1.55;
+  resize: vertical;
+  min-height: 160px;
+  outline: none;
+  font-family: inherit;
+}
+.reply-card textarea:focus { border-color: rgba(245,241,234,0.3); }
+.reply-card .footer {
+  margin-top: 12px; display: flex; justify-content: space-between; align-items: center; gap: 12px;
+}
+.reply-card .footer .left { color: var(--muted); font-size: 11px; letter-spacing: 0.04em; }
+
+/* Empty state */
+.empty {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px;
+  color: var(--muted); text-align: center;
+}
+.empty .icon { font-family: 'Fraunces', serif; font-style: italic; font-size: 48px; color: var(--bg-4); margin-bottom: 14px; }
+.empty h3 { font-family: 'Fraunces', serif; font-size: 20px; color: var(--cream); margin: 0 0 6px; font-weight: 500; }
+.empty p { font-size: 13px; margin: 0; max-width: 36ch; line-height: 1.6; }
+
+/* Scroll polish */
+.inbox-list::-webkit-scrollbar, .detail-body::-webkit-scrollbar { width: 6px; }
+.inbox-list::-webkit-scrollbar-thumb, .detail-body::-webkit-scrollbar-thumb { background: var(--bg-4); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="app" id="app">
+  <!-- ===================== Sidebar ===================== -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="mark">N</div>
+      <div class="label">
+        Concierge CRM
+        <small>Walsh Bay</small>
+      </div>
+    </div>
+    <nav class="nav">
+      <div class="group"><span class="lbl">Inbox</span></div>
+      <button class="item active" data-filter="all">
+        <span class="lbl">All inquiries</span>
+        <span class="count" id="count-all">0</span>
+      </button>
+      <button class="item" data-filter="new">
+        <span class="lbl">Unread</span>
+        <span class="count" id="count-new">0</span>
+      </button>
+      <button class="item" data-filter="replied">
+        <span class="lbl">Replied</span>
+        <span class="count" id="count-replied">0</span>
+      </button>
+      <button class="item" data-filter="archived">
+        <span class="lbl">Archived</span>
+        <span class="count" id="count-archived">0</span>
+      </button>
+
+      <div class="group"><span class="lbl">AI qualification</span></div>
+      <button class="item" data-filter="hot">
+        <span class="swatch hot"></span>
+        <span class="lbl">Hot leads</span>
+        <span class="count" id="count-hot">0</span>
+      </button>
+      <button class="item" data-filter="warm">
+        <span class="swatch warm"></span>
+        <span class="lbl">Warm</span>
+        <span class="count" id="count-warm">0</span>
+      </button>
+      <button class="item" data-filter="cold">
+        <span class="swatch cold"></span>
+        <span class="lbl">Cold</span>
+        <span class="count" id="count-cold">0</span>
+      </button>
+
+      <div class="group"><span class="lbl">By source</span></div>
+      <button class="item" data-filter="src:instagram">
+        <span class="swatch" style="background:#E0524C"></span>
+        <span class="lbl">Instagram</span><span class="count" id="count-src-instagram">0</span>
+      </button>
+      <button class="item" data-filter="src:google">
+        <span class="swatch" style="background:#5DCC83"></span>
+        <span class="lbl">Google</span><span class="count" id="count-src-google">0</span>
+      </button>
+      <button class="item" data-filter="src:referral">
+        <span class="swatch" style="background:#E0A12F"></span>
+        <span class="lbl">Referral</span><span class="count" id="count-src-referral">0</span>
+      </button>
+      <button class="item" data-filter="src:signal">
+        <span class="swatch" style="background:#5B9DEB"></span>
+        <span class="lbl">Signal</span><span class="count" id="count-src-signal">0</span>
+      </button>
+      <button class="item" data-filter="src:direct">
+        <span class="swatch" style="background:#888"></span>
+        <span class="lbl">Direct</span><span class="count" id="count-src-direct">0</span>
+      </button>
+      <button class="item" data-filter="src:email">
+        <span class="swatch" style="background:#E0A12F"></span>
+        <span class="lbl">Email / Newsletter</span><span class="count" id="count-src-email">0</span>
+      </button>
+      <button class="item" data-filter="src:pinterest">
+        <span class="swatch" style="background:#BB494E"></span>
+        <span class="lbl">Pinterest</span><span class="count" id="count-src-pinterest">0</span>
+      </button>
+      <button class="item" data-filter="src:sms">
+        <span class="swatch" style="background:#5DCC83"></span>
+        <span class="lbl">SMS</span><span class="count" id="count-src-sms">0</span>
+      </button>
+
+      <div class="group"><span class="lbl">By car</span></div>
+      <button class="item" data-filter="car:spectre">
+        <span class="lbl">Spectre</span><span class="count" id="count-spectre">0</span>
+      </button>
+      <button class="item" data-filter="car:db12">
+        <span class="lbl">DB12</span><span class="count" id="count-db12">0</span>
+      </button>
+      <button class="item" data-filter="car:750s">
+        <span class="lbl">750S</span><span class="count" id="count-750s">0</span>
+      </button>
+      <button class="item" data-filter="car:purosangue">
+        <span class="lbl">Purosangue</span><span class="count" id="count-purosangue">0</span>
+      </button>
+      <button class="item" data-filter="car:g63">
+        <span class="lbl">G 63</span><span class="count" id="count-g63">0</span>
+      </button>
+      <button class="item" data-filter="car:911">
+        <span class="lbl">911 GT3</span><span class="count" id="count-911">0</span>
+      </button>
+    </nav>
+
+    <div class="user">
+      <div class="avatar">TF</div>
+      <div class="info">
+        <div class="name">Tom Fairbairn</div>
+        <div class="role">Head of Fleet</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===================== Inbox column ===================== -->
+  <section class="inbox" id="inbox">
+    <div class="inbox-head">
+      <h1 class="ttl">Concierge inbox</h1>
+      <div class="stats">
+        <div class="stat"><span class="n hot" id="stat-hot">0</span><span class="lbl">Hot</span></div>
+        <div class="stat"><span class="n warm" id="stat-warm">0</span><span class="lbl">Warm</span></div>
+        <div class="stat"><span class="n ok" id="stat-conv">0%</span><span class="lbl">Reply rate</span></div>
+        <div class="stat"><span class="n" id="stat-week">0</span><span class="lbl">This week</span></div>
+      </div>
+    </div>
+    <div class="inbox-search">
+      <input type="search" id="search" placeholder="Search by name, suburb, or message…" />
+    </div>
+    <div class="inbox-list" id="list"></div>
+  </section>
+
+  <!-- ===================== Detail pane ===================== -->
+  <section class="detail" id="detail">
+    <div class="empty">
+      <div class="icon">N</div>
+      <h3>Select an inquiry</h3>
+      <p>Choose a message from the inbox to see the AI qualification, full details, and a draft reply.</p>
+    </div>
+  </section>
+</div>
+
+<script>
+/* ============================================================
+   Mock data — would normally come from a /api/inquiries endpoint.
+   Each inquiry includes the original form submission plus an
+   AI-generated qualification and suggested reply.
+   ============================================================ */
+const INQUIRIES = [
+  {
+    id: 1, name: "James W.", contact: "j.weatherall@protonmail.com", suburb: "Palm Beach",
+    dates: "Fri 5 Jun → Mon 8 Jun", car: "spectre",
+    received: "Today · 09:14",
+    status: "new", unread: true, week: true,
+    source: { channel: "referral", label: "Returning guest", detail: "Reopened 'Your Spectre Run, August 2023' email this morning · 7th lifetime touchpoint" },
+    conversation: [
+      { from: "bot",  time: "09:11", text: "Welcome back. Anything I can help with?" },
+      { from: "user", time: "09:11", text: "Hi! It's James Weatherall. We had the Spectre with Greg in '23 — possible to do it again the first weekend of June?" },
+      { from: "bot",  time: "09:11", text: "Of course. Which dates exactly?" },
+      { from: "user", time: "09:12", text: "Fri 5 → Mon 8 June. Hosting a small wedding at Whale Beach." },
+      { from: "bot",  time: "09:12", text: "Lovely. Spectre is A$6,700/day or A$32,500/week — three days works out to A$20,100, plus complimentary delivery to Whale Beach. Should I have Tom confirm directly?" },
+      { from: "user", time: "09:13", text: "Yes please. Same email — j.weatherall@protonmail.com" },
+      { from: "bot",  time: "09:14", text: "On it. Tom will reply within the hour. Filed as referenced booking 0184 (carried forward from 2023)." }
+    ],
+    notes: "We're hosting a small wedding at Whale Beach the first weekend of June. Looking for a Spectre to be at the residence Friday afternoon and collected Monday morning. Have rented from you twice before — same Greg as 2023.",
+    ai: {
+      score: 92, level: "hot",
+      verdict: "High-conviction repeat guest. Confident book.",
+      reasoning: "Self-identifies as a repeat guest (referenced 'Greg as 2023', a real prior booking). Specific dates, specific location, no negotiation language. Wedding host — high-touch event. Spectre matches the prior booking pattern.",
+      signals: ["Repeat guest", "Wedding event", "Specific dates", "Premium suburb", "No price hesitation"],
+      suggestedReply: "Hi James,\n\nLovely to hear from you again — and congratulations on the wedding.\n\nThe Spectre is yours for the weekend of 5–8 June. We'll deliver Friday afternoon to the Whale Beach address (would 4pm work, ahead of the rehearsal?) and collect Monday by 10am. Standard rate of A$6,700 / day applies (A$20,100 for the three days).\n\nGreg has booked off the weekend, so happy to send him through if you'd like the same delivery.\n\nReply to confirm and I'll send the deposit invoice.\n\n— Tom"
+    }
+  },
+  {
+    id: 2, name: "Anonymous (Signal)", contact: "Signal · ~AU+61 4xx 318 4xx", suburb: "Mosman",
+    dates: "Sat 24 May, single day", car: "750s",
+    received: "Today · 08:42",
+    status: "new", unread: true, week: true,
+    source: { channel: "signal", label: "Signal DM", detail: "Inbound to @noctis.sydney · phone number unverified · routed to AI triage" },
+    conversation: [
+      { from: "bot",  time: "08:38", text: "Welcome to Noctis." },
+      { from: "user", time: "08:38", text: "do you have the mclaren 750s spider for one day on the 24th?" },
+      { from: "bot",  time: "08:38", text: "Saturday 24 May, single day — yes. A$6,250 with complimentary delivery in-zone. May I ask what you're celebrating?" },
+      { from: "user", time: "08:40", text: "birthday surprise for my partner" },
+      { from: "bot",  time: "08:40", text: "Lovely. We can deliver to Mosman by 7:30am. Would you prefer email or Signal for follow-up?" },
+      { from: "user", time: "08:41", text: "signal please. and cash on delivery if possible" },
+      { from: "bot",  time: "08:42", text: "Cash-on-delivery is available with a 30% wire deposit at confirmation and a 5-min ID call. Tom will follow up on Signal within the hour." }
+    ],
+    notes: "Need the 750S Spider for one day on the 24th. Birthday surprise for my partner. Can be delivered to a Mosman address before 8am? Cash on delivery preferred.",
+    ai: {
+      score: 78, level: "hot",
+      verdict: "Strong intent. Verify identity before committing.",
+      reasoning: "Signal contact + cash preference + named occasion = real but discretion-conscious. The 24th is a Saturday in autumn, weekend rate. McLaren 750S is high-margin. Mosman delivery is in-zone. Recommend a 5-min ID call.",
+      signals: ["Signal contact", "Cash preferred", "Weekend rate", "Birthday occasion", "ID verify required"],
+      suggestedReply: "Thanks for reaching out.\n\nThe 750S Spider is available for Saturday 24 May. Weekend rate is A$6,250 for the day, with delivery to your Mosman address by 7:30am.\n\nFor cash-on-delivery we ask a 30% deposit at confirmation (A$1,875 by wire, the balance on collection), and a brief 5-minute video call to verify your licence — we keep no paperwork beyond your stay.\n\nReply yes and I'll send the wire details.\n\n— Tom"
+    }
+  },
+  {
+    id: 3, name: "Sarah O'Donnell", contact: "sarah.odonnell@kpmg.com.au", suburb: "Vaucluse",
+    dates: "Wed 11 Jun → Sun 15 Jun", car: "purosangue",
+    received: "Today · 07:51",
+    status: "new", unread: true, week: true,
+    source: { channel: "google", label: "Google Ads", detail: "Search: 'luxury car hire sydney corporate' → ad → /fleet/ferrari-purosangue.html · CPC A$8.40" },
+    conversation: [
+      { from: "bot",  time: "07:46", text: "Welcome to Noctis. How can I help?" },
+      { from: "user", time: "07:46", text: "Hi, I'm looking to book the Purosangue for a director's offsite. Wed–Sun in early June. Possibly a second car too." },
+      { from: "bot",  time: "07:46", text: "Good fit for the Purosangue. Our weekly rate is A$37,000; four days proportionate. Which week?" },
+      { from: "user", time: "07:48", text: "Week of June 11. Wed 11 to Sun 15. The DB12 for two days mid-week — possibly Thu–Fri." },
+      { from: "bot",  time: "07:48", text: "I can hold both. Corporate clients usually request a tax invoice with GST broken out — would that suit?" },
+      { from: "user", time: "07:49", text: "Yes, exactly that. Paying by AmEx." },
+      { from: "bot",  time: "07:49", text: "AmEx accepted, no surcharge. Can I take your contact for Tom to follow up directly?" },
+      { from: "user", time: "07:50", text: "sarah.odonnell@kpmg.com.au — Vaucluse address." },
+      { from: "bot",  time: "07:51", text: "Filed. Tom will reply within the hour with the contract and invoice draft." }
+    ],
+    notes: "Hosting a director's offsite. Need the Purosangue for Wednesday-Sunday, with a possible second car (DB12) for two days mid-week. Payment via corporate AmEx. Need a tax invoice with GST broken out.",
+    ai: {
+      score: 95, level: "hot",
+      verdict: "Top-tier corporate enquiry. Move quickly.",
+      reasoning: "Corporate domain (KPMG.com.au), 4-day Purosangue + 2-day DB12 = ~A$40k revenue, AmEx + GST request = clean financials. Director-level decision-maker. Highest-value inquiry of the week.",
+      signals: ["Corporate", "High value (~A$40k)", "Multi-car", "Tax invoice ready", "Director-level"],
+      suggestedReply: "Hi Sarah,\n\nThank you — this lines up well.\n\nThe Purosangue is reserved for you Wed 11 → Sun 15 June (A$30,800 across four days). I'll hold the DB12 Volante for any two consecutive days mid-week — let me know which once the run-of-show is set.\n\nA tax invoice with GST broken out follows on confirmation. We accept AmEx without surcharge for corporate clients.\n\nDelivery to your Vaucluse address — what time on the Wednesday?\n\n— Tom"
+    }
+  },
+  {
+    id: 4, name: "Marco D.", contact: "+61 411 552 9xx", suburb: "Bondi", dates: "Flexible — next 30 days", car: "911",
+    received: "Yesterday · 17:32",
+    status: "new", unread: true, week: true,
+    source: { channel: "instagram", label: "Instagram", detail: "Tap-through Story · @noctis.sydney · 'Drives near Sydney' set · 18 hours ago" },
+    conversation: [
+      { from: "bot",  time: "17:28", text: "Welcome to Noctis." },
+      { from: "user", time: "17:28", text: "hey what's the cheapest you can do the gt3 for" },
+      { from: "bot",  time: "17:28", text: "The 911 GT3 Touring is A$4,250/day or A$20,500/week — flat rates, no specials. The weekly works out to about A$2,930/day." },
+      { from: "user", time: "17:30", text: "any specials" },
+      { from: "bot",  time: "17:30", text: "We don't run promotional pricing. Every booking includes delivery, comprehensive insurance, and concierge support — the rate is the rate." },
+      { from: "user", time: "17:31", text: "long weekend friday to monday" },
+      { from: "bot",  time: "17:31", text: "Three days at A$12,750 in total. Want me to take your contact for Tom to follow up with availability?" },
+      { from: "user", time: "17:32", text: "+61 411 552 9xx" }
+    ],
+    notes: "What's the cheapest you can do the GT3 for a long weekend? Have you got any specials?",
+    ai: {
+      score: 28, level: "cold",
+      verdict: "Price-led. Low conversion likelihood.",
+      reasoning: "Opens with 'cheapest', asks for 'specials' — both signal we're being shopped against cheaper alternatives. No specific dates, no occasion, mobile-only contact. Bondi delivery is in-zone but the Porsche GT3 is a high-touch car for someone with no history.",
+      signals: ["Price-led", "No dates", "Asking for discounts", "No occasion stated"],
+      suggestedReply: "Hi Marco,\n\nThanks for reaching out. The 911 GT3 Touring rents for A$4,250 / day or A$20,500 / week. We don't run promotional pricing — every car comes with the full delivery, insurance, and concierge package, and rates are flat.\n\nIf the dates aren't fixed, the weekly rate works out to about A$2,930 / day, which can be a good fit for an extended stay.\n\nLet me know the dates and we'll see if it works.\n\n— Tom"
+    }
+  },
+  {
+    id: 5, name: "Hannah B.", contact: "hannah@beaumont-prop.com.au", suburb: "Bowral",
+    dates: "Sat 17 May → Mon 19 May", car: "g63",
+    received: "Yesterday · 14:15",
+    status: "replied", unread: false, week: true,
+    source: { channel: "google", label: "Google", detail: "Organic search: 'g wagon hire sydney commercial photography' → /fleet/mercedes-g63.html" },
+    conversation: [
+      { from: "bot",  time: "14:11", text: "Welcome to Noctis." },
+      { from: "user", time: "14:11", text: "Need the G63 for our Southern Highlands office opening — Sat 17 to Mon 19 May." },
+      { from: "bot",  time: "14:12", text: "Bowral delivery is in-zone for a small fee. Three-day weekend: A$9,300 + A$280 delivery / collection." },
+      { from: "user", time: "14:13", text: "We'll have a photographer for open-air shots — does that need anything special?" },
+      { from: "bot",  time: "14:13", text: "If photos appear in marketing material (web, print, social), we'll need a light commercial-usage release — happy to send through. Personal documentation is fine without." },
+      { from: "user", time: "14:14", text: "Marketing — for our website. Send the release please. Booking to hannah@beaumont-prop.com.au" },
+      { from: "bot",  time: "14:15", text: "Tom will follow up with the contract and the commercial release in one." }
+    ],
+    notes: "Booking the G63 for our Southern Highlands office opening. Need to seat 4 plus a small amount of cargo (catalogues, signage). Open-air photos planned, we'll handle the photographer.",
+    ai: {
+      score: 81, level: "hot",
+      verdict: "Solid commercial booking. Clarify photo usage.",
+      reasoning: "Real estate domain → real business. Southern Highlands delivery is in-zone (small fee). G63 fits 4+cargo. Open-air photos = potential commercial usage — confirm whether the car appears in marketing material (this is contracted separately).",
+      signals: ["Commercial use", "Multi-day", "Bowral delivery", "Photo permission needed"],
+      suggestedReply: "Hi Hannah,\n\nThe G 63 is yours 17–19 May (A$9,300 across the three days, plus A$280 for Bowral delivery / collection).\n\nOne thing to flag: if the car appears in any marketing photography (web, print, social), that needs a separate light commercial-usage release — happy to send it through. If the photos are personal / event documentation, no release required.\n\nDeposit of A$2,800 by wire confirms the booking.\n\n— Tom"
+    }
+  },
+  {
+    id: 6, name: "Chris L.", contact: "chris.lambert88@gmail.com", suburb: "—",
+    dates: "Just browsing", car: "—",
+    received: "Yesterday · 11:08",
+    status: "new", unread: true, week: true,
+    source: { channel: "email", label: "Newsletter", detail: "Subscribed to The Noctis Journal · clicked through 'Why a DB12 is wasted on the Harbour Bridge' · 22 min on site" },
+    conversation: [
+      { from: "bot",  time: "11:06", text: "Welcome to Noctis." },
+      { from: "user", time: "11:06", text: "just wanted to say hi! love the journal. The DB12 essay was great" },
+      { from: "bot",  time: "11:06", text: "Thank you — kind of you. Are you thinking about a booking, or just here for the writing?" },
+      { from: "user", time: "11:07", text: "one day :) just looking for now. keep up the good work" },
+      { from: "bot",  time: "11:07", text: "Appreciated. We send the journal sparingly — you'll hear from us when something good comes up." },
+      { from: "user", time: "11:08", text: "perfect" }
+    ],
+    notes: "Hi! Big fan of cars. Just signed up for the journal. Loved the DB12 essay. Will book one day :) keep doing what you're doing.",
+    ai: {
+      score: 18, level: "cold",
+      verdict: "Brand fan, not a buyer (yet). Add to journal list.",
+      reasoning: "Generic email, no dates, no suburb, explicitly browsing. Mentions content engagement (the DB12 essay) — they're an audience member, not a customer. Worth nurturing via the journal but not worth a concierge reply. Auto-responder fine.",
+      signals: ["Brand affinity", "No intent", "No qualifying detail"],
+      suggestedReply: "Hi Chris,\n\nThank you — really kind of you to say. We send the journal sparingly (4 entries a year, give or take) and if a particular drive or car comes up, you'll hear from us.\n\nWhen you're ready for that first booking, the form is here.\n\n— Tom"
+    }
+  },
+  {
+    id: 7, name: "Olivia P. (private)", contact: "concierge@parkhyatt.com.au (on behalf of guest)", suburb: "Park Hyatt Sydney",
+    dates: "Thu 22 May, single day", car: "db12",
+    received: "Yesterday · 09:55",
+    status: "replied", unread: false, week: true,
+    source: { channel: "referral", label: "Hotel partner", detail: "Park Hyatt Sydney concierge · partner since 2022 · 47th confirmed referral" },
+    conversation: [
+      { from: "bot",  time: "09:52", text: "Welcome to Noctis." },
+      { from: "user", time: "09:52", text: "Hi, Olivia from Park Hyatt concierge. Booking on behalf of a guest — DB12 Volante for a single day, this Thursday." },
+      { from: "bot",  time: "09:52", text: "Park Hyatt's noted. Same arrangement as last summer? Forecourt delivery, billed to guest folio?" },
+      { from: "user", time: "09:54", text: "Yes — 9am collection, 6pm return. Guest licence already on file with us." },
+      { from: "bot",  time: "09:55", text: "Done. A$4,950 day rate, billed to the guest's hotel folio. Tom will confirm the driver assignment with you directly." }
+    ],
+    notes: "Booking on behalf of a hotel guest. Wants the DB12 Volante delivered to the Park Hyatt forecourt, 9am Thursday, returning by 6pm same day. Guest pays directly. Has provided licence to us already. Booked you twice last summer.",
+    ai: {
+      score: 99, level: "hot",
+      verdict: "Strongest signal possible. Confirm immediately.",
+      reasoning: "Concierge of Park Hyatt Sydney — listed partner. Repeat referrer (twice in summer). Single-day rental, identity already verified by hotel, payment guaranteed by hotel guest account. Lowest-friction booking type we run. Auto-confirm.",
+      signals: ["Hotel partner", "Repeat referrer", "ID pre-verified", "Same-day low risk"],
+      suggestedReply: "Olivia,\n\nDB12 Volante confirmed — Thursday 22 May, Park Hyatt forecourt, 9am collection / 6pm return. A$4,950 for the day, billed to the guest's hotel folio.\n\nDriver will be Greg, in our usual livery. Tell Conor at the front desk we're squared.\n\n— Tom"
+    }
+  },
+  {
+    id: 8, name: "David T.", contact: "+61 488 023 1xx", suburb: "Northern Beaches",
+    dates: "Need it tomorrow", car: "spectre",
+    received: "Yesterday · 22:31",
+    status: "archived", unread: false, week: true,
+    source: { channel: "instagram", label: "Instagram DM", detail: "DM to @noctis.sydney · referenced our Spectre reel posted 18 hours earlier · @daveee_t (1.2k followers)" },
+    conversation: [
+      { from: "bot",  time: "22:27", text: "Welcome to Noctis." },
+      { from: "user", time: "22:27", text: "Hi mate need a Rolls Royce for tomorrow morning to suprise the missus. Will pay extra" },
+      { from: "bot",  time: "22:28", text: "Tomorrow's tight — let me check. What time and where?" },
+      { from: "user", time: "22:29", text: "Northern Beaches, before 9am. Spectre if possible." },
+      { from: "bot",  time: "22:30", text: "First Spectre slot is taken tomorrow. We have a second Spectre at Walsh Bay. Short-notice delivery is a A$200 fee on top of A$6,700/day." },
+      { from: "user", time: "22:30", text: "Yeah no problem" },
+      { from: "bot",  time: "22:31", text: "Tom will phone you back tonight on the number provided to confirm the car and the handover." }
+    ],
+    notes: "Hi mate need a Rolls Royce for tomorrow morning to suprise the missus. Will pay extra for short notice. let me know asap.",
+    ai: {
+      score: 35, level: "warm",
+      verdict: "Last-minute, viable but logistics-tight.",
+      reasoning: "Real intent (specific occasion, willing to pay premium) but the 8-hour notice makes the standard fortnightly service / delivery prep difficult. The Spectre's morning slot tomorrow is not currently free — would need to use the second Spectre or substitute. Worth a phone call.",
+      signals: ["Last-minute", "Premium offer", "Occasion-driven"],
+      suggestedReply: "Hi David,\n\nGiven the timing, easier to pick this up by phone — give me a call back on +61 2 9264 4471 in the morning before 7am if that suits.\n\nThe Spectre's first slot is taken tomorrow but I have a second car at Walsh Bay we can prep — short-notice delivery to the Northern Beaches by 9am is do-able. Standard rate, A$200 short-notice delivery fee.\n\n— Tom"
+    }
+  },
+  {
+    id: 9, name: "Laila K.", contact: "laila@k-private.com.au", suburb: "Vaucluse",
+    dates: "Sun 25 May, single day", car: "purosangue",
+    received: "2 days ago",
+    status: "replied", unread: false, week: true,
+    source: { channel: "direct", label: "Direct (typed URL)", detail: "First-touch · entered noctis.com.au directly · referred verbally by guest A. D'Arcy" },
+    conversation: [
+      { from: "bot",  time: "11:02", text: "Welcome to Noctis." },
+      { from: "user", time: "11:02", text: "I'd like to book the Purosangue for Sunday May 25. 11am to 4pm. Mother's birthday lunch at Catalina." },
+      { from: "bot",  time: "11:02", text: "Lovely. Sunday day-rate is A$7,700 (the half-day pricing doesn't quite fit the logistics). We'll deliver to Vaucluse by 10:45am." },
+      { from: "user", time: "11:03", text: "Perfect. laila@k-private.com.au" },
+      { from: "bot",  time: "11:03", text: "Tom will send the deposit invoice within the hour." }
+    ],
+    notes: "Mother's birthday Sunday lunch at Catalina. Want to drive her there in the Purosangue. Need it from 11am pickup, return by 4pm.",
+    ai: {
+      score: 76, level: "hot",
+      verdict: "Clean intent. Fast confirm.",
+      reasoning: "Specific event, specific timing, specific suburb. Sunday short window suits the Purosangue's day-bookings. Family occasion → low risk profile. Premium domain (k-private.com.au) suggests private wealth.",
+      signals: ["Family occasion", "Short window", "Premium suburb"],
+      suggestedReply: "Hi Laila,\n\nLovely choice. The Purosangue is reserved for you Sunday 25 May, 11am–4pm. A$7,700 for the day (the half-day rate doesn't quite work given delivery / collection logistics).\n\nWe'll deliver to the Vaucluse address at 10:45am and collect by 4:30pm. Catalina parking is generally fine for the Purosangue.\n\nReply to confirm and the deposit invoice follows.\n\n— Tom"
+    }
+  },
+  {
+    id: 10, name: "Anonymous", contact: "noreply@throwaway.email", suburb: "—",
+    dates: "—", car: "—",
+    received: "3 days ago",
+    status: "archived", unread: false, week: false,
+    source: { channel: "pinterest", label: "Pinterest", detail: "Pin click → 'Sydney supercar wallpapers' board → /fleet/mclaren-750s.html" },
+    conversation: [
+      { from: "bot",  time: "—",     text: "Welcome to Noctis." },
+      { from: "user", time: "—",     text: "do you do tracks days?? wanna thrash one for a day" },
+      { from: "bot",  time: "—",     text: "We don't — our cars aren't insured for circuit use. Happy to introduce you to one of the operators in NSW who run track days in similar cars, if helpful." },
+      { from: "user", time: "—",     text: "lame" }
+    ],
+    notes: "do you do tracks days?? just want to thrash one of these for a day on a circuit",
+    ai: {
+      score: 5, level: "cold",
+      verdict: "Auto-decline. Not a fit.",
+      reasoning: "Throwaway email, no name, no suburb, no dates. Explicit ask for circuit / track use which is excluded by our insurance and house rules. No commercial path here.",
+      signals: ["Anonymous", "Track use (excluded)", "No qualifying detail"],
+      suggestedReply: "Hi,\n\nThanks for asking. None of our cars are insured for track use, so we can't help with this. If you'd like an introduction to one of the operators in NSW who does run track days in similar cars, happy to make one — just send a real contact.\n\n— Tom"
+    }
+  },
+  {
+    id: 11, name: "Daniel H.", contact: "+61 412 904 8xx", suburb: "Manly", dates: "Sat 31 May, weekend", car: "750s",
+    received: "3 days ago",
+    status: "replied", unread: false, week: false,
+    source: { channel: "instagram", label: "Instagram Ad", detail: "Ad set 'Sydney drives' · creative: 750S Spider · CTA tap → 750S product page" },
+    conversation: [
+      { from: "bot",  time: "—",     text: "Welcome to Noctis." },
+      { from: "user", time: "—",     text: "Mate's bucks weekend — Sat 31 May. 4 of us. Will the McLaren handle Sydney to Bowral round trip?" },
+      { from: "bot",  time: "—",     text: "The 750S is fine for the route — but it's a 2-seater. Four of you will need a chase car." },
+      { from: "user", time: "—",     text: "ah right. anything else?" },
+      { from: "bot",  time: "—",     text: "A few weekend rules: zero alcohol when driving, no track-style photos on social, A$15k excess (waivable on a 7-day booking). Day rate is A$6,250." },
+      { from: "user", time: "—",     text: "got it. +61 412 904 8xx" }
+    ],
+    notes: "Mate's bucks weekend. 4 of us. Will the McLaren handle a Sydney → Bowral round trip? Anything I should know?",
+    ai: {
+      score: 58, level: "warm",
+      verdict: "Viable but high-touch. Set expectations.",
+      reasoning: "Bucks weekend = elevated risk profile. 4 friends but the 750S is a 2-seater — they'll need a chase car. Sydney → Bowral round trip is fine for the car. Worth a frank phone conversation about ground rules.",
+      signals: ["Bucks weekend", "2-seater limitation", "Long-distance"],
+      suggestedReply: "Hi Daniel,\n\nQuick one — the 750S is a 2-seater, so 4 of you will need a second car for the run down. Bowral round trip is no problem for the McLaren (about 250km, well inside the daily allowance).\n\nA few things for a bucks: zero alcohol when driving, no track-day claim photos on social media, and a A$15,000 excess for the weekend (waivable on a weekly booking — A$30k for the seven days). Standard rate is A$6,250 / day weekend.\n\nHappy to walk through the rest by phone — call me back on +61 2 9264 4471.\n\n— Tom"
+    }
+  },
+  {
+    id: 12, name: "Greg P.", contact: "greg.p@foster-design.com.au", suburb: "Surry Hills", dates: "Sat 7 Jun, single day", car: "db12",
+    received: "4 days ago",
+    status: "replied", unread: false, week: false,
+    source: { channel: "google", label: "Google", detail: "Organic search: 'DB12 hire sydney anniversary' → /fleet/aston-martin-db12.html" },
+    conversation: [
+      { from: "bot",  time: "—",     text: "Welcome to Noctis." },
+      { from: "user", time: "—",     text: "Looking for the DB12 for our wedding anniversary. Lunch at Bennelong, Saturday 7 June. 11am to 5pm." },
+      { from: "bot",  time: "—",     text: "DB12 day rate is A$4,950. We'll deliver to Surry Hills, Bennelong's valet has us pre-cleared." },
+      { from: "user", time: "—",     text: "Coupe or Volante?" },
+      { from: "bot",  time: "—",     text: "Either is in fleet. Roof down weather permitting — Saturday's forecast is fine right now." },
+      { from: "user", time: "—",     text: "Volante then. greg.p@foster-design.com.au" },
+      { from: "bot",  time: "—",     text: "Tom will send the deposit invoice." }
+    ],
+    notes: "Anniversary lunch at Bennelong. Looking for the DB12 — open to the Coupe or Volante. 11am to 5pm.",
+    ai: {
+      score: 84, level: "hot",
+      verdict: "Anniversary booking, classic format.",
+      reasoning: "Anniversary at Bennelong = inner-city, daytime, valet-friendly. DB12 fits perfectly. Real domain. Specific time window. Either body style is in the fleet.",
+      signals: ["Anniversary", "Valet drop-off", "Single day"],
+      suggestedReply: "Hi Greg,\n\nDB12 reserved Saturday 7 June, 11am–5pm. We'll deliver the Volante (roof down weather permitting) to your Surry Hills address and Bennelong's valet has us pre-cleared.\n\nA$4,950 for the day. Deposit invoice attached.\n\nHappy anniversary in advance.\n\n— Tom"
+    }
+  }
+];
+
+/* ============================================================
+   App state + render
+   ============================================================ */
+const state = { filter: "all", search: "", selectedId: null };
+const $ = (s) => document.querySelector(s);
+const list = $("#list");
+const detail = $("#detail");
+
+function matchesFilter(it) {
+  if (state.filter === "all") return true;
+  if (state.filter === "new") return it.status === "new";
+  if (state.filter === "replied") return it.status === "replied";
+  if (state.filter === "archived") return it.status === "archived";
+  if (state.filter === "hot")  return it.ai.level === "hot";
+  if (state.filter === "warm") return it.ai.level === "warm";
+  if (state.filter === "cold") return it.ai.level === "cold";
+  if (state.filter.startsWith("car:")) return it.car === state.filter.slice(4);
+  if (state.filter.startsWith("src:")) return it.source && it.source.channel === state.filter.slice(4);
+  return true;
+}
+function matchesSearch(it) {
+  if (!state.search) return true;
+  const q = state.search.toLowerCase();
+  return [it.name, it.contact, it.suburb, it.notes, it.car].some(v => (v || "").toLowerCase().includes(q));
+}
+
+function renderCounts() {
+  $("#count-all").textContent = INQUIRIES.length;
+  $("#count-new").textContent = INQUIRIES.filter(i => i.status === "new").length;
+  $("#count-replied").textContent = INQUIRIES.filter(i => i.status === "replied").length;
+  $("#count-archived").textContent = INQUIRIES.filter(i => i.status === "archived").length;
+  $("#count-hot").textContent = INQUIRIES.filter(i => i.ai.level === "hot").length;
+  $("#count-warm").textContent = INQUIRIES.filter(i => i.ai.level === "warm").length;
+  $("#count-cold").textContent = INQUIRIES.filter(i => i.ai.level === "cold").length;
+  ["spectre","db12","750s","purosangue","g63","911"].forEach(c => {
+    $("#count-" + c).textContent = INQUIRIES.filter(i => i.car === c).length;
+  });
+  ["instagram","google","referral","signal","direct","email","pinterest","sms"].forEach(s => {
+    const node = $("#count-src-" + s);
+    if (node) node.textContent = INQUIRIES.filter(i => i.source && i.source.channel === s).length;
+  });
+
+  $("#stat-hot").textContent = INQUIRIES.filter(i => i.ai.level === "hot").length;
+  $("#stat-warm").textContent = INQUIRIES.filter(i => i.ai.level === "warm").length;
+  const replied = INQUIRIES.filter(i => i.status === "replied").length;
+  const total = INQUIRIES.length;
+  $("#stat-conv").textContent = total ? Math.round(replied / total * 100) + "%" : "—";
+  $("#stat-week").textContent = INQUIRIES.filter(i => i.week).length;
+}
+
+function carLabel(slug) {
+  return ({ spectre: "Spectre", db12: "DB12", "750s": "750S", purosangue: "Purosangue", g63: "G 63", "911": "911 GT3" })[slug] || slug;
+}
+
+// Source channel → tiny inline SVG icon. All 14×14, currentColor strokes.
+const SOURCE_ICON = {
+  instagram: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg>',
+  google:    '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
+  referral:  '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 14a4 4 0 0 0-8 0"/><circle cx="12" cy="7" r="3"/><path d="M3 21v-2a4 4 0 0 1 4-4h1M21 21v-2a4 4 0 0 0-4-4h-1"/></svg>',
+  signal:    '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/></svg>',
+  direct:    '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+  email:     '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>',
+  pinterest: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M11 7c2.5 0 4 1.5 4 4s-1.5 4-3.5 4c-0.5 0-1-0.2-1.4-0.5M10.5 11l-1.5 6"/></svg>',
+  sms:       '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.5 8.5 0 0 1-7.6 8.5 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.7a8.5 8.5 0 0 1-.9-3.8A8.5 8.5 0 1 1 21 11.5z"/></svg>'
+};
+
+function sourcePill(source, big) {
+  if (!source) return "";
+  const ico = SOURCE_ICON[source.channel] || "";
+  return '<span class="source-pill" data-channel="' + source.channel + '">' + ico + (big ? source.label : source.label) + '</span>';
+}
+
+function renderList() {
+  const items = INQUIRIES.filter(matchesFilter).filter(matchesSearch);
+  if (!items.length) {
+    list.innerHTML = '<div style="padding:48px 24px;text-align:center;color:var(--muted);font-size:13px;">No inquiries match this filter.</div>';
+    return;
+  }
+  list.innerHTML = items.map(it => `
+    <div class="inbox-item ${it.id === state.selectedId ? 'active' : ''}" data-id="${it.id}">
+      <div class="row">
+        <span class="name ${it.unread ? 'unread' : ''}">${it.name}</span>
+        <span class="time">${it.received}</span>
+      </div>
+      <div class="preview">${escape(it.notes)}</div>
+      <div class="meta">
+        ${it.isLive ? '<span class="tag ok" style="font-weight:600;">NEW · just submitted</span>' : ""}
+        <span class="tag ${it.ai.level}">${it.ai.level} · ${it.ai.score}</span>
+        ${sourcePill(it.source)}
+        ${it.car !== "—" ? `<span class="tag car">${carLabel(it.car)}</span>` : ""}
+        ${it.status === "replied" ? '<span class="tag ok">replied</span>' : ""}
+      </div>
+    </div>
+  `).join("");
+
+  list.querySelectorAll(".inbox-item").forEach(el => {
+    el.addEventListener("click", () => {
+      state.selectedId = parseInt(el.dataset.id, 10);
+      const item = INQUIRIES.find(x => x.id === state.selectedId);
+      if (item) item.unread = false;
+      renderList();
+      renderDetail();
+    });
+  });
+}
+
+function escape(s) {
+  return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function renderDetail() {
+  const it = INQUIRIES.find(x => x.id === state.selectedId);
+  if (!it) {
+    detail.innerHTML = `
+      <div class="empty">
+        <div class="icon">N</div>
+        <h3>Select an inquiry</h3>
+        <p>Choose a message from the inbox to see the AI qualification, full details, and a draft reply.</p>
+      </div>`;
+    return;
+  }
+  const carName = carLabel(it.car);
+  detail.innerHTML = `
+    <div class="detail-head">
+      <div class="lhs">
+        <h2>${it.name}</h2>
+        <p class="sub">${escape(it.contact)} · ${it.received}</p>
+      </div>
+      <div class="actions">
+        <button class="btn">Archive</button>
+        <button class="btn primary">Mark replied</button>
+      </div>
+    </div>
+    <div class="detail-body">
+      <!-- Lead source -->
+      ${it.source ? `
+      <div class="source-card">
+        <div class="ico" style="color:var(--cream)">${SOURCE_ICON[it.source.channel] || ""}</div>
+        <div class="info">
+          <div class="lbl">Lead source</div>
+          <div class="ch">${escape(it.source.label)}</div>
+          <div class="det">${escape(it.source.detail)}</div>
+        </div>
+        ${sourcePill(it.source, true)}
+      </div>` : ""}
+
+      <!-- AI qualification -->
+      <div class="ai-card">
+        <div class="head">
+          <div class="who">
+            <div class="av">N</div>
+            <div>
+              <div class="name">Noctis · AI qualifier</div>
+              <div class="role">Reviewed at ${it.received.toLowerCase()}</div>
+            </div>
+          </div>
+          <span class="tag ${it.ai.level}">${it.ai.level.toUpperCase()} · score ${it.ai.score}</span>
+        </div>
+        <div class="verdict">
+          <span class="score ${it.ai.level}">${it.ai.score}</span>
+          <span class="label">${it.ai.verdict}</span>
+        </div>
+        <p>${escape(it.ai.reasoning)}</p>
+        <div class="signals">
+          ${it.ai.signals.map(s => `<span class="tag">${escape(s)}</span>`).join("")}
+        </div>
+      </div>
+
+      <!-- AI conversation transcript -->
+      ${it.conversation && it.conversation.length ? `
+      <div class="transcript">
+        <div class="head">
+          <span class="ttl">AI conversation transcript</span>
+          <span class="meta">${it.conversation.length} messages · captured before form submission</span>
+        </div>
+        <div class="feed">
+          ${it.conversation.map(m => `
+            <div class="bubble ${m.from === 'bot' ? 'bot' : 'user'}">
+              <span class="t">${m.from === 'bot' ? 'Noctis · AI' : escape(it.name.split(' ')[0])} · ${escape(m.time || '')}</span>
+              ${escape(m.text)}
+            </div>
+          `).join("")}
+        </div>
+        <div class="foot">
+          <span>The AI extracted the structured details below from this exchange.</span>
+          <span class="extracted">
+            ${it.ai.signals.slice(0, 3).map(s => `<span class="tag">${escape(s)}</span>`).join("")}
+          </span>
+        </div>
+      </div>` : ""}
+
+      <!-- Original message -->
+      <div class="message">
+        <div class="head">
+          <div class="from">${it.name}<small>${escape(it.contact)}</small></div>
+          <span class="ts">${it.received}</span>
+        </div>
+        <dl class="grid">
+          <dt>Suburb</dt><dd>${escape(it.suburb)}</dd>
+          <dt>Dates</dt><dd>${escape(it.dates)}</dd>
+          <dt>Car</dt><dd>${carName}</dd>
+          <dt>Status</dt><dd>${it.status[0].toUpperCase() + it.status.slice(1)}</dd>
+        </dl>
+        <div class="body">${escape(it.notes)}</div>
+      </div>
+
+      <!-- Suggested reply -->
+      <div class="reply-card">
+        <div class="head">
+          <span class="ttl">Draft reply · AI-generated · in your voice</span>
+          <button class="btn">Regenerate</button>
+        </div>
+        <textarea>${escape(it.ai.suggestedReply)}</textarea>
+        <div class="footer">
+          <span class="left">Will be sent from concierge@noctis.com.au</span>
+          <button class="btn primary">Send reply</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// Pull any live inquiries that the public form submitted into localStorage.
+// These are prepended (newest first) so they sit at the top of the inbox.
+function loadLiveInquiries() {
+  try {
+    const live = JSON.parse(localStorage.getItem("noctisInquiries") || "[]");
+    // Iterate from oldest to newest so unshift produces newest-first ordering.
+    for (let i = live.length - 1; i >= 0; i--) {
+      const item = live[i];
+      if (!item || INQUIRIES.find(x => x.id === item.id)) continue;
+      INQUIRIES.unshift(item);
+    }
+  } catch (e) { console.warn("Could not load live inquiries", e); }
+}
+
+function init() {
+  loadLiveInquiries();
+  renderCounts();
+  renderList();
+
+  document.querySelectorAll(".nav .item").forEach(el => {
+    el.addEventListener("click", () => {
+      document.querySelectorAll(".nav .item").forEach(x => x.classList.remove("active"));
+      el.classList.add("active");
+      state.filter = el.dataset.filter;
+      renderList();
+    });
+  });
+
+  $("#search").addEventListener("input", e => {
+    state.search = e.target.value;
+    renderList();
+  });
+
+  // Live update — if a new inquiry is submitted in another tab,
+  // pick it up and refresh. (Fired by other tabs writing localStorage.)
+  window.addEventListener("storage", e => {
+    if (e.key === "noctisInquiries") {
+      loadLiveInquiries();
+      renderCounts();
+      renderList();
+      // If nothing is selected, surface the newest live one.
+      if (!state.selectedId) {
+        const newest = INQUIRIES.find(i => i.isLive);
+        if (newest) {
+          state.selectedId = newest.id;
+          renderDetail();
+          renderList();
+        }
+      }
+    }
+  });
+
+  // Auto-select: prefer the most recent live inquiry (just submitted),
+  // otherwise the first hot lead, so the dashboard isn't empty on load.
+  const firstLive = INQUIRIES.find(i => i.isLive);
+  const firstHot = firstLive || INQUIRIES.find(i => i.ai.level === "hot");
+  if (firstHot) {
+    state.selectedId = firstHot.id;
+    renderList();
+    renderDetail();
+  }
+}
+
+init();
+</script>
+
+
+<!-- noctis-brand -->
+<script src="../assets/brands.js" defer></script>
+<script src="../assets/noctis-brand.js" defer></script>
+</body>
+</html>

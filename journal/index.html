@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Journal · Noctis Sydney</title>
+<meta name="description" content="Notes from the road. Essays, guides, and conversations from a private automotive house in Sydney." />
+<meta name="theme-color" content="#0A0A0A" />
+<link rel="canonical" href="https://noctis.com.au/journal/" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230A0A0A'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='Georgia,serif' font-size='42' font-style='italic' fill='%23F5F1EA'%3EN%3C/text%3E%3C/svg%3E" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="The Noctis Journal — Notes from the road" />
+<meta property="og:description" content="Essays, guides, and conversations from a private automotive house in Sydney." />
+<meta property="og:image" content="https://noctis.com.au/images/sydney-hero.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+:root {
+  --ink:#0A0A0A; --surface:#111111; --cream:#F5F1EA;
+  --muted:#8C8576; --subtle:#5A564F; --accent:#6B0F1A; --line:#1F1E1B;
+}
+*{box-sizing:border-box}
+html,body{background:var(--ink);color:var(--cream);margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.font-serif{font-family:'Fraunces',serif;font-optical-sizing:auto}
+a{color:inherit}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:0.22em;color:var(--muted)}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+@media(min-width:768px){.container{padding:0 40px}}
+
+.noctis-nav{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);background:rgba(10,10,10,0.7);border-bottom:1px solid var(--line)}
+.noctis-nav-inner{max-width:1280px;margin:0 auto;padding:0 24px;height:72px;display:flex;align-items:center;justify-content:space-between}
+@media(min-width:768px){.noctis-nav-inner{padding:0 40px}}
+.noctis-nav a.link{color:rgba(245,241,234,0.85);text-decoration:none;font-size:14px;transition:color .2s}
+.noctis-nav a.link:hover{color:var(--cream)}
+.noctis-nav .links{display:none;gap:40px}
+@media(min-width:900px){.noctis-nav .links{display:flex}}
+
+.btn-primary{display:inline-block;background:var(--accent);color:var(--cream);padding:10px 20px;font-size:13px;text-transform:uppercase;letter-spacing:0.16em;text-decoration:none;transition:background .2s}
+.btn-primary:hover{background:#821426}
+.btn-ghost{display:inline-block;color:rgba(245,241,234,0.9);border-bottom:1px solid rgba(245,241,234,0.35);padding-bottom:4px;text-decoration:none;font-size:14px;transition:border-color .3s}
+.btn-ghost:hover{border-color:var(--cream)}
+
+.j-hero{padding:160px 0 80px;border-bottom:1px solid var(--line)}
+.j-hero h1{font-family:'Fraunces',serif;font-size:clamp(48px,8vw,96px);line-height:1;letter-spacing:-0.035em;margin:0 0 32px;max-width:14ch}
+.j-hero h1 em{font-style:italic;font-weight:300}
+.j-hero p{font-size:18px;line-height:1.6;color:rgba(245,241,234,0.7);max-width:54ch;margin:0}
+
+.j-list{padding:80px 0 160px}
+.j-entry{display:grid;grid-template-columns:1fr;gap:24px;padding:48px 0;border-bottom:1px solid var(--line);text-decoration:none;color:inherit;transition:background .25s}
+@media(min-width:768px){.j-entry{grid-template-columns:140px 1fr 220px;gap:64px;align-items:baseline}}
+.j-entry:hover{background:linear-gradient(to right,rgba(245,241,234,0.02),transparent)}
+.j-entry h2{font-family:'Fraunces',serif;font-size:clamp(28px,4vw,40px);line-height:1.15;letter-spacing:-0.024em;margin:0 0 12px;color:var(--cream);transition:color .2s}
+.j-entry:hover h2{color:#fff}
+.j-entry p{font-size:15px;line-height:1.6;color:rgba(245,241,234,0.55);margin:0;max-width:48ch}
+.j-meta{font-size:12px;color:var(--subtle);letter-spacing:0.04em}
+.j-meta .num{display:block;font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:32px;color:rgba(245,241,234,0.18);letter-spacing:-0.03em;line-height:1;margin-bottom:8px}
+.j-readtime{text-align:right;font-size:12px;color:var(--muted);letter-spacing:0.05em;text-transform:uppercase}
+
+footer{border-top:1px solid var(--line);padding:64px 0;text-align:center}
+footer .name{font-family:'Fraunces',serif;font-size:32px;letter-spacing:-0.03em}
+footer p{margin-top:12px;color:var(--muted);font-size:12px}
+</style>
+</head>
+<body>
+
+<header class="noctis-nav">
+  <nav class="noctis-nav-inner">
+    <a href="../index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+      <span class="font-serif" style="font-size:26px;color:var(--cream);letter-spacing:-0.03em;">Noctis</span>
+    </a>
+    <div class="links">
+      <a href="../index.html#fleet" class="link">The Fleet</a>
+      <a href="../index.html#standard" class="link">The Standard</a>
+      <a href="../index.html#experience" class="link">Experience</a>
+      <a href="index.html" class="link" style="color:var(--cream);">Journal</a>
+    </div>
+    <a href="../index.html#reserve" class="btn-primary">Reserve</a>
+  </nav>
+</header>
+
+<section class="j-hero">
+  <div class="container">
+    <p class="eyebrow" style="margin:0 0 24px;">The Noctis Journal · Issue No. 04</p>
+    <h1>Notes from <em>the road.</em></h1>
+    <p>Quiet writing on the cars we keep, the roads they were made for, and a few opinions held loudly enough to print. Updated when there's something worth saying.</p>
+  </div>
+</section>
+
+<section class="j-list">
+  <div class="container">
+    <a href="db12-harbour-bridge.html" class="j-entry">
+      <div class="j-meta">
+        <span class="num">No. 03</span>
+        Essay · 04 March 2026
+      </div>
+      <div>
+        <h2>Why a DB12 is wasted on the Harbour Bridge.</h2>
+        <p>A note on the difference between a road that asks for speed and one that asks for restraint — and why the prettiest drive in Sydney is, embarrassingly, the slowest.</p>
+      </div>
+      <div class="j-readtime">6 min read</div>
+    </a>
+
+    <a href="breakfast-drives.html" class="j-entry">
+      <div class="j-meta">
+        <span class="num">No. 02</span>
+        Guide · 18 February 2026
+      </div>
+      <div>
+        <h2>The three best breakfast drives out of Sydney.</h2>
+        <p>Old Pacific Highway before 7. West Head via Akuna Bay. Royal National Park when the season turns. With timings, fuel stops, and an honest opinion on each.</p>
+      </div>
+      <div class="j-readtime">9 min read</div>
+    </a>
+
+    <a href="badges-come-off.html" class="j-entry">
+      <div class="j-meta">
+        <span class="num">No. 01</span>
+        Conversation · 30 January 2026
+      </div>
+      <div>
+        <h2>Our head of fleet on why badges come off.</h2>
+        <p>Tom Fairbairn, who has run the workshop since the beginning, on quiet luxury, the British art of underplaying, and the reason every Noctis car wears the same nameplate — which is to say, none at all.</p>
+      </div>
+      <div class="j-readtime">12 min read</div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p class="name">Noctis</p>
+    <p>© 2026 Noctis Automotive Pty Ltd · Sydney, Australia</p>
+  </div>
+</footer>
+
+
+<!-- noctis-chat -->
+<script src="../assets/noctis-chat.js" defer></script>
+
+<!-- noctis-brand -->
+<script src="../assets/brands.js" defer></script>
+<script src="../assets/noctis-brand.js" defer></script>
+</body>
+</html>

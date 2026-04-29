@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Noctis — Private Automotive, Sydney</title>
+<meta name="description" content="A curated collection of modern-classic automobiles, delivered to your door across Sydney, the Northern Beaches, and the Southern Highlands. By appointment only." />
+<meta name="theme-color" content="#0A0A0A" />
+<link rel="canonical" href="https://noctis.com.au/" />
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230A0A0A'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='Georgia,serif' font-size='42' font-style='italic' fill='%23F5F1EA'%3EN%3C/text%3E%3C/svg%3E" />
+
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="en_AU" />
+<meta property="og:url" content="https://noctis.com.au/" />
+<meta property="og:site_name" content="Noctis Sydney" />
+<meta property="og:title" content="Noctis — Private Automotive, Sydney" />
+<meta property="og:description" content="A curated collection of modern-classic automobiles, delivered to your door across Greater Sydney. By appointment only." />
+<meta property="og:image" content="https://noctis.com.au/images/sydney-hero.jpg" />
+<meta property="og:image:width" content="1920" />
+<meta property="og:image:height" content="1080" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Noctis — Private Automotive, Sydney" />
+<meta name="twitter:description" content="A curated collection of modern-classic automobiles, delivered to your door across Greater Sydney." />
+<meta name="twitter:image" content="https://noctis.com.au/images/sydney-hero.jpg" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AutomotiveBusiness",
+  "name": "Noctis Automotive",
+  "description": "Private automotive house. Curated luxury and performance vehicles delivered across Greater Sydney by appointment.",
+  "url": "https://noctis.com.au/",
+  "telephone": "+61 2 9264 4471",
+  "email": "concierge@noctis.com.au",
+  "image": "https://noctis.com.au/images/sydney-hero.jpg",
+  "priceRange": "$$$$",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Pier 6/7, Walsh Bay",
+    "addressLocality": "Sydney",
+    "addressRegion": "NSW",
+    "postalCode": "2000",
+    "addressCountry": "AU"
+  },
+  "areaServed": ["Sydney", "Northern Beaches", "Southern Highlands", "Palm Beach", "Bowral"],
+  "openingHours": "Mo-Su 00:00-23:59",
+  "sameAs": ["https://www.instagram.com/noctis.sydney"]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+/* ==========================================
+   NOCTIS — shared stylesheet
+   Monochrome editorial · Sydney, Australia
+   ========================================== */
+
+:root {
+  --ink:    #0A0A0A;
+  --surface:#111111;
+  --surface-2:#161513;
+  --cream:  #F5F1EA;
+  --muted:  #8C8576;
+  --subtle: #5A564F;
+  --accent: #6B0F1A;
+  --accent-hover: #821426;
+  --line:   #1F1E1B;
+  --ease:   cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+* { box-sizing: border-box; }
+html, body { background: var(--ink); color: var(--cream); margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 400;
+}
+.font-serif { font-family: 'Fraunces', ui-serif, Georgia, 'Times New Roman', serif; font-optical-sizing: auto; }
+img { max-width: 100%; display: block; }
+
+/* ----- Film grain overlay ----- */
+.grain { position: relative; }
+.grain::before {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none;
+  opacity: 0.12;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.94 0 0 0 0 0.91 0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  z-index: 0;
+}
+.grain > * { position: relative; z-index: 1; }
+
+/* ----- Reveal on scroll -----
+   Content is visible by default. Only once JS has confirmed it's running
+   (by adding `.js-ready` to <html>) do we hide un-revealed elements so
+   they can fade in. This way, if JS fails to load (file:// ES modules,
+   blocked scripts, slow CDN), the page still renders fully.            */
+.reveal {
+  transition: opacity 900ms var(--ease), transform 900ms var(--ease);
+}
+html.js-ready .reveal:not(.in-view) {
+  opacity: 0;
+  transform: translateY(14px);
+}
+.reveal.in-view { opacity: 1; transform: translateY(0); }
+.delay-1 { transition-delay: 80ms; }
+.delay-2 { transition-delay: 160ms; }
+.delay-3 { transition-delay: 240ms; }
+.delay-4 { transition-delay: 320ms; }
+.delay-5 { transition-delay: 400ms; }
+
+/* ----- Hairlines ----- */
+.hairline { background: var(--line); height: 1px; width: 100%; }
+
+/* ----- Buttons ----- */
+.btn-primary {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--cream);
+  padding: 14px 28px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 220ms var(--ease), box-shadow 220ms var(--ease), background 220ms ease;
+}
+.btn-primary:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(107, 15, 26, 0.35);
+}
+.btn-ghost {
+  display: inline-block;
+  color: rgba(245, 241, 234, 0.9);
+  border-bottom: 1px solid rgba(245, 241, 234, 0.35);
+  padding-bottom: 4px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: border-color 300ms ease, color 300ms ease;
+}
+.btn-ghost:hover { border-color: var(--cream); color: var(--cream); }
+
+/* ----- Form inputs ----- */
+.nx-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #2A2824;
+  padding: 12px 0 14px;
+  color: var(--cream);
+  font-family: inherit;
+  font-size: 17px;
+  width: 100%;
+  transition: border-color 300ms ease;
+  outline: none;
+}
+.nx-input::placeholder { color: var(--subtle); }
+.nx-input:focus { border-color: var(--cream); }
+
+/* ----- Marquee ----- */
+@keyframes noctis-marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee-track { animation: noctis-marquee 48s linear infinite; }
+
+/* ----- Fleet hover effect (on homepage) ----- */
+.car-card {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  background: var(--ink);
+}
+.car-photo {
+  position: absolute; inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: contrast(1.04) brightness(0.9) saturate(0.95);
+  transition: filter 800ms var(--ease), transform 1200ms var(--ease);
+}
+.car-card:hover .car-photo {
+  filter: contrast(1.02) brightness(1.05);
+  transform: scale(1.03);
+}
+.car-card .car-grad {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.55) 18%, rgba(10,10,10,0.18) 35%, rgba(10,10,10,0.10) 50%, rgba(10,10,10,0.92) 100%);
+}
+.car-card .car-content {
+  position: absolute; inset: 0;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: var(--cream);
+}
+
+/* ----- Hero 3D container ----- */
+.three-hero {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  min-height: 720px;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 35%, #1a1a1a 0%, #0A0A0A 70%);
+}
+.three-hero canvas { display: none !important; }
+.three-hero .three-fallback {
+  display: block;
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  z-index: 0;
+}
+.three-hero .three-fallback::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(10,10,10,0) 0%, rgba(10,10,10,0) 60%, rgba(10,10,10,0.75) 100%);
+  pointer-events: none;
+}
+
+.three-hero .three-overlay-text { z-index: 2; }
+.three-hero .three-overlay-text {
+  position: absolute;
+  bottom: 8%;
+  left: 0; right: 0;
+  text-align: center;
+  padding: 0 24px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ----- Specs grid on detail pages ----- */
+.specs-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  border-top: 1px solid var(--line);
+}
+@media (min-width: 768px) {
+  .specs-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.spec-cell {
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
+}
+@media (min-width: 768px) {
+  .spec-cell { padding: 36px 36px 36px 0; border-right: 1px solid var(--line); }
+  .spec-cell:nth-child(3n) { border-right: none; padding-right: 0; }
+}
+.spec-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.spec-value {
+  font-family: 'Fraunces', serif;
+  font-size: 30px;
+  letter-spacing: -0.022em;
+  line-height: 1.1;
+  color: var(--cream);
+}
+.spec-value .unit { font-size: 14px; color: var(--muted); font-family: 'Inter', sans-serif; letter-spacing: normal; margin-left: 4px; }
+
+/* ----- Pull quote ----- */
+.pull-quote {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(28px, 4.5vw, 50px);
+  line-height: 1.18;
+  letter-spacing: -0.022em;
+  color: var(--cream);
+  font-weight: 300;
+  max-width: 22ch;
+}
+
+/* ----- Reduced motion respect ----- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .marquee-track { animation: none; }
+  .car-photo { transition: none; }
+  .three-hero canvas { display: none; }
+}
+
+/* ----- Mobile: hide 3D, show poster ----- */
+@media (max-width: 767px) {
+  .three-hero[data-mobile-fallback="true"] canvas { display: none; }
+  .three-hero[data-mobile-fallback="true"] .three-fallback { display: block; }
+}
+
+/* ----- Nav ----- */
+.noctis-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  background: rgba(10, 10, 10, 0.7);
+  border-bottom: 1px solid var(--line);
+}
+.noctis-nav-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+@media (min-width: 768px) { .noctis-nav-inner { padding: 0 40px; } }
+.noctis-nav a.link { color: rgba(245, 241, 234, 0.85); text-decoration: none; font-size: 14px; transition: color 200ms ease; }
+.noctis-nav a.link:hover { color: var(--cream); }
+.noctis-nav .links { display: none; gap: 40px; }
+@media (min-width: 900px) { .noctis-nav .links { display: flex; } }
+
+/* ----- Layout utilities ----- */
+.container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+@media (min-width: 768px) { .container { padding: 0 40px; } }
+.container-narrow { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+@media (min-width: 768px) { .container-narrow { padding: 0 40px; } }
+
+.section { padding: 96px 0; }
+@media (min-width: 768px) { .section { padding: 160px 0; } }
+.section-tight { padding: 64px 0; }
+@media (min-width: 768px) { .section-tight { padding: 96px 0; } }
+
+/* ----- Text utility ----- */
+.eyebrow {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--muted);
+}
+.display-xl { font-size: clamp(44px, 9vw, 108px); line-height: 0.98; letter-spacing: -0.035em; font-family: 'Fraunces', serif; }
+.display    { font-size: clamp(40px, 6vw, 72px);  line-height: 1.05; letter-spacing: -0.028em; font-family: 'Fraunces', serif; }
+.heading    { font-size: clamp(28px, 3.5vw, 42px); line-height: 1.15; letter-spacing: -0.02em;  font-family: 'Fraunces', serif; }
+.body-lg    { font-size: 17px; line-height: 1.6; color: rgba(245, 241, 234, 0.75); }
+.body       { font-size: 15px; line-height: 1.65; color: rgba(245, 241, 234, 0.6); }
+.italic-light { font-style: italic; font-weight: 300; }
+
+/* ----- Accessibility: visible focus ----- */
+:focus-visible {
+  outline: 2px solid var(--cream);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.btn-primary:focus-visible { outline-color: var(--cream); outline-offset: 4px; }
+.car-card:focus-visible { outline: 2px solid var(--cream); outline-offset: -2px; }
+
+/* ----- Skip-to-content link ----- */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  background: var(--cream);
+  color: var(--ink);
+  padding: 12px 18px;
+  z-index: 100;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: top 200ms ease;
+}
+.skip-link:focus { top: 16px; }
+
+/* ----- Image lazy fade ----- */
+.car-photo, .gallery-main, .gallery-thumb { background-color: var(--surface); }
+
+
+/* INJECTED:mobile-fixes START */
+/* Mobile image friendliness — shift focus, dim top gradients more on
+   small screens, prevent horizontal overflow. */
+@media (max-width: 768px) {
+  .car-photo { background-position: center !important; }
+  .car-card { aspect-ratio: 5/6 !important; }   /* slightly less tall on mobile */
+}
+
+/* The Sydney hero — favor middle of image (bridge + opera) on portrait */
+@media (max-width: 600px) {
+  #top > div[style*="background-image"] {
+    background-position: 60% 45% !important;
+  }
+}
+/* INJECTED:mobile-fixes END */
+
+</style>
+</head>
+<body>
+
+<a href="#fleet" class="skip-link">Skip to fleet</a>
+
+<!-- ============== NAV ============== -->
+<header class="noctis-nav">
+  <nav class="noctis-nav-inner">
+    <a href="#top" style="display:flex; align-items:center; gap:10px; text-decoration:none;">
+      <span class="font-serif" style="font-size:26px; color:var(--cream); letter-spacing:-0.03em;">Noctis</span>
+      <span class="eyebrow" style="display:none;">Sydney</span>
+    </a>
+    <div class="links">
+      <a href="#fleet" class="link">The Fleet</a>
+      <a href="#standard" class="link">The Standard</a>
+      <a href="#experience" class="link">Experience</a>
+      <a href="#journal" class="link">Journal</a>
+    </div>
+    <a href="#reserve" class="btn-primary" style="padding:10px 20px;">Reserve</a>
+  </nav>
+</header>
+
+<!-- ============== HERO ============== -->
+<section id="top" class="grain" style="position:relative; min-height:92vh; min-height:92svh; overflow:hidden;">
+  <div style="position:absolute; inset:0; z-index:0;
+    background-image:
+      linear-gradient(to bottom, rgba(10,10,10,0.3) 0%, rgba(10,10,10,0.5) 55%, rgba(10,10,10,1) 100%),
+      url('images/sydney-hero.jpg'),
+      url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201920%201080%22%20preserveAspectRatio%3D%22xMidYMid%20slice%22%3E%0A%3Cdefs%3E%0A%20%20%3ClinearGradient%20id%3D%22sky%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%0A%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231a1a1f%22%2F%3E%0A%20%20%20%20%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%230f1015%22%2F%3E%0A%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230A0A0A%22%2F%3E%0A%20%20%3C%2FlinearGradient%3E%0A%20%20%3CradialGradient%20id%3D%22glow%22%20cx%3D%2250%25%22%20cy%3D%2255%25%22%20r%3D%2255%25%22%3E%0A%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232a2520%22%20stop-opacity%3D%220.7%22%2F%3E%0A%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230A0A0A%22%20stop-opacity%3D%220%22%2F%3E%0A%20%20%3C%2FradialGradient%3E%0A%20%20%3ClinearGradient%20id%3D%22water%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%0A%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%230a0a0d%22%2F%3E%0A%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23050506%22%2F%3E%0A%20%20%3C%2FlinearGradient%3E%0A%3C%2Fdefs%3E%0A%3Crect%20width%3D%221920%22%20height%3D%221080%22%20fill%3D%22url%28%23sky%29%22%2F%3E%0A%3Crect%20width%3D%221920%22%20height%3D%221080%22%20fill%3D%22url%28%23glow%29%22%2F%3E%0A%3C%21--%20Scattered%20stars%20--%3E%0A%3Cg%20fill%3D%22%23F5F1EA%22%20opacity%3D%220.5%22%3E%0A%20%20%3Ccircle%20cx%3D%22180%22%20cy%3D%22120%22%20r%3D%221%22%2F%3E%3Ccircle%20cx%3D%22420%22%20cy%3D%2280%22%20r%3D%221.2%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22720%22%20cy%3D%22160%22%20r%3D%220.8%22%2F%3E%3Ccircle%20cx%3D%221080%22%20cy%3D%2290%22%20r%3D%221%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%221360%22%20cy%3D%22140%22%20r%3D%221.3%22%2F%3E%3Ccircle%20cx%3D%221620%22%20cy%3D%2295%22%20r%3D%220.9%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%221840%22%20cy%3D%22170%22%20r%3D%221%22%2F%3E%3Ccircle%20cx%3D%22310%22%20cy%3D%22220%22%20r%3D%220.7%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22950%22%20cy%3D%22240%22%20r%3D%220.8%22%2F%3E%3Ccircle%20cx%3D%221520%22%20cy%3D%22230%22%20r%3D%221%22%2F%3E%0A%3C%2Fg%3E%0A%3C%21--%20Distant%20city%20skyline%20--%3E%0A%3Cg%20fill%3D%22%230A0A0A%22%20opacity%3D%220.95%22%3E%0A%20%20%3Crect%20x%3D%220%22%20y%3D%22580%22%20width%3D%221920%22%20height%3D%22200%22%2F%3E%0A%20%20%3Crect%20x%3D%22100%22%20y%3D%22540%22%20width%3D%2260%22%20height%3D%2260%22%2F%3E%0A%20%20%3Crect%20x%3D%22180%22%20y%3D%22510%22%20width%3D%2280%22%20height%3D%2290%22%2F%3E%0A%20%20%3Crect%20x%3D%22280%22%20y%3D%22470%22%20width%3D%2245%22%20height%3D%22130%22%2F%3E%0A%20%20%3Crect%20x%3D%22345%22%20y%3D%22500%22%20width%3D%2270%22%20height%3D%22100%22%2F%3E%0A%20%20%3Crect%20x%3D%22430%22%20y%3D%22450%22%20width%3D%2255%22%20height%3D%22150%22%2F%3E%0A%20%20%3Crect%20x%3D%22500%22%20y%3D%22520%22%20width%3D%2265%22%20height%3D%2280%22%2F%3E%0A%20%20%3Crect%20x%3D%22580%22%20y%3D%22440%22%20width%3D%2280%22%20height%3D%22160%22%2F%3E%0A%20%20%3Crect%20x%3D%22680%22%20y%3D%22490%22%20width%3D%2260%22%20height%3D%22110%22%2F%3E%0A%20%20%3Crect%20x%3D%221300%22%20y%3D%22500%22%20width%3D%2255%22%20height%3D%22100%22%2F%3E%0A%20%20%3Crect%20x%3D%221370%22%20y%3D%22470%22%20width%3D%2275%22%20height%3D%22130%22%2F%3E%0A%20%20%3Crect%20x%3D%221460%22%20y%3D%22440%22%20width%3D%2260%22%20height%3D%22160%22%2F%3E%0A%20%20%3Crect%20x%3D%221540%22%20y%3D%22510%22%20width%3D%2250%22%20height%3D%2290%22%2F%3E%0A%20%20%3Crect%20x%3D%221610%22%20y%3D%22485%22%20width%3D%2270%22%20height%3D%22115%22%2F%3E%0A%20%20%3Crect%20x%3D%221700%22%20y%3D%22510%22%20width%3D%2260%22%20height%3D%2290%22%2F%3E%0A%20%20%3Crect%20x%3D%221780%22%20y%3D%22480%22%20width%3D%2255%22%20height%3D%22120%22%2F%3E%0A%3C%2Fg%3E%0A%3C%21--%20Harbour%20Bridge%20silhouette%20%28center%20arch%29%20--%3E%0A%3Cg%20fill%3D%22none%22%20stroke%3D%22%231a1a1e%22%20stroke-width%3D%223%22%20opacity%3D%220.9%22%3E%0A%20%20%3C%21--%20Arch%20--%3E%0A%20%20%3Cpath%20d%3D%22M%20780%20580%20Q%20960%20420%201140%20580%22%20stroke%3D%22%23F5F1EA%22%20stroke-opacity%3D%220.25%22%20fill%3D%22none%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M%20780%20590%20Q%20960%20440%201140%20590%22%20stroke%3D%22%23F5F1EA%22%20stroke-opacity%3D%220.18%22%20fill%3D%22none%22%2F%3E%0A%20%20%3C%21--%20Horizontal%20deck%20--%3E%0A%20%20%3Cline%20x1%3D%22720%22%20y1%3D%22600%22%20x2%3D%221200%22%20y2%3D%22600%22%20stroke%3D%22%23F5F1EA%22%20stroke-opacity%3D%220.25%22%20stroke-width%3D%224%22%2F%3E%0A%20%20%3C%21--%20Supports%20--%3E%0A%20%20%3Cg%20stroke%3D%22%23F5F1EA%22%20stroke-opacity%3D%220.15%22%20stroke-width%3D%221.5%22%3E%0A%20%20%20%20%3Cline%20x1%3D%22830%22%20y1%3D%22510%22%20x2%3D%22830%22%20y2%3D%22600%22%2F%3E%0A%20%20%20%20%3Cline%20x1%3D%22880%22%20y1%3D%22470%22%20x2%3D%22880%22%20y2%3D%22600%22%2F%3E%0A%20%20%20%20%3Cline%20x1%3D%22930%22%20y1%3D%22440%22%20x2%3D%22930%22%20y2%3D%22600%22%2F%3E%0A%20%20%20%20%3Cline%20x1%3D%22990%22%20y1%3D%22440%22%20x2%3D%22990%22%20y2%3D%22600%22%2F%3E%0A%20%20%20%20%3Cline%20x1%3D%221040%22%20y1%3D%22470%22%20x2%3D%221040%22%20y2%3D%22600%22%2F%3E%0A%20%20%20%20%3Cline%20x1%3D%221090%22%20y1%3D%22510%22%20x2%3D%221090%22%20y2%3D%22600%22%2F%3E%0A%20%20%3C%2Fg%3E%0A%20%20%3C%21--%20Pylons%20--%3E%0A%20%20%3Crect%20x%3D%22760%22%20y%3D%22570%22%20width%3D%2216%22%20height%3D%2250%22%20fill%3D%22%230a0a0a%22%2F%3E%0A%20%20%3Crect%20x%3D%221144%22%20y%3D%22570%22%20width%3D%2216%22%20height%3D%2250%22%20fill%3D%22%230a0a0a%22%2F%3E%0A%3C%2Fg%3E%0A%3C%21--%20Opera%20House%20shells%20%28right%20of%20bridge%29%20--%3E%0A%3Cg%20fill%3D%22%23F5F1EA%22%20opacity%3D%220.22%22%3E%0A%20%20%3Cpath%20d%3D%22M%201320%20600%20Q%201340%20555%201380%20565%20Q%201405%20540%201430%20560%20L%201420%20605%20L%201310%20605%20Z%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M%201410%20600%20Q%201430%20555%201470%20565%20Q%201495%20540%201520%20560%20L%201510%20605%20L%201400%20605%20Z%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M%201500%20600%20Q%201520%20555%201560%20565%20Q%201585%20540%201610%20560%20L%201600%20605%20L%201490%20605%20Z%22%2F%3E%0A%20%20%3C%21--%20Base%20platform%20--%3E%0A%20%20%3Crect%20x%3D%221300%22%20y%3D%22605%22%20width%3D%22320%22%20height%3D%2215%22%20opacity%3D%220.6%22%2F%3E%0A%3C%2Fg%3E%0A%3C%21--%20Water%20reflection%20zone%20--%3E%0A%3Crect%20x%3D%220%22%20y%3D%22620%22%20width%3D%221920%22%20height%3D%22460%22%20fill%3D%22url%28%23water%29%22%2F%3E%0A%3C%21--%20Subtle%20water%20ripples%20--%3E%0A%3Cg%20stroke%3D%22%23F5F1EA%22%20stroke-opacity%3D%220.04%22%20fill%3D%22none%22%3E%0A%20%20%3Cline%20x1%3D%220%22%20y1%3D%22680%22%20x2%3D%221920%22%20y2%3D%22680%22%20stroke-width%3D%221%22%2F%3E%0A%20%20%3Cline%20x1%3D%220%22%20y1%3D%22720%22%20x2%3D%221920%22%20y2%3D%22720%22%20stroke-width%3D%221%22%2F%3E%0A%20%20%3Cline%20x1%3D%220%22%20y1%3D%22780%22%20x2%3D%221920%22%20y2%3D%22780%22%20stroke-width%3D%221%22%2F%3E%0A%20%20%3Cline%20x1%3D%220%22%20y1%3D%22850%22%20x2%3D%221920%22%20y2%3D%22850%22%20stroke-width%3D%221%22%2F%3E%0A%20%20%3Cline%20x1%3D%220%22%20y1%3D%22940%22%20x2%3D%221920%22%20y2%3D%22940%22%20stroke-width%3D%221%22%2F%3E%0A%3C%2Fg%3E%0A%3C%21--%20Bridge%20reflection%20in%20water%20--%3E%0A%3Cg%20fill%3D%22none%22%20stroke%3D%22%23F5F1EA%22%20stroke-opacity%3D%220.06%22%3E%0A%20%20%3Cpath%20d%3D%22M%20780%20620%20Q%20960%20740%201140%20620%22%20stroke-width%3D%222%22%20fill%3D%22none%22%2F%3E%0A%3C%2Fg%3E%0A%3C%21--%20Opera%20reflection%20--%3E%0A%3Cg%20fill%3D%22%23F5F1EA%22%20opacity%3D%220.05%22%3E%0A%20%20%3Cpath%20d%3D%22M%201310%20620%20L%201420%20620%20Q%201405%20660%201380%20650%20Q%201340%20665%201320%20655%20Z%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M%201400%20620%20L%201510%20620%20Q%201495%20660%201470%20650%20Q%201430%20665%201410%20655%20Z%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E');
+    background-size:cover; background-position:center;
+    filter:contrast(1.02) brightness(0.95);">
+  </div>
+
+  <div class="container" style="position:relative; z-index:1; min-height:92vh; min-height:92svh; display:flex; flex-direction:column; justify-content:flex-end; padding-bottom:120px;">
+    <p class="reveal eyebrow" style="margin-bottom:24px;">Private automotive · Sydney · Est. 2019</p>
+    <h1 class="reveal delay-1 display-xl" style="max-width:14ch; color:var(--cream);">
+      The fleet you've<br /><em class="italic-light">been waiting for.</em>
+    </h1>
+    <p class="reveal delay-2 body-lg" style="margin-top:32px; max-width:48ch;">
+      A curated collection of modern-classic automobiles,
+      delivered to your door across Sydney, the Northern Beaches, and the Southern Highlands.
+      Immaculate, unbadged, booked by invitation.
+    </p>
+    <div class="reveal delay-3" style="margin-top:40px; display:flex; flex-wrap:wrap; gap:24px; align-items:center;">
+      <a href="#fleet" class="btn-primary">View the fleet</a>
+      <a href="#reserve" class="btn-ghost">Speak with concierge &nbsp;→</a>
+    </div>
+  </div>
+
+  <div class="eyebrow" style="position:absolute; bottom:24px; right:24px; z-index:2; opacity:0.8;">
+    33°51′S · 151°12′E
+  </div>
+</section>
+
+<!-- ============== TRUST MARQUEE ============== -->
+<section style="position:relative; border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:48px 0; overflow:hidden;">
+  <p class="eyebrow" style="text-align:center; margin:0 0 24px; color:var(--subtle);">
+    Concierge partners across Sydney
+  </p>
+  <div style="overflow:hidden;">
+    <div class="marquee-track font-serif" style="display:flex; gap:64px; white-space:nowrap; color:rgba(245,241,234,0.4); font-size:clamp(22px, 3vw, 32px); letter-spacing:-0.028em; min-width:200%;">
+      <span>Park Hyatt Sydney</span><span>·</span>
+      <span>Crown Sydney</span><span>·</span>
+      <span>Capella Sydney</span><span>·</span>
+      <span>Four Seasons Sydney</span><span>·</span>
+      <span>The Langham</span><span>·</span>
+      <span>Pier One Sydney Harbour</span><span>·</span>
+      <span>The Calile</span><span>·</span>
+      <!-- dup -->
+      <span>Park Hyatt Sydney</span><span>·</span>
+      <span>Crown Sydney</span><span>·</span>
+      <span>Capella Sydney</span><span>·</span>
+      <span>Four Seasons Sydney</span><span>·</span>
+      <span>The Langham</span><span>·</span>
+      <span>Pier One Sydney Harbour</span><span>·</span>
+      <span>The Calile</span><span>·</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FLEET ============== -->
+<section id="fleet" class="section">
+  <div class="container">
+    <div class="reveal" style="display:flex; flex-direction:column; gap:24px; margin-bottom:80px;">
+      <div style="display:flex; flex-direction:column; justify-content:space-between; gap:24px;" class="row-end">
+        <div>
+          <p class="eyebrow" style="margin-bottom:20px;">The Fleet — No. 01</p>
+          <h2 class="display" style="max-width:16ch;">Thirty-one cars.<br /><em class="italic-light">Not one of them ordinary.</em></h2>
+        </div>
+        <p class="body" style="max-width:42ch;">
+          Every vehicle is privately owned, serviced fortnightly at our Walsh Bay workshop, and rotated out of service every 18,000 km. A shortlist is presented below — our full registry is shared on inquiry.
+        </p>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:1px; background:var(--line);">
+      <!-- CARD 1 — Rolls-Royce Spectre -->
+      <a href="fleet/rolls-royce-spectre.html" class="car-card reveal delay-1">
+        <div class="car-photo" style="background-image:url('images/spectre-card.jpg'), url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201600%20700%22%20preserveAspectRatio%3D%22xMidYMid%20meet%22%3E%0A%3Cdefs%3E%0A%20%20%3ClinearGradient%20id%3D%22bg%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%0A%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231a1a1d%22%2F%3E%0A%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230A0A0A%22%2F%3E%0A%20%20%3C%2FlinearGradient%3E%0A%20%20%3CradialGradient%20id%3D%22spot%22%20cx%3D%2250%25%22%20cy%3D%2240%25%22%20r%3D%2260%25%22%3E%0A%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232a2a2f%22%20stop-opacity%3D%220.6%22%2F%3E%0A%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230A0A0A%22%20stop-opacity%3D%220%22%2F%3E%0A%20%20%3C%2FradialGradient%3E%0A%3C%2Fdefs%3E%0A%3Crect%20width%3D%221600%22%20height%3D%22700%22%20fill%3D%22url%28%23bg%29%22%2F%3E%0A%3Crect%20width%3D%221600%22%20height%3D%22700%22%20fill%3D%22url%28%23spot%29%22%2F%3E%0A%3C%21--%20Car%20silhouette%20--%3E%0A%3Cg%20transform%3D%22translate%28200%2C180%29%22%20opacity%3D%220.92%22%3E%0A%20%20%3C%21--%20Shadow%20under%20car%20--%3E%0A%20%20%3Cellipse%20cx%3D%22600%22%20cy%3D%22380%22%20rx%3D%22560%22%20ry%3D%2218%22%20fill%3D%22%23000%22%20opacity%3D%220.6%22%2F%3E%0A%20%20%3C%21--%20Main%20body%20%E2%80%94%20long%20flat%20coupe%20--%3E%0A%20%20%3Cpath%20d%3D%22M%2080%20320%20L%20140%20260%20L%20260%20230%20L%20440%20215%20L%20700%20210%20L%20960%20215%20L%201080%20230%20L%201140%20250%20L%201180%20310%20L%201140%20360%20L%2080%20360%20Z%22%0A%20%20%20%20%20%20%20%20fill%3D%22%23c8c8cc%22%20opacity%3D%220.85%22%2F%3E%0A%20%20%3C%21--%20Roof%20%2F%20cabin%20%28squared%29%20--%3E%0A%20%20%3Cpath%20d%3D%22M%20320%20230%20L%20400%20150%20L%20880%20150%20L%20940%20230%20Z%22%20fill%3D%22%23c8c8cc%22%20opacity%3D%220.55%22%2F%3E%0A%20%20%3C%21--%20Pantheon%20grille%20hint%20--%3E%0A%20%20%3Crect%20x%3D%221100%22%20y%3D%22270%22%20width%3D%2260%22%20height%3D%2255%22%20fill%3D%22%23000%22%20opacity%3D%220.45%22%2F%3E%0A%20%20%3Cline%20x1%3D%221110%22%20y1%3D%22275%22%20x2%3D%221110%22%20y2%3D%22320%22%20stroke%3D%22%23c8c8cc%22%20stroke-width%3D%221.5%22%20opacity%3D%220.4%22%2F%3E%0A%20%20%3Cline%20x1%3D%221125%22%20y1%3D%22275%22%20x2%3D%221125%22%20y2%3D%22320%22%20stroke%3D%22%23c8c8cc%22%20stroke-width%3D%221.5%22%20opacity%3D%220.4%22%2F%3E%0A%20%20%3Cline%20x1%3D%221140%22%20y1%3D%22275%22%20x2%3D%221140%22%20y2%3D%22320%22%20stroke%3D%22%23c8c8cc%22%20stroke-width%3D%221.5%22%20opacity%3D%220.4%22%2F%3E%0A%20%20%3C%21--%20Window%20glass%20reflection%20--%3E%0A%20%20%3Cpath%20d%3D%22M%20345%20225%20L%20410%20165%20L%20580%20165%20L%20540%20225%20Z%22%20fill%3D%22%23F5F1EA%22%20opacity%3D%220.12%22%2F%3E%0A%20%20%3C%21--%20Wheels%20%28front%20%2B%20rear%29%20--%3E%0A%20%20%3Ccircle%20cx%3D%22310%22%20cy%3D%22360%22%20r%3D%2262%22%20fill%3D%22%23050505%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22310%22%20cy%3D%22360%22%20r%3D%2244%22%20fill%3D%22%23c8c8cc%22%20opacity%3D%220.15%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22310%22%20cy%3D%22360%22%20r%3D%2218%22%20fill%3D%22%230A0A0A%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22980%22%20cy%3D%22360%22%20r%3D%2262%22%20fill%3D%22%23050505%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22980%22%20cy%3D%22360%22%20r%3D%2244%22%20fill%3D%22%23c8c8cc%22%20opacity%3D%220.15%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22980%22%20cy%3D%22360%22%20r%3D%2218%22%20fill%3D%22%230A0A0A%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E');"></div>
+        <div class="car-grad"></div>
+        <div class="car-content">
+          <p class="eyebrow" style="color:rgba(245,241,234,0.7);">2025 · Ultra-luxury</p>
+          <div>
+            <h3 class="heading">Rolls-Royce<br /><em class="italic-light">Spectre</em></h3>
+            <p style="margin-top:8px; color:rgba(245,241,234,0.6); font-size:13px;">from A$6,700 / day · A$32,500 / week</p>
+          </div>
+        </div>
+      </a>
+      <!-- CARD 2 — Aston Martin DB12 -->
+      <a href="fleet/aston-martin-db12.html" class="car-card reveal delay-2">
+        <div class="car-photo" style="background-image:url('images/db12-card.jpg'), url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201600%20700%22%20preserveAspectRatio%3D%22xMidYMid%20meet%22%3E%0A%3Cdefs%3E%0A%20%20%3ClinearGradient%20id%3D%22bg%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%0A%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231a1512%22%2F%3E%0A%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230A0A0A%22%2F%3E%0A%20%20%3C%2FlinearGradient%3E%0A%20%20%3CradialGradient%20id%3D%22spot%22%20cx%3D%2250%25%22%20cy%3D%2240%25%22%20r%3D%2260%25%22%3E%0A%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232a2018%22%20stop-opacity%3D%220.7%22%2F%3E%0A%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230A0A0A%22%20stop-opacity%3D%220%22%2F%3E%0A%20%20%3C%2FradialGradient%3E%0A%3C%2Fdefs%3E%0A%3Crect%20width%3D%221600%22%20height%3D%22700%22%20fill%3D%22url%28%23bg%29%22%2F%3E%0A%3Crect%20width%3D%221600%22%20height%3D%22700%22%20fill%3D%22url%28%23spot%29%22%2F%3E%0A%3Cg%20transform%3D%22translate%28200%2C190%29%22%20opacity%3D%220.92%22%3E%0A%20%20%3Cellipse%20cx%3D%22600%22%20cy%3D%22370%22%20rx%3D%22540%22%20ry%3D%2216%22%20fill%3D%22%23000%22%20opacity%3D%220.6%22%2F%3E%0A%20%20%3C%21--%20Long%20sweeping%20bonnet%2C%20low%20roof%2C%20curved%20tail%20--%3E%0A%20%20%3Cpath%20d%3D%22M%2060%20320%20Q%20100%20270%20180%20250%20L%20360%20225%20Q%20500%20200%20660%20185%20Q%20820%20180%20960%20200%20Q%201060%20215%201120%20245%20Q%201170%20265%201180%20310%20Q%201160%20345%201080%20355%20L%20100%20355%20Q%2060%20350%2060%20320%20Z%22%0A%20%20%20%20%20%20%20%20fill%3D%22%23a87a45%22%20opacity%3D%220.85%22%2F%3E%0A%20%20%3C%21--%20Greenhouse%20%2F%20roof%20curve%20--%3E%0A%20%20%3Cpath%20d%3D%22M%20360%20225%20Q%20450%20125%20680%20120%20Q%20830%20125%20900%20185%20L%20830%20225%20L%20480%20225%20Z%22%0A%20%20%20%20%20%20%20%20fill%3D%22%23a87a45%22%20opacity%3D%220.55%22%2F%3E%0A%20%20%3C%21--%20Iconic%20side%20strake%20--%3E%0A%20%20%3Cpath%20d%3D%22M%20560%20275%20L%20620%20265%20L%20620%20285%20L%20560%20290%20Z%22%20fill%3D%22%23000%22%20opacity%3D%220.45%22%2F%3E%0A%20%20%3C%21--%20Window%20reflection%20--%3E%0A%20%20%3Cpath%20d%3D%22M%20390%20220%20Q%20470%20140%20670%20130%20L%20640%20220%20Z%22%20fill%3D%22%23F5F1EA%22%20opacity%3D%220.1%22%2F%3E%0A%20%20%3C%21--%20Wheels%20%2821%22%29%20--%3E%0A%20%20%3Ccircle%20cx%3D%22290%22%20cy%3D%22355%22%20r%3D%2258%22%20fill%3D%22%23050505%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22290%22%20cy%3D%22355%22%20r%3D%2240%22%20fill%3D%22%23a87a45%22%20opacity%3D%220.18%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22290%22%20cy%3D%22355%22%20r%3D%2216%22%20fill%3D%22%230A0A0A%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22960%22%20cy%3D%22355%22%20r%3D%2258%22%20fill%3D%22%23050505%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22960%22%20cy%3D%22355%22%20r%3D%2240%22%20fill%3D%22%23a87a45%22%20opacity%3D%220.18%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22960%22%20cy%3D%22355%22%20r%3D%2216%22%20fill%3D%22%230A0A0A%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E');"></div>
+        <div class="car-grad"></div>
+        <div class="car-content">
+          <p class="eyebrow" style="color:rgba(245,241,234,0.7);">2024 · Grand Tourer</p>
+          <div>
+            <h3 class="heading">Aston Martin<br /><em class="italic-light">DB12 Volante</em></h3>
+            <p style="margin-top:8px; color:rgba(245,241,234,0.6); font-size:13px;">from A$4,950 / day · A$24,000 / week</p>
+          </div>
+        </div>
+      </a>
+      <!-- CARD 3 — McLaren 750S -->
+      <a href="fleet/mclaren-750s.html" class="car-card reveal delay-3">
+        <div class="car-photo" style="background-image:url('images/750s-card.jpg'), url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201600%20700%22%20preserveAspectRatio%3D%22xMidYMid%20meet%22%3E%0A%3Cdefs%3E%0A%20%20%3ClinearGradient%20id%3D%22bg%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%0A%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231a140e%22%2F%3E%0A%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230A0A0A%22%2F%3E%0A%20%20%3C%2FlinearGradient%3E%0A%20%20%3CradialGradient%20id%3D%22spot%22%20cx%3D%2250%25%22%20cy%3D%2245%25%22%20r%3D%2260%25%22%3E%0A%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232b1a0a%22%20stop-opacity%3D%220.6%22%2F%3E%0A%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230A0A0A%22%20stop-opacity%3D%220%22%2F%3E%0A%20%20%3C%2FradialGradient%3E%0A%3C%2Fdefs%3E%0A%3Crect%20width%3D%221600%22%20height%3D%22700%22%20fill%3D%22url%28%23bg%29%22%2F%3E%0A%3Crect%20width%3D%221600%22%20height%3D%22700%22%20fill%3D%22url%28%23spot%29%22%2F%3E%0A%3Cg%20transform%3D%22translate%28200%2C230%29%22%20opacity%3D%220.94%22%3E%0A%20%20%3Cellipse%20cx%3D%22600%22%20cy%3D%22320%22%20rx%3D%22540%22%20ry%3D%2214%22%20fill%3D%22%23000%22%20opacity%3D%220.6%22%2F%3E%0A%20%20%3C%21--%20Low%20wedge%20body%3A%20nose%20low%2C%20steep%20rake%2C%20short%20cabin%2C%20swooping%20rear%20--%3E%0A%20%20%3Cpath%20d%3D%22M%2060%20290%20L%20130%20250%20L%20250%20220%20L%20380%20200%20L%20540%20185%20L%20720%20175%20L%20880%20175%20L%201020%20190%20L%201130%20220%20L%201180%20260%20L%201170%20300%20L%2090%20310%20Z%22%0A%20%20%20%20%20%20%20%20fill%3D%22%23ee5500%22%20opacity%3D%220.88%22%2F%3E%0A%20%20%3C%21--%20Extremely%20raked%20cabin%20--%3E%0A%20%20%3Cpath%20d%3D%22M%20440%20200%20L%20560%20115%20L%20820%20115%20L%20920%20200%20Z%22%20fill%3D%22%23ee5500%22%20opacity%3D%220.6%22%2F%3E%0A%20%20%3C%21--%20Side%20intake%20--%3E%0A%20%20%3Cpath%20d%3D%22M%20740%20230%20L%20900%20225%20L%20920%20260%20L%20750%20260%20Z%22%20fill%3D%22%23000%22%20opacity%3D%220.5%22%2F%3E%0A%20%20%3C%21--%20Dihedral%20door%20cut%20line%20--%3E%0A%20%20%3Cline%20x1%3D%22520%22%20y1%3D%22200%22%20x2%3D%22620%22%20y2%3D%22280%22%20stroke%3D%22%23000%22%20stroke-width%3D%222%22%20opacity%3D%220.4%22%2F%3E%0A%20%20%3C%21--%20Window%20reflection%20%28tiny%20cabin%29%20--%3E%0A%20%20%3Cpath%20d%3D%22M%20470%20195%20L%20575%20120%20L%20740%20120%20L%20720%20195%20Z%22%20fill%3D%22%23F5F1EA%22%20opacity%3D%220.1%22%2F%3E%0A%20%20%3C%21--%20Wheels%20%28front%20smaller%2C%20rear%20bigger%20for%20performance%20bias%29%20--%3E%0A%20%20%3Ccircle%20cx%3D%22260%22%20cy%3D%22305%22%20r%3D%2254%22%20fill%3D%22%23050505%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22260%22%20cy%3D%22305%22%20r%3D%2236%22%20fill%3D%22%23ee5500%22%20opacity%3D%220.18%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22260%22%20cy%3D%22305%22%20r%3D%2214%22%20fill%3D%22%230A0A0A%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22970%22%20cy%3D%22305%22%20r%3D%2260%22%20fill%3D%22%23050505%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22970%22%20cy%3D%22305%22%20r%3D%2240%22%20fill%3D%22%23ee5500%22%20opacity%3D%220.18%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22970%22%20cy%3D%22305%22%20r%3D%2216%22%20fill%3D%22%230A0A0A%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E');"></div>
+        <div class="car-grad"></div>
+        <div class="car-content">
+          <p class="eyebrow" style="color:rgba(245,241,234,0.7);">2024 · Performance</p>
+          <div>
+            <h3 class="heading">McLaren<br /><em class="italic-light">750S Spider</em></h3>
+            <p style="margin-top:8px; color:rgba(245,241,234,0.6); font-size:13px;">from A$6,250 / day · A$30,000 / week</p>
+          </div>
+        </div>
+      </a>
+      <!-- CARD 4 — Ferrari Purosangue -->
+      <a href="fleet/ferrari-purosangue.html" class="car-card reveal delay-1">
+        <div class="car-photo" style="background-image:url('images/purosangue-card.jpg'), url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201600%20700%22%20preserveAspectRatio%3D%22xMidYMid%20meet%22%3E%0A%3Cdefs%3E%0A%20%20%3ClinearGradient%20id%3D%22bg%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%0A%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231a0a0a%22%2F%3E%0A%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230A0A0A%22%2F%3E%0A%20%20%3C%2FlinearGradient%3E%0A%20%20%3CradialGradient%20id%3D%22spot%22%20cx%3D%2250%25%22%20cy%3D%2245%25%22%20r%3D%2260%25%22%3E%0A%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23301010%22%20stop-opacity%3D%220.6%22%2F%3E%0A%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230A0A0A%22%20stop-opacity%3D%220%22%2F%3E%0A%20%20%3C%2FradialGradient%3E%0A%3C%2Fdefs%3E%0A%3Crect%20width%3D%221600%22%20height%3D%22700%22%20fill%3D%22url%28%23bg%29%22%2F%3E%0A%3Crect%20width%3D%221600%22%20height%3D%22700%22%20fill%3D%22url%28%23spot%29%22%2F%3E%0A%3Cg%20transform%3D%22translate%28200%2C160%29%22%20opacity%3D%220.92%22%3E%0A%20%20%3Cellipse%20cx%3D%22600%22%20cy%3D%22380%22%20rx%3D%22560%22%20ry%3D%2216%22%20fill%3D%22%23000%22%20opacity%3D%220.6%22%2F%3E%0A%20%20%3C%21--%204-door%2C%20long%2C%20slightly%20raised%2C%20fastback%20roofline%20--%3E%0A%20%20%3Cpath%20d%3D%22M%2060%20320%20L%20130%20270%20L%20280%20245%20L%20460%20225%20L%20640%20215%20L%20840%20215%20L%201000%20225%20L%201100%20245%20L%201170%20285%20L%201190%20340%20L%201160%20365%20L%2080%20365%20Q%2060%20355%2060%20320%20Z%22%0A%20%20%20%20%20%20%20%20fill%3D%22%23a00010%22%20opacity%3D%220.85%22%2F%3E%0A%20%20%3C%21--%20Fastback%20roof%20arc%20--%3E%0A%20%20%3Cpath%20d%3D%22M%20330%20245%20Q%20400%20135%20620%20130%20Q%20800%20130%20900%20175%20L%20920%20245%20Z%22%0A%20%20%20%20%20%20%20%20fill%3D%22%23a00010%22%20opacity%3D%220.55%22%2F%3E%0A%20%20%3C%21--%20Rear%20door%20line%20--%3E%0A%20%20%3Cline%20x1%3D%22720%22%20y1%3D%22230%22%20x2%3D%22720%22%20y2%3D%22340%22%20stroke%3D%22%23000%22%20stroke-width%3D%222%22%20opacity%3D%220.35%22%2F%3E%0A%20%20%3C%21--%20Front%20door%20line%20--%3E%0A%20%20%3Cline%20x1%3D%22500%22%20y1%3D%22225%22%20x2%3D%22500%22%20y2%3D%22340%22%20stroke%3D%22%23000%22%20stroke-width%3D%222%22%20opacity%3D%220.35%22%2F%3E%0A%20%20%3C%21--%20Window%20strip%20--%3E%0A%20%20%3Cpath%20d%3D%22M%20360%20240%20Q%20420%20145%20610%20140%20L%20600%20240%20Z%22%20fill%3D%22%23F5F1EA%22%20opacity%3D%220.1%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M%20640%20140%20Q%20790%20140%20890%20180%20L%20900%20240%20L%20640%20240%20Z%22%20fill%3D%22%23F5F1EA%22%20opacity%3D%220.1%22%2F%3E%0A%20%20%3C%21--%2022%22%20wheels%20%E2%80%94%20prominent%20--%3E%0A%20%20%3Ccircle%20cx%3D%22300%22%20cy%3D%22360%22%20r%3D%2266%22%20fill%3D%22%23050505%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22300%22%20cy%3D%22360%22%20r%3D%2246%22%20fill%3D%22%23a00010%22%20opacity%3D%220.18%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22300%22%20cy%3D%22360%22%20r%3D%2218%22%20fill%3D%22%230A0A0A%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22990%22%20cy%3D%22360%22%20r%3D%2266%22%20fill%3D%22%23050505%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22990%22%20cy%3D%22360%22%20r%3D%2246%22%20fill%3D%22%23a00010%22%20opacity%3D%220.18%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22990%22%20cy%3D%22360%22%20r%3D%2218%22%20fill%3D%22%230A0A0A%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E');"></div>
+        <div class="car-grad"></div>
+        <div class="car-content">
+          <p class="eyebrow" style="color:rgba(245,241,234,0.7);">2025 · Estate</p>
+          <div>
+            <h3 class="heading">Ferrari<br /><em class="italic-light">Purosangue</em></h3>
+            <p style="margin-top:8px; color:rgba(245,241,234,0.6); font-size:13px;">from A$7,700 / day · A$37,000 / week</p>
+          </div>
+        </div>
+      </a>
+      <!-- CARD 5 — Mercedes G63 -->
+      <a href="fleet/mercedes-g63.html" class="car-card reveal delay-2">
+        <div class="car-photo" style="background-image:url('images/g63-card.jpg'), url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201600%20700%22%20preserveAspectRatio%3D%22xMidYMid%20meet%22%3E%0A%3Cdefs%3E%0A%20%20%3ClinearGradient%20id%3D%22bg%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%0A%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%230f1012%22%2F%3E%0A%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230A0A0A%22%2F%3E%0A%20%20%3C%2FlinearGradient%3E%0A%20%20%3CradialGradient%20id%3D%22spot%22%20cx%3D%2250%25%22%20cy%3D%2245%25%22%20r%3D%2260%25%22%3E%0A%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231c1c22%22%20stop-opacity%3D%220.6%22%2F%3E%0A%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230A0A0A%22%20stop-opacity%3D%220%22%2F%3E%0A%20%20%3C%2FradialGradient%3E%0A%3C%2Fdefs%3E%0A%3Crect%20width%3D%221600%22%20height%3D%22700%22%20fill%3D%22url%28%23bg%29%22%2F%3E%0A%3Crect%20width%3D%221600%22%20height%3D%22700%22%20fill%3D%22url%28%23spot%29%22%2F%3E%0A%3Cg%20transform%3D%22translate%28200%2C150%29%22%20opacity%3D%220.93%22%3E%0A%20%20%3Cellipse%20cx%3D%22600%22%20cy%3D%22395%22%20rx%3D%22540%22%20ry%3D%2216%22%20fill%3D%22%23000%22%20opacity%3D%220.6%22%2F%3E%0A%20%20%3C%21--%20Boxy%20three-part%20body%3A%20hood%20box%20%2B%20passenger%20box%20%2B%20rear%20--%3E%0A%20%20%3C%21--%20Hood%20box%20--%3E%0A%20%20%3Crect%20x%3D%22940%22%20y%3D%22250%22%20width%3D%22240%22%20height%3D%22110%22%20fill%3D%22%237a7c82%22%20opacity%3D%220.85%22%2F%3E%0A%20%20%3C%21--%20Passenger%20cell%20%28tallest%29%20--%3E%0A%20%20%3Crect%20x%3D%22260%22%20y%3D%22130%22%20width%3D%22700%22%20height%3D%22230%22%20fill%3D%22%237a7c82%22%20opacity%3D%220.85%22%2F%3E%0A%20%20%3C%21--%20Rear%20spare%20cover%20--%3E%0A%20%20%3Crect%20x%3D%2260%22%20y%3D%22250%22%20width%3D%22200%22%20height%3D%22110%22%20fill%3D%22%237a7c82%22%20opacity%3D%220.88%22%2F%3E%0A%20%20%3C%21--%20Roof%20rack%20--%3E%0A%20%20%3Crect%20x%3D%22260%22%20y%3D%22115%22%20width%3D%22700%22%20height%3D%2218%22%20fill%3D%22%237a7c82%22%20opacity%3D%220.6%22%2F%3E%0A%20%20%3C%21--%20Windows%20%28upright%29%20--%3E%0A%20%20%3Crect%20x%3D%22320%22%20y%3D%22160%22%20width%3D%22220%22%20height%3D%2295%22%20fill%3D%22%23F5F1EA%22%20opacity%3D%220.12%22%2F%3E%0A%20%20%3Crect%20x%3D%22560%22%20y%3D%22160%22%20width%3D%22180%22%20height%3D%2295%22%20fill%3D%22%23F5F1EA%22%20opacity%3D%220.12%22%2F%3E%0A%20%20%3Crect%20x%3D%22760%22%20y%3D%22160%22%20width%3D%22180%22%20height%3D%2295%22%20fill%3D%22%23F5F1EA%22%20opacity%3D%220.12%22%2F%3E%0A%20%20%3C%21--%20Grille%20%28classic%20G%20slats%29%20--%3E%0A%20%20%3Crect%20x%3D%221110%22%20y%3D%22275%22%20width%3D%2268%22%20height%3D%2260%22%20fill%3D%22%23000%22%20opacity%3D%220.5%22%2F%3E%0A%20%20%3Cline%20x1%3D%221120%22%20y1%3D%22285%22%20x2%3D%221170%22%20y2%3D%22285%22%20stroke%3D%22%237a7c82%22%20stroke-width%3D%222%22%20opacity%3D%220.5%22%2F%3E%0A%20%20%3Cline%20x1%3D%221120%22%20y1%3D%22300%22%20x2%3D%221170%22%20y2%3D%22300%22%20stroke%3D%22%237a7c82%22%20stroke-width%3D%222%22%20opacity%3D%220.5%22%2F%3E%0A%20%20%3Cline%20x1%3D%221120%22%20y1%3D%22315%22%20x2%3D%221170%22%20y2%3D%22315%22%20stroke%3D%22%237a7c82%22%20stroke-width%3D%222%22%20opacity%3D%220.5%22%2F%3E%0A%20%20%3C%21--%20Door%20hinges%20--%3E%0A%20%20%3Crect%20x%3D%22555%22%20y%3D%22180%22%20width%3D%226%22%20height%3D%2218%22%20fill%3D%22%23000%22%20opacity%3D%220.55%22%2F%3E%0A%20%20%3Crect%20x%3D%22555%22%20y%3D%22220%22%20width%3D%226%22%20height%3D%2218%22%20fill%3D%22%23000%22%20opacity%3D%220.55%22%2F%3E%0A%20%20%3C%21--%20Spare%20wheel%20on%20rear%20--%3E%0A%20%20%3Ccircle%20cx%3D%22160%22%20cy%3D%22305%22%20r%3D%2242%22%20fill%3D%22%23050505%22%20opacity%3D%220.85%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22160%22%20cy%3D%22305%22%20r%3D%2228%22%20fill%3D%22%237a7c82%22%20opacity%3D%220.2%22%2F%3E%0A%20%20%3C%21--%20Main%20wheels%20%28chunky%2022%22%29%20--%3E%0A%20%20%3Ccircle%20cx%3D%22350%22%20cy%3D%22375%22%20r%3D%2262%22%20fill%3D%22%23050505%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22350%22%20cy%3D%22375%22%20r%3D%2242%22%20fill%3D%22%237a7c82%22%20opacity%3D%220.18%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22350%22%20cy%3D%22375%22%20r%3D%2216%22%20fill%3D%22%230A0A0A%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%221010%22%20cy%3D%22375%22%20r%3D%2262%22%20fill%3D%22%23050505%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%221010%22%20cy%3D%22375%22%20r%3D%2242%22%20fill%3D%22%237a7c82%22%20opacity%3D%220.18%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%221010%22%20cy%3D%22375%22%20r%3D%2216%22%20fill%3D%22%230A0A0A%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E');"></div>
+        <div class="car-grad"></div>
+        <div class="car-content">
+          <p class="eyebrow" style="color:rgba(245,241,234,0.7);">2024 · Character</p>
+          <div>
+            <h3 class="heading">Mercedes<br /><em class="italic-light">G 63 AMG</em></h3>
+            <p style="margin-top:8px; color:rgba(245,241,234,0.6); font-size:13px;">from A$3,100 / day · A$15,000 / week</p>
+          </div>
+        </div>
+      </a>
+      <!-- CARD 6 — Porsche 911 GT3 Touring -->
+      <a href="fleet/porsche-911-gt3.html" class="car-card reveal delay-3">
+        <div class="car-photo" style="background-image:url('images/911-card.jpg'), url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201600%20700%22%20preserveAspectRatio%3D%22xMidYMid%20meet%22%3E%0A%3Cdefs%3E%0A%20%20%3ClinearGradient%20id%3D%22bg%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%0A%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%230f150c%22%2F%3E%0A%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230A0A0A%22%2F%3E%0A%20%20%3C%2FlinearGradient%3E%0A%20%20%3CradialGradient%20id%3D%22spot%22%20cx%3D%2250%25%22%20cy%3D%2245%25%22%20r%3D%2260%25%22%3E%0A%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231a2012%22%20stop-opacity%3D%220.65%22%2F%3E%0A%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230A0A0A%22%20stop-opacity%3D%220%22%2F%3E%0A%20%20%3C%2FradialGradient%3E%0A%3C%2Fdefs%3E%0A%3Crect%20width%3D%221600%22%20height%3D%22700%22%20fill%3D%22url%28%23bg%29%22%2F%3E%0A%3Crect%20width%3D%221600%22%20height%3D%22700%22%20fill%3D%22url%28%23spot%29%22%2F%3E%0A%3Cg%20transform%3D%22translate%28200%2C210%29%22%20opacity%3D%220.94%22%3E%0A%20%20%3Cellipse%20cx%3D%22600%22%20cy%3D%22340%22%20rx%3D%22520%22%20ry%3D%2215%22%20fill%3D%22%23000%22%20opacity%3D%220.6%22%2F%3E%0A%20%20%3C%21--%20Signature%20911%20profile%3A%20low%20rounded%20nose%2C%20curved%20greenhouse%2C%20pronounced%20rear%20haunch%20--%3E%0A%20%20%3Cpath%20d%3D%22M%2080%20290%20Q%20120%20240%20220%20220%20L%20370%20200%20L%20520%20190%20L%20720%20185%20L%20880%20190%20L%201020%20205%20Q%201120%20220%201160%20260%20Q%201180%20300%201150%20325%20L%20100%20330%20Q%2070%20325%2080%20290%20Z%22%0A%20%20%20%20%20%20%20%20fill%3D%22%23cdff55%22%20opacity%3D%220.88%22%2F%3E%0A%20%20%3C%21--%20Distinctive%20curved%20greenhouse%20--%3E%0A%20%20%3Cpath%20d%3D%22M%20370%20200%20Q%20460%20120%20640%20115%20Q%20780%20115%20880%20175%20L%20820%20200%20L%20500%20200%20Z%22%0A%20%20%20%20%20%20%20%20fill%3D%22%23cdff55%22%20opacity%3D%220.58%22%2F%3E%0A%20%20%3C%21--%20Rear%20haunch%20highlight%20--%3E%0A%20%20%3Cpath%20d%3D%22M%20950%20195%20Q%201060%20210%201120%20255%20L%201110%20280%20L%20920%20270%20Z%22%20fill%3D%22%23000%22%20opacity%3D%220.2%22%2F%3E%0A%20%20%3C%21--%20Window%20arc%20reflection%20--%3E%0A%20%20%3Cpath%20d%3D%22M%20400%20195%20Q%20480%20125%20640%20120%20Q%20750%20120%20830%20175%20L%20800%20195%20Z%22%20fill%3D%22%23F5F1EA%22%20opacity%3D%220.1%22%2F%3E%0A%20%20%3C%21--%20Center-exit%20exhaust%20hint%20--%3E%0A%20%20%3Crect%20x%3D%2290%22%20y%3D%22270%22%20width%3D%2230%22%20height%3D%2218%22%20fill%3D%22%23000%22%20opacity%3D%220.5%22%2F%3E%0A%20%20%3C%21--%20Wheels%20--%3E%0A%20%20%3Ccircle%20cx%3D%22260%22%20cy%3D%22325%22%20r%3D%2256%22%20fill%3D%22%23050505%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22260%22%20cy%3D%22325%22%20r%3D%2238%22%20fill%3D%22%23cdff55%22%20opacity%3D%220.2%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22260%22%20cy%3D%22325%22%20r%3D%2215%22%20fill%3D%22%230A0A0A%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22960%22%20cy%3D%22325%22%20r%3D%2258%22%20fill%3D%22%23050505%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22960%22%20cy%3D%22325%22%20r%3D%2240%22%20fill%3D%22%23cdff55%22%20opacity%3D%220.2%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22960%22%20cy%3D%22325%22%20r%3D%2215%22%20fill%3D%22%230A0A0A%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E');"></div>
+        <div class="car-grad"></div>
+        <div class="car-content">
+          <p class="eyebrow" style="color:rgba(245,241,234,0.7);">2024 · Driver's</p>
+          <div>
+            <h3 class="heading">Porsche<br /><em class="italic-light">911 GT3 Touring</em></h3>
+            <p style="margin-top:8px; color:rgba(245,241,234,0.6); font-size:13px;">from A$4,250 / day · A$20,500 / week</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="reveal" style="margin-top:64px; text-align:center;">
+      <a href="#reserve" class="btn-ghost" style="text-transform:uppercase; letter-spacing:0.14em;">Request full registry &nbsp;→</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============== THE STANDARD ============== -->
+<section id="standard" class="section grain" style="background:var(--surface); border-top:1px solid var(--line);">
+  <div class="container">
+    <div class="reveal" style="margin-bottom:96px; max-width:32ch;">
+      <p class="eyebrow" style="margin-bottom:20px;">The Noctis Standard</p>
+      <h2 class="display">Quiet rigour,<br /><em class="italic-light">at every turn.</em></h2>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:64px;">
+      <div class="reveal delay-1">
+        <p class="font-serif" style="font-size:56px; color:rgba(245,241,234,0.2); line-height:1; margin-bottom:24px;">01</p>
+        <h3 class="heading" style="margin-bottom:16px;">Private delivery, anywhere in Greater Sydney.</h3>
+        <p class="body" style="max-width:34ch;">A discreet driver meets you at your residence, helipad, or hotel porte-cochère — from Mosman to Palm Beach to Bowral. No forecourts, no counters, no paperwork.</p>
+      </div>
+      <div class="reveal delay-2">
+        <p class="font-serif" style="font-size:56px; color:rgba(245,241,234,0.2); line-height:1; margin-bottom:24px;">02</p>
+        <h3 class="heading" style="margin-bottom:16px;">Fortnightly servicing. Always factory-immaculate.</h3>
+        <p class="body" style="max-width:34ch;">Every car is serviced at our Walsh Bay workshop on a fortnightly schedule and rotated out of the fleet at 18,000 km. What you collect is indistinguishable from the showroom floor.</p>
+      </div>
+      <div class="reveal delay-3">
+        <p class="font-serif" style="font-size:56px; color:rgba(245,241,234,0.2); line-height:1; margin-bottom:24px;">03</p>
+        <h3 class="heading" style="margin-bottom:16px;">A concierge on call, not a help desk.</h3>
+        <p class="body" style="max-width:34ch;">One name, one number, whatever the hour. Reservations at Quay, a seaplane to Cottage Point, a second set of keys to Palm Beach by noon.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== TESTIMONIALS ============== -->
+<section style="padding:160px 0; border-top:1px solid var(--line);">
+  <div class="container">
+    <div class="reveal" style="text-align:center; margin-bottom:96px;">
+      <p class="eyebrow">Quietly mentioned</p>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(360px, 1fr)); gap:64px; max-width:1080px; margin:0 auto;">
+      <div class="reveal delay-1" style="padding:0 24px;">
+        <blockquote class="pull-quote" style="margin:0; font-style:italic; font-weight:300; font-family:'Fraunces', serif; font-size:clamp(22px, 2.4vw, 28px); line-height:1.35; color:var(--cream); letter-spacing:-0.018em;">
+          "They delivered a Spectre to a private jetty at 6:04 AM. By 6:06 I had forgotten any other way existed."
+        </blockquote>
+        <p style="margin-top:32px; color:rgba(245,241,234,0.5); font-size:13px; letter-spacing:0.05em;">
+          — A. D'Arcy<br />
+          <span style="color:var(--subtle);">Repeat guest since 2021 · Palm Beach</span>
+        </p>
+      </div>
+      <div class="reveal delay-2" style="padding:0 24px;">
+        <blockquote class="pull-quote" style="margin:0; font-style:italic; font-weight:300; font-family:'Fraunces', serif; font-size:clamp(22px, 2.4vw, 28px); line-height:1.35; color:var(--cream); letter-spacing:-0.018em;">
+          "I have recommended them quietly for three summers. Every guest has come back and asked who that was."
+        </blockquote>
+        <p style="margin-top:32px; color:rgba(245,241,234,0.5); font-size:13px; letter-spacing:0.05em;">
+          — Concierge<br />
+          <span style="color:var(--subtle);">A waterfront hotel · The Rocks</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== PRESS ============== -->
+<section style="padding:64px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:var(--surface);">
+  <div class="container">
+    <div style="display:flex; flex-direction:column; align-items:center; gap:32px;">
+      <p class="reveal eyebrow" style="color:var(--subtle);">As mentioned in</p>
+      <div class="reveal delay-1" style="display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:48px 64px;">
+        <span class="font-serif" style="font-size:24px; letter-spacing:-0.02em; color:rgba(245,241,234,0.5);">Vogue Living</span>
+        <span class="font-serif italic-light" style="font-size:22px; letter-spacing:-0.01em; color:rgba(245,241,234,0.5);">Robb Report</span>
+        <span class="font-serif" style="font-size:22px; font-weight:500; letter-spacing:-0.025em; color:rgba(245,241,234,0.5);">Gourmet Traveller</span>
+        <span class="font-serif italic-light" style="font-size:22px; letter-spacing:-0.01em; color:rgba(245,241,234,0.5);">Belle</span>
+        <span class="font-serif" style="font-size:24px; letter-spacing:-0.02em; color:rgba(245,241,234,0.5);">Wish</span>
+        <span class="font-serif italic-light" style="font-size:22px; letter-spacing:-0.01em; color:rgba(245,241,234,0.5);">Broadsheet</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== EXPERIENCE ============== -->
+<section id="experience" class="section" style="background:var(--surface); border-top:1px solid var(--line);">
+  <div class="container" style="display:grid; grid-template-columns:1fr; gap:64px; align-items:start;">
+    <div class="reveal">
+      <p class="eyebrow" style="margin-bottom:20px;">Reservation</p>
+      <h2 class="display" style="margin-bottom:40px;">Four steps. No paperwork.</h2>
+      <p class="body-lg" style="max-width:42ch;">
+        Every booking is confirmed within two hours by a human. Our average guest is on the road inside a day of inquiry — often sooner.
+      </p>
+    </div>
+    <div class="reveal delay-1" style="border-top:1px solid var(--line);">
+      <div style="display:grid; grid-template-columns:60px 1fr; gap:24px; padding:32px 0; border-bottom:1px solid var(--line);">
+        <p class="font-serif" style="color:rgba(245,241,234,0.25); font-size:26px; line-height:1; padding-top:4px;">01</p>
+        <div>
+          <h4 class="font-serif" style="font-size:22px; letter-spacing:-0.022em; color:var(--cream); margin:0 0 8px;">Speak with a concierge</h4>
+          <p class="body" style="max-width:50ch;">Share your dates and the feeling you're after. A fleet shortlist arrives within the hour.</p>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns:60px 1fr; gap:24px; padding:32px 0; border-bottom:1px solid var(--line);">
+        <p class="font-serif" style="color:rgba(245,241,234,0.25); font-size:26px; line-height:1; padding-top:4px;">02</p>
+        <div>
+          <h4 class="font-serif" style="font-size:22px; letter-spacing:-0.022em; color:var(--cream); margin:0 0 8px;">Confirm privately</h4>
+          <p class="body" style="max-width:50ch;">Identity is verified discreetly; a 30% deposit is held on wire or card. No counter contract, no queueing.</p>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns:60px 1fr; gap:24px; padding:32px 0; border-bottom:1px solid var(--line);">
+        <p class="font-serif" style="color:rgba(245,241,234,0.25); font-size:26px; line-height:1; padding-top:4px;">03</p>
+        <div>
+          <h4 class="font-serif" style="font-size:22px; letter-spacing:-0.022em; color:var(--cream); margin:0 0 8px;">We deliver</h4>
+          <p class="body" style="max-width:50ch;">Your car arrives cleaned and fuelled at the address you specify, at the minute you specify.</p>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns:60px 1fr; gap:24px; padding:32px 0;">
+        <p class="font-serif" style="color:rgba(245,241,234,0.25); font-size:26px; line-height:1; padding-top:4px;">04</p>
+        <div>
+          <h4 class="font-serif" style="font-size:22px; letter-spacing:-0.022em; color:var(--cream); margin:0 0 8px;">We collect</h4>
+          <p class="body" style="max-width:50ch;">When you're done, leave the keys with the front desk. Final settlement follows by wire. We notice nothing you haven't told us.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FAQ ============== -->
+<section id="faq" class="section-tight" style="border-top:1px solid var(--line); background:var(--surface);">
+  <div class="container">
+    <div class="reveal" style="margin-bottom:64px; max-width:32ch;">
+      <p class="eyebrow" style="margin-bottom:20px;">Often asked</p>
+      <h2 class="display" style="font-size:clamp(36px, 5vw, 52px);">The questions<br /><em class="italic-light">before the keys.</em></h2>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:48px 64px;">
+      <details class="reveal delay-1" style="border-top:1px solid var(--line); padding:24px 0;">
+        <summary class="font-serif" style="cursor:pointer; font-size:20px; letter-spacing:-0.02em; color:var(--cream); list-style:none; display:flex; justify-content:space-between; align-items:center; gap:24px;">
+          <span>Insurance &amp; excess</span>
+          <span class="font-serif italic-light" style="color:var(--muted); font-size:24px;">+</span>
+        </summary>
+        <p class="body" style="margin-top:16px; font-size:14px;">Every car is insured comprehensively for the duration of your reservation. Standard excess sits between A$5,000 and A$15,000 depending on vehicle. Excess waiver is available on request and is included on weekly bookings of the Spectre and Purosangue.</p>
+      </details>
+
+      <details class="reveal delay-2" style="border-top:1px solid var(--line); padding:24px 0;">
+        <summary class="font-serif" style="cursor:pointer; font-size:20px; letter-spacing:-0.02em; color:var(--cream); list-style:none; display:flex; justify-content:space-between; align-items:center; gap:24px;">
+          <span>Driver requirements</span>
+          <span class="font-serif italic-light" style="color:var(--muted); font-size:24px;">+</span>
+        </summary>
+        <p class="body" style="margin-top:16px; font-size:14px;">Full Australian or international licence, held for at least three years, minimum age 30 (35 for the McLaren and Ferrari). We verify identity discreetly via a single short video call. No counter, no queue, no paperwork left behind.</p>
+      </details>
+
+      <details class="reveal delay-3" style="border-top:1px solid var(--line); padding:24px 0;">
+        <summary class="font-serif" style="cursor:pointer; font-size:20px; letter-spacing:-0.02em; color:var(--cream); list-style:none; display:flex; justify-content:space-between; align-items:center; gap:24px;">
+          <span>Mileage &amp; range</span>
+          <span class="font-serif italic-light" style="color:var(--muted); font-size:24px;">+</span>
+        </summary>
+        <p class="body" style="margin-top:16px; font-size:14px;">300 km included per day, 1,500 km per week — generous enough for a Bowral weekend or a Palm Beach loop. Beyond that, A$3.50/km. Cars may be driven anywhere in NSW; interstate by arrangement.</p>
+      </details>
+
+      <details class="reveal delay-4" style="border-top:1px solid var(--line); padding:24px 0;">
+        <summary class="font-serif" style="cursor:pointer; font-size:20px; letter-spacing:-0.02em; color:var(--cream); list-style:none; display:flex; justify-content:space-between; align-items:center; gap:24px;">
+          <span>Delivery &amp; collection</span>
+          <span class="font-serif italic-light" style="color:var(--muted); font-size:24px;">+</span>
+        </summary>
+        <p class="body" style="margin-top:16px; font-size:14px;">Complimentary across Greater Sydney, Northern Beaches, and the Southern Highlands. Hunter Valley and Bowral on a small flat fee. Beyond that, by quote. Available 24 hours, including jetty and helipad handovers.</p>
+      </details>
+
+      <details class="reveal delay-5" style="border-top:1px solid var(--line); padding:24px 0;">
+        <summary class="font-serif" style="cursor:pointer; font-size:20px; letter-spacing:-0.02em; color:var(--cream); list-style:none; display:flex; justify-content:space-between; align-items:center; gap:24px;">
+          <span>Cancellation</span>
+          <span class="font-serif italic-light" style="color:var(--muted); font-size:24px;">+</span>
+        </summary>
+        <p class="body" style="margin-top:16px; font-size:14px;">Full refund up to 48 hours before delivery. Inside 48 hours, the deposit is held against a future booking — never lost. If we miss our delivery window by more than fifteen minutes, the day is on us.</p>
+      </details>
+
+      <details class="reveal delay-1" style="border-top:1px solid var(--line); padding:24px 0;">
+        <summary class="font-serif" style="cursor:pointer; font-size:20px; letter-spacing:-0.02em; color:var(--cream); list-style:none; display:flex; justify-content:space-between; align-items:center; gap:24px;">
+          <span>Privacy</span>
+          <span class="font-serif italic-light" style="color:var(--muted); font-size:24px;">+</span>
+        </summary>
+        <p class="body" style="margin-top:16px; font-size:14px;">Your details are read by a single member of our concierge team and held only for the duration of your stay. We are not on social media as a company. We do not photograph or post about our guests. Discretion isn't a feature — it's the house.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============== JOURNAL ============== -->
+<section id="journal" class="section-tight" style="border-top:1px solid var(--line);">
+  <div class="container">
+    <div class="reveal" style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:24px; margin-bottom:56px;">
+      <div>
+        <p class="eyebrow" style="margin-bottom:20px;">The Noctis Journal</p>
+        <h2 class="display" style="font-size:clamp(36px, 5vw, 52px);">Notes from the road.</h2>
+      </div>
+      <a href="journal/index.html" class="btn-ghost">All entries &nbsp;→</a>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:40px;">
+      <a href="journal/db12-harbour-bridge.html" class="reveal delay-1" style="text-decoration:none; color:inherit; display:block;">
+        <article>
+          <p class="eyebrow" style="margin-bottom:16px;">Essay · 6 min</p>
+          <h3 class="font-serif" style="font-size:24px; letter-spacing:-0.022em; color:var(--cream); line-height:1.25; margin:0 0 12px;">Why a DB12 is wasted on the Harbour Bridge.</h3>
+          <p class="body" style="font-size:14px;">A note on the difference between a road that asks for speed and one that asks for restraint.</p>
+        </article>
+      </a>
+      <a href="journal/breakfast-drives.html" class="reveal delay-2" style="text-decoration:none; color:inherit; display:block;">
+        <article>
+          <p class="eyebrow" style="margin-bottom:16px;">Guide · 9 min</p>
+          <h3 class="font-serif" style="font-size:24px; letter-spacing:-0.022em; color:var(--cream); line-height:1.25; margin:0 0 12px;">The three best breakfast drives out of Sydney.</h3>
+          <p class="body" style="font-size:14px;">Old Pacific Highway before 7. West Head via Akuna Bay. Royal National Park when the season turns.</p>
+        </article>
+      </a>
+      <a href="journal/badges-come-off.html" class="reveal delay-3" style="text-decoration:none; color:inherit; display:block;">
+        <article>
+          <p class="eyebrow" style="margin-bottom:16px;">Conversation · 12 min</p>
+          <h3 class="font-serif" style="font-size:24px; letter-spacing:-0.022em; color:var(--cream); line-height:1.25; margin:0 0 12px;">Our head of fleet on why badges come off.</h3>
+          <p class="body" style="font-size:14px;">Every Noctis car wears the same nameplate — which is to say, none at all.</p>
+        </article>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============== RESERVE ============== -->
+<section id="reserve" class="section grain" style="border-top:1px solid var(--line);">
+  <div class="container-narrow">
+    <div class="reveal" style="text-align:center; margin-bottom:48px;">
+      <p class="eyebrow" style="margin-bottom:24px;">Reserve</p>
+      <h2 class="display">When would you like us<br /><em class="italic-light">to bring one over?</em></h2>
+    </div>
+
+    <div id="reserve-pre" class="reveal delay-1" style="display:none; text-align:center; margin-bottom:48px; padding:20px 28px; border:1px solid var(--line); background:rgba(107,15,26,0.08); border-radius:2px;">
+      <p style="margin:0; font-size:14px; color:var(--cream);">
+        <span class="eyebrow" style="color:var(--muted); margin-right:12px;">Inquiring about</span>
+        <span id="reserve-pre-car" class="font-serif italic-light" style="font-size:20px; letter-spacing:-0.018em;"></span>
+      </p>
+    </div>
+
+    <form id="reserve-form" class="reveal delay-1" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); column-gap:40px; row-gap:32px;" onsubmit="event.preventDefault(); submitInquiry(this);">
+      <input type="hidden" name="car" id="reserve-car" value="" />
+      <div>
+        <label class="eyebrow" style="display:block; margin-bottom:8px;">Name</label>
+        <input required type="text" name="name" class="nx-input" placeholder="Mr / Mrs / Mx" />
+      </div>
+      <div>
+        <label class="eyebrow" style="display:block; margin-bottom:8px;">Email or Signal</label>
+        <input required type="text" name="contact" class="nx-input" placeholder="discreet is welcome" />
+      </div>
+      <div>
+        <label class="eyebrow" style="display:block; margin-bottom:8px;">Delivery suburb</label>
+        <input type="text" name="suburb" class="nx-input" placeholder="Mosman · Vaucluse · Palm Beach · Bowral · other" />
+      </div>
+      <div>
+        <label class="eyebrow" style="display:block; margin-bottom:8px;">Dates</label>
+        <input type="text" name="dates" class="nx-input" placeholder="flexible is fine" />
+      </div>
+      <div style="grid-column:1 / -1;">
+        <label class="eyebrow" style="display:block; margin-bottom:8px;" id="feeling-label">The feeling you're after</label>
+        <input type="text" name="notes" id="reserve-notes" class="nx-input" placeholder="a quiet grand tourer for a week · something louder for the weekend · tell us" />
+      </div>
+      <div style="grid-column:1 / -1; padding-top:24px; display:flex; flex-wrap:wrap; justify-content:space-between; gap:24px; align-items:center;">
+        <p style="color:rgba(245,241,234,0.45); font-size:12px; max-width:50ch; line-height:1.6;">
+          Your inquiry is read only by a member of our concierge team. We hold your details in confidence and do not retain them beyond your stay, unless you prefer we do.
+        </p>
+        <button type="submit" class="btn-primary">Send inquiry</button>
+      </div>
+    </form>
+
+    <div id="form-success" style="display:none; text-align:center; padding:80px 0;">
+      <p class="font-serif italic-light" style="font-size:28px; line-height:1.3; max-width:32ch; margin:0 auto; color:rgba(245,241,234,0.8);">
+        Thank you. A concierge will reply within the hour.
+      </p>
+      <p style="margin-top:18px; color:rgba(245,241,234,0.45); font-size:12px; letter-spacing:0.1em; text-transform:uppercase;">
+        Filed under reference <span id="form-ref" class="font-serif italic-light" style="text-transform:none; letter-spacing:0; color:rgba(245,241,234,0.7);">—</span>
+      </p>
+      <p style="margin-top:24px;">
+        <a href="crm/index.html" class="btn-ghost" style="font-size:12px; letter-spacing:0.08em;" target="_blank" rel="noopener">View concierge inbox &nbsp;→</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer style="border-top:1px solid var(--line); padding-top:96px; padding-bottom:40px;">
+  <div class="container">
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:40px; margin-bottom:96px;">
+      <div style="grid-column:span 2;">
+        <p class="font-serif" style="font-size:48px; letter-spacing:-0.035em; line-height:1; margin:0; color:var(--cream);">Noctis</p>
+        <p class="eyebrow" style="margin-top:12px;">Sydney · Palm Beach · Southern Highlands</p>
+        <p class="body" style="margin-top:32px; max-width:36ch; font-size:14px;">
+          Pier 6/7, Walsh Bay<br />
+          Sydney NSW 2000, Australia
+        </p>
+        <p class="body" style="margin-top:16px; max-width:36ch; font-size:13px; color:var(--muted);">
+          Noctis Automotive Pty Ltd · ACN 638 472 901
+        </p>
+      </div>
+      <div>
+        <p class="eyebrow" style="margin-bottom:20px;">Fleet</p>
+        <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px;">
+          <li><a href="fleet/rolls-royce-spectre.html" class="link" style="color:rgba(245,241,234,0.7); text-decoration:none; font-size:14px;">Ultra-luxury</a></li>
+          <li><a href="fleet/aston-martin-db12.html" class="link" style="color:rgba(245,241,234,0.7); text-decoration:none; font-size:14px;">Grand Tourers</a></li>
+          <li><a href="fleet/mclaren-750s.html" class="link" style="color:rgba(245,241,234,0.7); text-decoration:none; font-size:14px;">Convertibles</a></li>
+          <li><a href="fleet/porsche-911-gt3.html" class="link" style="color:rgba(245,241,234,0.7); text-decoration:none; font-size:14px;">Driver's cars</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow" style="margin-bottom:20px;">House</p>
+        <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px;">
+          <li><a href="#standard" class="link" style="color:rgba(245,241,234,0.7); text-decoration:none; font-size:14px;">The Standard</a></li>
+          <li><a href="#experience" class="link" style="color:rgba(245,241,234,0.7); text-decoration:none; font-size:14px;">Experience</a></li>
+          <li><a href="journal/index.html" class="link" style="color:rgba(245,241,234,0.7); text-decoration:none; font-size:14px;">Journal</a></li>
+          <li><a href="#faq" class="link" style="color:rgba(245,241,234,0.7); text-decoration:none; font-size:14px;">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow" style="margin-bottom:20px;">Concierge</p>
+        <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px; font-size:14px;">
+          <li><a href="tel:+61292644471" class="link" style="color:rgba(245,241,234,0.7); text-decoration:none;">+61 2 9264 4471</a></li>
+          <li><a href="mailto:concierge@noctis.com.au" class="link" style="color:rgba(245,241,234,0.7); text-decoration:none;">concierge@noctis.com.au</a></li>
+          <li><a href="https://signal.me/#noctis" class="link" style="color:rgba(245,241,234,0.7); text-decoration:none;">Signal · @noctis.sydney</a></li>
+          <li style="padding-top:6px; color:var(--muted); font-size:12px;">By appointment only · 24 hours</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="hairline" style="margin-bottom:32px;"></div>
+    <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:16px; color:var(--muted); font-size:12px;">
+      <p style="margin:0;">© 2026 Noctis Automotive Pty Ltd · Sydney, Australia. All rights reserved.</p>
+      <div style="display:flex; gap:24px; flex-wrap:wrap;">
+        <a href="legal/privacy.html" style="color:var(--muted); text-decoration:none;">Privacy</a>
+        <a href="legal/terms.html" style="color:var(--muted); text-decoration:none;">Terms of service</a>
+        <a href="legal/responsible-driving.html" style="color:var(--muted); text-decoration:none;">Responsible driving</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   NOCTIS — reusable Three.js hero scene (classic script)
+   Requires THREE (r160+) on window, loaded before this file:
+     <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+     <script src="../assets/noctis-3d.js"></script>
+   Exposes on window: mountHero, initReveals, initAnchors
+   ============================================================ */
+(function (global) {
+  "use strict";
+
+  // -------- Car character → scene config --------
+  function CHARACTERS() {
+    var T = global.THREE;
+    return {
+      // Rolls-Royce Spectre — slow, stately, cool chrome/silver
+      spectre: {
+        geometry: function () { return new T.TorusKnotGeometry(1.6, 0.48, 220, 28, 2, 3); },
+        material: function () {
+          return new T.MeshPhysicalMaterial({
+            color: 0xc8c8cc, metalness: 1.0, roughness: 0.18,
+            clearcoat: 1.0, clearcoatRoughness: 0.05, envMapIntensity: 1.2,
+          });
+        },
+        rotationSpeed: { x: 0.08, y: 0.12 },
+        keyLight: { color: 0xfff3d6, intensity: 2.2 },
+        rimLight: { color: 0x88aaff, intensity: 1.1 },
+      },
+      // Aston Martin DB12 — warm bronze
+      db12: {
+        geometry: function () { return new T.TorusGeometry(1.7, 0.5, 64, 200); },
+        material: function () {
+          return new T.MeshPhysicalMaterial({
+            color: 0x8a5a2a, metalness: 0.95, roughness: 0.22,
+            clearcoat: 0.7, clearcoatRoughness: 0.15,
+          });
+        },
+        rotationSpeed: { x: 0.05, y: 0.14 },
+        keyLight: { color: 0xffd097, intensity: 2.0 },
+        rimLight: { color: 0x4466aa, intensity: 0.8 },
+      },
+      // McLaren 750S — sharp, angular, papaya
+      mclaren750s: {
+        geometry: function () { return new T.IcosahedronGeometry(2.0, 0); },
+        material: function () {
+          return new T.MeshPhysicalMaterial({
+            color: 0xee5500, metalness: 0.3, roughness: 0.28,
+            clearcoat: 1.0, clearcoatRoughness: 0.08, flatShading: true,
+          });
+        },
+        rotationSpeed: { x: 0.22, y: 0.3 },
+        keyLight: { color: 0xffffff, intensity: 2.6 },
+        rimLight: { color: 0xff8833, intensity: 1.3 },
+      },
+      // Ferrari Purosangue — rosso glossy octahedron
+      purosangue: {
+        geometry: function () { return new T.OctahedronGeometry(1.9, 2); },
+        material: function () {
+          return new T.MeshPhysicalMaterial({
+            color: 0xa00010, metalness: 0.55, roughness: 0.22,
+            clearcoat: 1.0, clearcoatRoughness: 0.04,
+          });
+        },
+        rotationSpeed: { x: 0.15, y: 0.25 },
+        keyLight: { color: 0xffeedd, intensity: 2.4 },
+        rimLight: { color: 0xff3322, intensity: 1.2 },
+      },
+      // Mercedes-AMG G63 — gunmetal cube
+      g63: {
+        geometry: function () { return new T.BoxGeometry(2.4, 2.4, 2.4, 1, 1, 1); },
+        material: function () {
+          return new T.MeshPhysicalMaterial({
+            color: 0x1a1d22, metalness: 0.85, roughness: 0.4,
+            clearcoat: 0.5, clearcoatRoughness: 0.3,
+          });
+        },
+        rotationSpeed: { x: 0.04, y: 0.08 },
+        keyLight: { color: 0xfff0dd, intensity: 2.0 },
+        rimLight: { color: 0xffaa66, intensity: 0.9 },
+      },
+      // Porsche 911 GT3 Touring — python green torus
+      porsche911: {
+        geometry: function () { return new T.TorusGeometry(1.8, 0.35, 48, 180); },
+        material: function () {
+          return new T.MeshPhysicalMaterial({
+            color: 0xcdff55, metalness: 0.4, roughness: 0.35,
+            clearcoat: 0.8, clearcoatRoughness: 0.2,
+          });
+        },
+        rotationSpeed: { x: 0.18, y: 0.22 },
+        keyLight: { color: 0xffffff, intensity: 2.2 },
+        rimLight: { color: 0x4477ff, intensity: 1.0 },
+      },
+    };
+  }
+
+  // -------- Subtle particle backdrop --------
+  function makeParticles(THREE, count) {
+    count = count || 240;
+    var geom = new THREE.BufferGeometry();
+    var positions = new Float32Array(count * 3);
+    for (var i = 0; i < count; i++) {
+      var r = 8 + Math.random() * 12;
+      var theta = Math.random() * Math.PI * 2;
+      var phi = Math.acos(2 * Math.random() - 1);
+      positions[i*3+0] = r * Math.sin(phi) * Math.cos(theta);
+      positions[i*3+1] = r * Math.sin(phi) * Math.sin(theta) * 0.4;
+      positions[i*3+2] = r * Math.cos(phi);
+    }
+    geom.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    var mat = new THREE.PointsMaterial({
+      color: 0xf5f1ea, size: 0.025,
+      transparent: true, opacity: 0.35, sizeAttenuation: true,
+    });
+    return new THREE.Points(geom, mat);
+  }
+
+  // -------- Main mount function --------
+  function mountHero(selector, characterKey) {
+    // 3D disabled — car photos are the hero
+    return;
+    var el = document.querySelector(selector);
+    if (!el) return;
+
+    // Skip on reduced motion
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Skip on small screens (fallback image shows via CSS)
+    if (window.matchMedia("(max-width: 767px)").matches) return;
+    // Abort gracefully if THREE wasn't loaded
+    if (!global.THREE) { console.warn("[noctis] THREE.js not loaded, skipping hero"); return; }
+
+    var THREE = global.THREE;
+    var chars = CHARACTERS();
+    var config = chars[characterKey] || chars.spectre;
+
+    var scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x0a0a0a, 0.06);
+
+    var camera = new THREE.PerspectiveCamera(40, el.clientWidth / el.clientHeight, 0.1, 100);
+    camera.position.set(0, 0.4, 7);
+
+    var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(el.clientWidth, el.clientHeight);
+    if (THREE.ACESFilmicToneMapping !== undefined) renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.1;
+    if (THREE.SRGBColorSpace !== undefined) renderer.outputColorSpace = THREE.SRGBColorSpace;
+    el.appendChild(renderer.domElement);
+
+    var geom = config.geometry();
+    var mat = config.material();
+    var mesh = new THREE.Mesh(geom, mat);
+    scene.add(mesh);
+
+    var particles = makeParticles(THREE);
+    scene.add(particles);
+
+    var ambient = new THREE.AmbientLight(0x332e28, 0.5);
+    scene.add(ambient);
+
+    var key = new THREE.DirectionalLight(config.keyLight.color, config.keyLight.intensity);
+    key.position.set(-4, 5, 3);
+    scene.add(key);
+
+    var rim = new THREE.DirectionalLight(config.rimLight.color, config.rimLight.intensity);
+    rim.position.set(4, -2, -3);
+    scene.add(rim);
+
+    var fill = new THREE.DirectionalLight(0x998866, 0.4);
+    fill.position.set(2, -3, 2);
+    scene.add(fill);
+
+    // Cursor parallax
+    var target = { x: 0, y: 0 };
+    var current = { x: 0, y: 0 };
+    function onMove(e) {
+      var rect = el.getBoundingClientRect();
+      var nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      var ny = ((e.clientY - rect.top) / rect.height) * 2 - 1;
+      target.x = nx * 0.25;
+      target.y = ny * 0.18;
+    }
+    window.addEventListener("mousemove", onMove, { passive: true });
+
+    // Resize
+    var resizeT = null;
+    function onResize() {
+      clearTimeout(resizeT);
+      resizeT = setTimeout(function () {
+        var w = el.clientWidth, h = el.clientHeight;
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
+      }, 80);
+    }
+    window.addEventListener("resize", onResize, { passive: true });
+
+    // Animate
+    var clock = new THREE.Clock();
+    var rafId;
+    function tick() {
+      var dt = clock.getDelta();
+      current.x += (target.x - current.x) * 0.05;
+      current.y += (target.y - current.y) * 0.05;
+
+      mesh.rotation.x += dt * config.rotationSpeed.x + current.y * 0.002;
+      mesh.rotation.y += dt * config.rotationSpeed.y + current.x * 0.002;
+      mesh.position.y = Math.sin(clock.elapsedTime * 0.6) * 0.12;
+
+      particles.rotation.y -= dt * 0.02;
+
+      renderer.render(scene, camera);
+      rafId = requestAnimationFrame(tick);
+    }
+    tick();
+
+    window.addEventListener("pagehide", function () {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("resize", onResize);
+      renderer.dispose(); geom.dispose(); mat.dispose();
+    });
+  }
+
+  // -------- Reveal on scroll --------
+  function initReveals() {
+    var prefersReduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // If the page has .reveal elements but we can't observe (old browser), show everything.
+    if (!("IntersectionObserver" in window) || prefersReduce) {
+      var els = document.querySelectorAll(".reveal");
+      for (var i = 0; i < els.length; i++) els[i].classList.add("in-view");
+      return;
+    }
+
+    // Mark the document as JS-ready so CSS can apply the hidden state safely.
+    document.documentElement.classList.add("js-ready");
+
+    var io = new IntersectionObserver(function (entries) {
+      for (var i = 0; i < entries.length; i++) {
+        var e = entries[i];
+        if (e.isIntersecting) {
+          e.target.classList.add("in-view");
+          io.unobserve(e.target);
+        }
+      }
+    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+
+    var reveals = document.querySelectorAll(".reveal");
+    for (var j = 0; j < reveals.length; j++) io.observe(reveals[j]);
+  }
+
+  // -------- Smooth anchor scroll --------
+  function initAnchors() {
+    var prefersReduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var anchors = document.querySelectorAll('a[href^="#"]');
+    for (var i = 0; i < anchors.length; i++) {
+      anchors[i].addEventListener("click", function (e) {
+        var id = this.getAttribute("href");
+        if (id.length <= 1) return;
+        var t = document.querySelector(id);
+        if (!t) return;
+        e.preventDefault();
+        var y = t.getBoundingClientRect().top + window.scrollY - 72;
+        window.scrollTo({ top: y, behavior: prefersReduce ? "auto" : "smooth" });
+      });
+    }
+  }
+
+  // Expose
+  global.mountHero = mountHero;
+  global.initReveals = initReveals;
+  global.initAnchors = initAnchors;
+})(window);
+
+</script>
+<script>
+  // Homepage doesn't need the 3D hero; just the reveals + anchors.
+  initReveals();
+  initAnchors();
+
+  // Pre-fill the Reserve form when arriving from a fleet page
+  // (e.g. /index.html?car=spectre#reserve).
+  (function prefillReserve() {
+    var CARS = {
+      spectre:    "Rolls-Royce Spectre",
+      db12:       "Aston Martin DB12 Volante",
+      "750s":     "McLaren 750S Spider",
+      purosangue: "Ferrari Purosangue",
+      g63:        "Mercedes-AMG G 63",
+      "911":      "Porsche 911 GT3 Touring"
+    };
+    var params = new URLSearchParams(window.location.search);
+    var slug = (params.get("car") || "").toLowerCase();
+    if (!slug || !CARS[slug]) return;
+
+    var carName = CARS[slug];
+    var hidden = document.getElementById("reserve-car");
+    var pre    = document.getElementById("reserve-pre");
+    var label  = document.getElementById("reserve-pre-car");
+    var notes  = document.getElementById("reserve-notes");
+    var feelingLabel = document.getElementById("feeling-label");
+
+    if (hidden) hidden.value = carName;
+    if (label)  label.textContent = carName;
+    if (pre)    pre.style.display = "block";
+    if (notes)  notes.placeholder = "tell us your dates and where to deliver — anything else is a bonus";
+    if (feelingLabel) feelingLabel.textContent = "Anything else we should know";
+  })();
+
+  /* ============================================================
+     Live form submission → localStorage → CRM dashboard
+     This wires the public Reserve form to the CRM inbox so the
+     demo flow (lead arrives → AI qualifies → appears in CRM) is
+     a single continuous story rather than two disconnected scenes.
+     No backend; LocalStorage handoff only.
+     ============================================================ */
+  function aiQualify(values) {
+    var blob = ((values.name || "") + " " + (values.contact || "") + " " +
+                (values.notes || "") + " " + (values.suburb || "") + " " +
+                (values.dates || "")).toLowerCase();
+    var signals = [];
+    var score = 50;
+
+    var premium = ["mosman","vaucluse","palm beach","bowral","bellevue hill","double bay","rose bay","watsons bay","darling point","point piper","centennial park","the rocks"];
+    for (var i = 0; i < premium.length; i++) {
+      if (blob.indexOf(premium[i]) !== -1) { score += 12; signals.push("Premium suburb"); break; }
+    }
+
+    if (/\b\d{1,2}\s*(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i.test(blob)
+        || /(mon|tue|wed|thu|fri|sat|sun)\b/i.test(blob)
+        || /\b\d{1,2}[\/\-]\d{1,2}\b/.test(blob)) {
+      score += 10; signals.push("Specific dates");
+    } else if (/flexible|whenever|anytime|tbc/.test(blob)) {
+      score -= 8;
+    }
+
+    var occasions = [
+      [/wedding|honeymoon/, "Wedding event", 18],
+      [/anniversary/,        "Anniversary",   14],
+      [/birthday/,           "Birthday occasion", 10],
+      [/corporate|director|board|offsite|client lunch|launch/, "Corporate", 18],
+      [/proposal|engaged/,   "Proposal",       12]
+    ];
+    for (var j = 0; j < occasions.length; j++) {
+      if (occasions[j][0].test(blob)) { score += occasions[j][2]; signals.push(occasions[j][1]); break; }
+    }
+
+    if (/again|previously|last time|repeat|came back|referred|recommended|been a guest/.test(blob)) {
+      score += 22; signals.push("Repeat / referral");
+    }
+
+    if (/cheap|discount|special|deal|negotiate|bargain|off the rate|how low/.test(blob)) {
+      score -= 25; signals.push("Price-led");
+    }
+    if (/track|circuit|race day|skid pan|drift/.test(blob)) {
+      score -= 35; signals.push("Track use (not insured)");
+    }
+
+    var contact = (values.contact || "").toLowerCase();
+    if (/@(?!gmail|yahoo|hotmail|outlook|protonmail|icloud|live|me)[^\s@]+\.[^\s]/i.test(contact)) {
+      score += 8; signals.push("Corporate domain");
+    }
+    if (/^\+?6?1?\s*4\d{2}[\s\d]{6,}/.test(contact) || /signal/i.test(contact)) {
+      // mobile or signal — neutral
+    }
+
+    score = Math.max(5, Math.min(99, score));
+
+    var level, verdict;
+    if (score >= 70) {
+      level = "hot";
+      verdict = signals.indexOf("Wedding event") > -1   ? "Strong intent — high-touch event."
+              : signals.indexOf("Anniversary") > -1     ? "Strong intent — anniversary."
+              : signals.indexOf("Corporate") > -1       ? "Corporate enquiry, fast confirm."
+              : signals.indexOf("Repeat / referral")>-1 ? "Repeat / referral signal."
+              : "Confident book.";
+    } else if (score >= 40) {
+      level = "warm";
+      verdict = "Viable — worth a phone call.";
+    } else {
+      level = "cold";
+      verdict = signals.indexOf("Price-led") > -1                  ? "Price-led shopper. Low conversion likelihood."
+              : signals.indexOf("Track use (not insured)") > -1    ? "Track use — not a fit."
+              : "Limited qualifying detail.";
+    }
+
+    return {
+      score: score,
+      level: level,
+      verdict: verdict,
+      reasoning: "Auto-qualified by Noctis AI on form submission. " +
+                 (signals.length ? "Signals detected: " + signals.join(", ") + "." :
+                                   "No strong signals detected — defaulted to neutral score."),
+      signals: signals.length ? signals : ["Form submission"]
+    };
+  }
+
+  function inferSource() {
+    var url = new URL(window.location.href);
+    var carSlug = url.searchParams.get("car") || "";
+    var utm = (url.searchParams.get("utm_source") || "").toLowerCase();
+    var ref = (document.referrer || "").toLowerCase();
+
+    if (utm === "instagram" || /instagram\.com/.test(ref)) {
+      return { channel: "instagram", label: "Instagram", detail: "Tap-through to noctis.com.au" };
+    }
+    if (utm === "google" || /google\./.test(ref)) {
+      return { channel: "google", label: "Google", detail: "Search → noctis.com.au" };
+    }
+    if (utm === "pinterest" || /pinterest\./.test(ref)) {
+      return { channel: "pinterest", label: "Pinterest", detail: "Pin → noctis.com.au" };
+    }
+    return {
+      channel: "direct",
+      label: "Direct",
+      detail: "Submitted reservation form on noctis.com.au" + (carSlug ? " (from " + carSlug + " page)" : "")
+    };
+  }
+
+  function submitInquiry(form) {
+    var values = {
+      name:    (form.name && form.name.value)    || "Unnamed",
+      contact: (form.contact && form.contact.value) || "—",
+      suburb:  (form.suburb && form.suburb.value)  || "—",
+      dates:   (form.dates && form.dates.value)    || "—",
+      notes:   (form.notes && form.notes.value)    || "—",
+      car:     (form.car && form.car.value)        || "—"
+    };
+
+    var ai = aiQualify(values);
+    var source = inferSource();
+
+    var carSlugMap = {
+      "Rolls-Royce Spectre": "spectre",
+      "Aston Martin DB12 Volante": "db12",
+      "McLaren 750S Spider": "750s",
+      "Ferrari Purosangue": "purosangue",
+      "Mercedes-AMG G 63": "g63",
+      "Porsche 911 GT3 Touring": "911"
+    };
+    var carField = carSlugMap[values.car] || "—";
+    var firstName = values.name.split(" ")[0] || values.name;
+
+    var now = new Date();
+    var hh = String(now.getHours()).padStart(2, "0");
+    var mm = String(now.getMinutes()).padStart(2, "0");
+    var ref = "NX-" + now.getTime().toString().slice(-6);
+
+    var inquiry = {
+      id: "live-" + now.getTime(),
+      isLive: true,
+      ref: ref,
+      name: values.name,
+      contact: values.contact,
+      suburb: values.suburb,
+      dates: values.dates,
+      car: carField,
+      received: "Just now · " + hh + ":" + mm,
+      status: "new",
+      unread: true,
+      week: true,
+      source: source,
+      conversation: [],
+      notes: values.notes,
+      ai: Object.assign({}, ai, {
+        suggestedReply: "Hi " + firstName + ",\n\n" +
+          "Thank you for the inquiry. I'll come back to you within the hour with availability for the " +
+          (values.car !== "—" ? values.car : "car") + " on " + values.dates + ".\n\n" +
+          (source.channel === "instagram" ? "Saw you came through Instagram — good to have you. " : "") +
+          "If anything is time-sensitive, I'm on +61 2 9264 4471.\n\n— Tom"
+      })
+    };
+
+    try {
+      var existing = JSON.parse(localStorage.getItem("noctisInquiries") || "[]");
+      existing.unshift(inquiry);
+      localStorage.setItem("noctisInquiries", JSON.stringify(existing.slice(0, 20)));
+    } catch (e) {
+      console.warn("Could not save inquiry to localStorage", e);
+    }
+
+    var refEl = document.getElementById("form-ref");
+    if (refEl) refEl.textContent = ref;
+    document.getElementById("form-success").style.display = "block";
+    form.style.display = "none";
+    window.scrollTo({ top: form.parentElement.offsetTop - 100, behavior: "smooth" });
+  }
+  window.submitInquiry = submitInquiry;
+</script>
+
+
+<!-- noctis-chat -->
+<script src="assets/noctis-chat.js" defer></script>
+
+<!-- noctis-brand -->
+<script src="assets/brands.js" defer></script>
+<script src="assets/noctis-brand.js" defer></script>
+</body>
+</html>

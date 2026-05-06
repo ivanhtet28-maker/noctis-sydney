@@ -459,13 +459,350 @@ input, textarea, select { font-family: inherit; font-size: inherit; color: inher
 .empty p { font-size: 13px; margin: 0; max-width: 36ch; line-height: 1.6; }
 
 /* Scroll polish */
-.inbox-list::-webkit-scrollbar, .detail-body::-webkit-scrollbar { width: 6px; }
-.inbox-list::-webkit-scrollbar-thumb, .detail-body::-webkit-scrollbar-thumb { background: var(--bg-4); border-radius: 3px; }
+.inbox-list::-webkit-scrollbar, .detail-body::-webkit-scrollbar,
+.page-body::-webkit-scrollbar, .kanban-col-body::-webkit-scrollbar { width: 6px; }
+.inbox-list::-webkit-scrollbar-thumb, .detail-body::-webkit-scrollbar-thumb,
+.page-body::-webkit-scrollbar-thumb, .kanban-col-body::-webkit-scrollbar-thumb { background: var(--bg-4); border-radius: 3px; }
+
+/* ============================================================
+   View switching — multi-view dashboard
+   ============================================================ */
+.app[data-view="inbox"]    { grid-template-columns: 220px 380px 1fr; }
+.app[data-view="overview"],
+.app[data-view="leads"],
+.app[data-view="inventory"],
+.app[data-view="orders"],
+.app[data-view="settings"] { grid-template-columns: 220px 1fr; }
+@media (max-width: 1100px) {
+  .app[data-view="inbox"]    { grid-template-columns: 60px 320px 1fr; }
+  .app[data-view="overview"],
+  .app[data-view="leads"],
+  .app[data-view="inventory"],
+  .app[data-view="orders"],
+  .app[data-view="settings"] { grid-template-columns: 60px 1fr; }
+}
+.app[data-view="inbox"] .page { display: none; }
+.app:not([data-view="inbox"]) .inbox,
+.app:not([data-view="inbox"]) .detail { display: none; }
+.page { display: none; flex-direction: column; background: var(--bg-1); overflow: hidden; }
+.app[data-view="overview"] #page-overview,
+.app[data-view="leads"] #page-leads,
+.app[data-view="inventory"] #page-inventory,
+.app[data-view="orders"] #page-orders,
+.app[data-view="settings"] #page-settings { display: flex; }
+
+.app:not([data-view="inbox"]) .nav-inbox-filters { display: none; }
+
+.nav .item .ico-svg {
+  width: 14px; height: 14px; flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: rgba(245,241,234,0.55);
+}
+.nav .item:hover .ico-svg, .nav .item.active .ico-svg { color: var(--cream); }
+
+/* Generic page header */
+.page-head {
+  padding: 22px 32px 18px;
+  border-bottom: 1px solid var(--line);
+  display: flex; justify-content: space-between; align-items: flex-end;
+  gap: 24px; flex-wrap: wrap;
+}
+.page-head h1 { font-family: 'Fraunces', serif; font-size: 26px; letter-spacing: -0.022em; margin: 0; }
+.page-head .sub { color: var(--muted); font-size: 13px; margin-top: 4px; }
+.page-head .actions { display: flex; gap: 8px; }
+.page-body { flex: 1; overflow-y: auto; padding: 28px 32px 60px; }
+
+/* KPI cards */
+.kpi-grid {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px; margin-bottom: 24px;
+}
+@media (max-width: 1280px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+.kpi-card {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg-2);
+  padding: 18px 20px;
+}
+.kpi-card .lbl { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.kpi-card .val { font-family: 'Fraunces', serif; font-size: 32px; line-height: 1; margin-top: 8px; letter-spacing: -0.018em; }
+.kpi-card .trend { font-size: 12px; margin-top: 8px; color: var(--muted); }
+.kpi-card .trend.up { color: var(--ok); }
+.kpi-card .trend.down { color: var(--hot); }
+
+/* Section cards */
+.section-card {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg-2);
+  padding: 20px 24px;
+  margin-bottom: 18px;
+}
+.section-card .head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 14px; gap: 12px; flex-wrap: wrap;
+}
+.section-card .head h3 { font-family: 'Fraunces', serif; font-size: 17px; margin: 0; letter-spacing: -0.012em; }
+.section-card .head .sub { font-size: 12px; color: var(--muted); }
+
+.two-col { display: grid; grid-template-columns: 2fr 1fr; gap: 18px; }
+@media (max-width: 1100px) { .two-col { grid-template-columns: 1fr; } }
+
+/* Pipeline bars */
+.pipeline-row {
+  display: grid; grid-template-columns: 160px 1fr 50px;
+  gap: 12px; align-items: center; padding: 8px 0;
+  font-size: 13px;
+}
+.pipeline-row .lbl-stage { color: var(--cream); }
+.pipeline-row .bar { height: 6px; border-radius: 3px; background: var(--bg-3); overflow: hidden; }
+.pipeline-row .bar > span { display: block; height: 100%; background: var(--cream); }
+.pipeline-row .num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); text-align: right; }
+.pipeline-row.hot  .bar > span { background: var(--hot); }
+.pipeline-row.warm .bar > span { background: var(--warm); }
+.pipeline-row.ok   .bar > span { background: var(--ok); }
+.pipeline-row.cold .bar > span { background: var(--cold); }
+
+/* Activity rows */
+.activity-row {
+  display: grid; grid-template-columns: 1fr auto auto;
+  gap: 16px; align-items: center;
+  padding: 12px 0; border-bottom: 1px dashed var(--line);
+  font-size: 13px;
+}
+.activity-row:last-child { border-bottom: none; }
+.activity-row .who { color: var(--cream); }
+.activity-row .what { color: var(--muted); font-size: 12px; margin-top: 2px; }
+.activity-row .amt { font-family: 'JetBrains Mono', monospace; color: var(--ok); font-size: 13px; }
+.activity-row .when { color: var(--subtle); font-size: 11px; font-family: 'JetBrains Mono', monospace; }
+
+/* Kanban */
+.kanban {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(220px, 1fr));
+  gap: 12px;
+  min-height: 70vh;
+}
+@media (max-width: 1500px) { .kanban { grid-template-columns: repeat(3, minmax(220px, 1fr)); } }
+@media (max-width: 900px)  { .kanban { grid-template-columns: repeat(2, minmax(220px, 1fr)); } }
+.kanban-col {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  display: flex; flex-direction: column;
+  min-height: 320px;
+  overflow: hidden;
+}
+.kanban-col-head {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.kanban-col-head .name { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cream); }
+.kanban-col-head .name::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 8px; vertical-align: middle; background: var(--muted); }
+.kanban-col[data-stage="new"]       .name::before { background: rgba(245,241,234,0.5); }
+.kanban-col[data-stage="qualified"] .name::before { background: var(--warm); }
+.kanban-col[data-stage="quoted"]    .name::before { background: var(--warm); }
+.kanban-col[data-stage="awaiting"]  .name::before { background: var(--hot); }
+.kanban-col[data-stage="paid"]      .name::before { background: var(--ok); }
+.kanban-col[data-stage="lost"]      .name::before { background: var(--cold); }
+.kanban-col-head .n {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  color: var(--muted); background: var(--bg-3);
+  padding: 1px 7px; border-radius: 10px;
+}
+.kanban-col-body { padding: 10px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; flex: 1; }
+.kanban-card {
+  background: var(--bg-3);
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, transform .15s;
+}
+.kanban-card:hover { background: var(--bg-4); border-color: rgba(245,241,234,0.2); transform: translateY(-1px); }
+.kanban-card .name { color: var(--cream); font-size: 13px; font-weight: 500; }
+.kanban-card .meta { color: var(--muted); font-size: 11px; margin-top: 4px; }
+.kanban-card .row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; gap: 8px; }
+.kanban-card .amt { font-family: 'JetBrains Mono', monospace; color: var(--cream); font-size: 12px; }
+.kanban-card .ai-pip {
+  font-size: 10px; letter-spacing: 0.04em; padding: 1px 7px; border-radius: 10px;
+  border: 1px solid var(--line-2); color: var(--muted); background: var(--bg-2);
+}
+.kanban-card .ai-pip.hot  { color: var(--hot);  border-color: rgba(224,82,76,0.3); background: rgba(224,82,76,0.1); }
+.kanban-card .ai-pip.warm { color: var(--warm); border-color: rgba(224,161,47,0.3); background: rgba(224,161,47,0.1); }
+.kanban-card .ai-pip.cold { color: var(--cold); border-color: rgba(91,111,142,0.3); background: rgba(91,111,142,0.1); }
+
+/* Inventory grid */
+.inv-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+.inv-card {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg-2);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  transition: border-color .15s;
+}
+.inv-card:hover { border-color: rgba(245,241,234,0.2); }
+.inv-card .img {
+  aspect-ratio: 16 / 10;
+  background: var(--bg-3);
+  background-size: cover; background-position: center;
+  border-bottom: 1px solid var(--line);
+}
+.inv-card .body { padding: 16px 20px 18px; }
+.inv-card h4 { font-family: 'Fraunces', serif; font-size: 18px; margin: 0; letter-spacing: -0.012em; }
+.inv-card .sub { color: var(--muted); font-size: 12px; margin-top: 2px; }
+.inv-card .rates {
+  display: flex; gap: 18px; margin-top: 14px; padding-top: 14px;
+  border-top: 1px dashed var(--line);
+}
+.inv-card .rate .v { font-family: 'JetBrains Mono', monospace; color: var(--cream); font-size: 13px; }
+.inv-card .rate .l { color: var(--subtle); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 2px; }
+.inv-card .foot {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--line);
+}
+.status-dot {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 11px; color: var(--muted);
+}
+.status-dot::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--muted); }
+.status-dot.ok::before   { background: var(--ok); }
+.status-dot.warm::before { background: var(--warm); }
+.status-dot.hot::before  { background: var(--hot); }
+
+/* Tables */
+.tbl {
+  width: 100%; border-collapse: collapse;
+  font-size: 13px;
+}
+.tbl thead th {
+  text-align: left; font-size: 10px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted);
+  padding: 10px 14px; border-bottom: 1px solid var(--line);
+  font-weight: 500;
+}
+.tbl tbody td {
+  padding: 13px 14px;
+  border-bottom: 1px solid var(--line);
+  color: rgba(245,241,234,0.85);
+}
+.tbl tbody tr { cursor: pointer; transition: background .12s; }
+.tbl tbody tr:hover { background: var(--bg-2); }
+.tbl .amt { font-family: 'JetBrains Mono', monospace; color: var(--cream); }
+.tbl .when { color: var(--muted); font-size: 12px; font-family: 'JetBrains Mono', monospace; }
+.tbl-wrap { background: var(--bg-2); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+
+/* Filter chips */
+.filter-chips { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+.chip {
+  background: var(--bg-3);
+  border: 1px solid var(--line-2);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 12px; color: rgba(245,241,234,0.7);
+  cursor: pointer; letter-spacing: 0.04em;
+  transition: background .15s, border-color .15s;
+}
+.chip:hover { background: var(--bg-4); }
+.chip.active { background: var(--bg-4); color: var(--cream); border-color: rgba(245,241,234,0.3); }
+
+/* Settings */
+.settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+@media (max-width: 1100px) { .settings-grid { grid-template-columns: 1fr; } }
+.field { margin-bottom: 14px; }
+.field label { display: block; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+.field input[type="text"], .field input[type="email"], .field textarea {
+  width: 100%;
+  background: var(--bg-1);
+  border: 1px solid var(--line-2);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 13px;
+  color: var(--cream);
+  outline: none;
+  font-family: inherit;
+}
+.field input:focus, .field textarea:focus { border-color: rgba(245,241,234,0.3); }
+.field textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+.field .hint { font-size: 11px; color: var(--subtle); margin-top: 6px; }
+
+.toggle-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 0; border-bottom: 1px dashed var(--line); gap: 16px;
+}
+.toggle-row:last-child { border-bottom: none; }
+.toggle-row .lbl { font-size: 13px; color: var(--cream); }
+.toggle-row .desc { font-size: 11px; color: var(--muted); margin-top: 2px; line-height: 1.5; }
+
+.toggle {
+  appearance: none; -webkit-appearance: none;
+  width: 36px; height: 20px;
+  background: var(--bg-3);
+  border: 1px solid var(--line-2);
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer; flex-shrink: 0;
+  transition: background .2s;
+}
+.toggle::after {
+  content: ""; position: absolute; left: 2px; top: 1px;
+  width: 14px; height: 14px;
+  background: var(--cream); border-radius: 50%;
+  transition: transform .2s;
+}
+.toggle:checked { background: var(--accent); border-color: var(--accent); }
+.toggle:checked::after { transform: translateX(16px); }
+
+.connected-card {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 16px;
+  background: var(--bg-1);
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  margin-bottom: 14px;
+}
+.connected-card .ico {
+  width: 38px; height: 38px;
+  border-radius: 8px;
+  background: var(--bg-3);
+  border: 1px solid var(--line-2);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  color: var(--cream);
+}
+.connected-card .info { flex: 1; min-width: 0; }
+.connected-card .ttl { font-size: 13px; color: var(--cream); }
+.connected-card .meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.connected-card .ok-badge {
+  font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 10px;
+  background: rgba(93,204,131,0.12);
+  color: var(--ok);
+  border: 1px solid rgba(93,204,131,0.3);
+  flex-shrink: 0;
+}
+
+/* Status pill (orders) */
+.status-pill {
+  display: inline-block; font-size: 10px; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 3px 8px; border-radius: 10px;
+  border: 1px solid var(--line-2); background: var(--bg-3); color: var(--muted);
+}
+.status-pill.paid     { color: var(--ok);   background: rgba(93,204,131,0.1);  border-color: rgba(93,204,131,0.3); }
+.status-pill.awaiting { color: var(--warm); background: rgba(224,161,47,0.1);  border-color: rgba(224,161,47,0.3); }
+.status-pill.cancelled{ color: var(--cold); background: rgba(91,111,142,0.1);  border-color: rgba(91,111,142,0.3); }
 </style>
 </head>
 <body>
 
-<div class="app" id="app">
+<div class="app" id="app" data-view="inbox">
   <!-- ===================== Sidebar ===================== -->
   <aside class="sidebar">
     <div class="brand">
@@ -476,6 +813,35 @@ input, textarea, select { font-family: inherit; font-size: inherit; color: inher
       </div>
     </div>
     <nav class="nav">
+      <div class="group"><span class="lbl">Workspace</span></div>
+      <button class="item view-btn" data-view="overview">
+        <span class="ico-svg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg></span>
+        <span class="lbl">Overview</span>
+      </button>
+      <button class="item view-btn active" data-view="inbox">
+        <span class="ico-svg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg></span>
+        <span class="lbl">Inbox</span>
+        <span class="count" id="count-inbox-total">0</span>
+      </button>
+      <button class="item view-btn" data-view="leads">
+        <span class="ico-svg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg></span>
+        <span class="lbl">Leads</span>
+        <span class="count" id="count-leads-total">0</span>
+      </button>
+      <button class="item view-btn" data-view="inventory">
+        <span class="ico-svg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 13h18l-2-7H5l-2 7z"/><path d="M3 13v5h18v-5"/><circle cx="7" cy="18" r="1.5"/><circle cx="17" cy="18" r="1.5"/></svg></span>
+        <span class="lbl">Fleet</span>
+      </button>
+      <button class="item view-btn" data-view="orders">
+        <span class="ico-svg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 11h20"/><path d="M6 16h4"/></svg></span>
+        <span class="lbl">Orders</span>
+      </button>
+      <button class="item view-btn" data-view="settings">
+        <span class="ico-svg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 0 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></span>
+        <span class="lbl">Settings</span>
+      </button>
+
+      <div class="nav-inbox-filters">
       <div class="group"><span class="lbl">Inbox</span></div>
       <button class="item active" data-filter="all">
         <span class="lbl">All inquiries</span>
@@ -564,6 +930,7 @@ input, textarea, select { font-family: inherit; font-size: inherit; color: inher
       <button class="item" data-filter="car:911">
         <span class="lbl">911 GT3</span><span class="count" id="count-911">0</span>
       </button>
+      </div><!-- /.nav-inbox-filters -->
     </nav>
 
     <div class="user">
@@ -600,6 +967,79 @@ input, textarea, select { font-family: inherit; font-size: inherit; color: inher
       <p>Choose a message from the inbox to see the AI qualification, full details, and a draft reply.</p>
     </div>
   </section>
+
+  <!-- ===================== Overview ===================== -->
+  <main class="page" id="page-overview">
+    <div class="page-head">
+      <div>
+        <h1>Overview</h1>
+        <div class="sub">Walsh Bay · Last 7 days</div>
+      </div>
+      <div class="actions">
+        <button class="btn">Export</button>
+        <button class="btn primary">New booking</button>
+      </div>
+    </div>
+    <div class="page-body" id="overview-body"></div>
+  </main>
+
+  <!-- ===================== Leads (kanban) ===================== -->
+  <main class="page" id="page-leads">
+    <div class="page-head">
+      <div>
+        <h1>Leads</h1>
+        <div class="sub">Drag a card to move it across stages — every card is a real DM thread.</div>
+      </div>
+      <div class="actions">
+        <button class="btn">Filter</button>
+        <button class="btn primary">+ Add lead</button>
+      </div>
+    </div>
+    <div class="page-body" id="leads-body"></div>
+  </main>
+
+  <!-- ===================== Inventory (Fleet) ===================== -->
+  <main class="page" id="page-inventory">
+    <div class="page-head">
+      <div>
+        <h1>Fleet</h1>
+        <div class="sub">6 vehicles · A$13,200 average daily yield</div>
+      </div>
+      <div class="actions">
+        <button class="btn">Calendar view</button>
+        <button class="btn primary">+ Add vehicle</button>
+      </div>
+    </div>
+    <div class="page-body" id="inventory-body"></div>
+  </main>
+
+  <!-- ===================== Orders ===================== -->
+  <main class="page" id="page-orders">
+    <div class="page-head">
+      <div>
+        <h1>Orders</h1>
+        <div class="sub">Closed deals and outstanding payments.</div>
+      </div>
+      <div class="actions">
+        <button class="btn">Export CSV</button>
+      </div>
+    </div>
+    <div class="page-body" id="orders-body"></div>
+  </main>
+
+  <!-- ===================== Settings ===================== -->
+  <main class="page" id="page-settings">
+    <div class="page-head">
+      <div>
+        <h1>Settings</h1>
+        <div class="sub">Connections, payments, and AI behaviour.</div>
+      </div>
+      <div class="actions">
+        <button class="btn primary">Save changes</button>
+      </div>
+    </div>
+    <div class="page-body" id="settings-body"></div>
+  </main>
 </div>
 
 <script>
@@ -891,6 +1331,81 @@ const INQUIRIES = [
 ];
 
 /* ============================================================
+   Inventory mock — fleet items
+   ============================================================ */
+const INVENTORY = [
+  { slug: "spectre",    name: "Rolls-Royce Spectre",        sub: "Coupe · 2024 · Belize Blue",        daily: 6700, weekly: 32500, deposit: 5000, status: "ok",   statusText: "Available · 3 upcoming bookings", img: "../images/spectre-card.jpg" },
+  { slug: "db12",       name: "Aston Martin DB12 Volante",  sub: "Convertible · 2024 · Storm Purple", daily: 4950, weekly: 24000, deposit: 3500, status: "warm", statusText: "Booked Thu 22 May",               img: "../images/db12-card.jpg" },
+  { slug: "750s",       name: "McLaren 750S Spider",        sub: "Convertible · 2024 · MSO Volcano",  daily: 6250, weekly: 28500, deposit: 5000, status: "ok",   statusText: "Available · 2 upcoming",          img: "../images/750s-card.jpg" },
+  { slug: "purosangue", name: "Ferrari Purosangue",         sub: "SUV · 2024 · Rosso Imola",          daily: 7700, weekly: 37000, deposit: 6500, status: "warm", statusText: "Booked Sun 25 May · offsite",     img: "../images/purosangue-card.jpg" },
+  { slug: "g63",        name: "Mercedes-AMG G 63",          sub: "SUV · 2024 · Magno Hero",           daily: 3100, weekly: 14500, deposit: 2500, status: "hot",  statusText: "Service due 12 May · 8,400 km",   img: "../images/g63-card.jpg" },
+  { slug: "911",        name: "Porsche 911 GT3 Touring",    sub: "Coupe · 2024 · Aventurine Green",   daily: 4250, weekly: 20500, deposit: 3500, status: "ok",   statusText: "Available · no upcoming",         img: "../images/911-card.jpg" }
+];
+
+/* ============================================================
+   Orders mock — closed deals & outstanding payments
+   ============================================================ */
+const ORDERS = [
+  { date: "May 6",  customer: "Olivia P. (Park Hyatt)",  car: "DB12 Volante",       amount: 4950,  method: "Hotel folio",     status: "Awaiting payment" },
+  { date: "May 5",  customer: "Laila K.",                car: "Purosangue",         amount: 7700,  method: "Stripe link",     status: "Paid" },
+  { date: "May 4",  customer: "Hannah Beaumont",         car: "G 63",               amount: 9580,  method: "Bank transfer",   status: "Paid" },
+  { date: "May 3",  customer: "Foster Design",           car: "DB12 Volante",       amount: 4950,  method: "Stripe link",     status: "Paid" },
+  { date: "May 2",  customer: "Ben & Marie",             car: "Spectre · 1 week",   amount: 32500, method: "Bank transfer",   status: "Paid" },
+  { date: "May 1",  customer: "K. Tanaka",               car: "Purosangue",         amount: 7700,  method: "Stripe link",     status: "Paid" },
+  { date: "Apr 29", customer: "Luxe Studios (commercial)", car: "750S Spider",      amount: 6250,  method: "Stripe link",     status: "Paid" },
+  { date: "Apr 28", customer: "James Weatherall",        car: "Spectre · 3 days",   amount: 20100, method: "Bank transfer",   status: "Paid" },
+  { date: "Apr 27", customer: "Anonymous (Signal)",      car: "750S Spider",        amount: 6250,  method: "Cash + 30% wire", status: "Awaiting payment" },
+  { date: "Apr 25", customer: "Daniel H.",               car: "750S · 3 days",      amount: 12500, method: "Stripe link",     status: "Cancelled" },
+  { date: "Apr 22", customer: "Park Hyatt · guest",      car: "DB12 Volante",       amount: 4950,  method: "Hotel folio",     status: "Paid" },
+  { date: "Apr 20", customer: "Bridgepoint Capital",     car: "Purosangue · 1 week",amount: 37000, method: "Bank transfer",   status: "Paid" },
+  { date: "Apr 18", customer: "Sarah O'Donnell · KPMG",  car: "Purosangue + DB12",  amount: 40750, method: "Corporate AmEx",  status: "Paid" },
+  { date: "Apr 16", customer: "Greg P. (Foster Design)", car: "DB12 Volante",       amount: 4950,  method: "Stripe link",     status: "Paid" }
+];
+
+/* ============================================================
+   Kanban mock — pipeline cards
+   ============================================================ */
+const KANBAN = [
+  { stage: "new",       name: "Marco D.",            car: "911 GT3",            amount: 12750, score: 28,  level: "cold", when: "Yesterday" },
+  { stage: "new",       name: "Anonymous (Signal)",  car: "750S Spider",        amount: 6250,  score: 78,  level: "hot",  when: "8m ago" },
+  { stage: "new",       name: "Pinterest user",      car: "—",                  amount: null,  score: 5,   level: "cold", when: "3d" },
+
+  { stage: "qualified", name: "Sarah O'Donnell",     car: "Purosangue + DB12",  amount: 40750, score: 95,  level: "hot",  when: "1d in stage" },
+  { stage: "qualified", name: "James Weatherall",    car: "Spectre",            amount: 20100, score: 92,  level: "hot",  when: "3h in stage" },
+
+  { stage: "quoted",    name: "Hannah Beaumont",     car: "G 63",               amount: 9580,  score: 81,  level: "hot",  when: "1d in stage" },
+  { stage: "quoted",    name: "Greg P.",             car: "DB12 Volante",       amount: 4950,  score: 84,  level: "hot",  when: "4d in stage" },
+  { stage: "quoted",    name: "Daniel H.",           car: "750S · 3 days",      amount: 12500, score: 58,  level: "warm", when: "3d in stage" },
+
+  { stage: "awaiting",  name: "Olivia (Park Hyatt)", car: "DB12 Volante",       amount: 4950,  score: 99,  level: "hot",  when: "2h in stage" },
+  { stage: "awaiting",  name: "Laila K.",            car: "Purosangue",         amount: 7700,  score: 76,  level: "hot",  when: "Yesterday" },
+  { stage: "awaiting",  name: "Anonymous (Signal)",  car: "750S Spider",        amount: 1875,  score: 78,  level: "hot",  when: "Wire deposit" },
+
+  { stage: "paid",      name: "Ben & Marie",         car: "Spectre",            amount: 32500, score: null,level: null,   when: "Mon" },
+  { stage: "paid",      name: "Foster Design",       car: "DB12 Volante",       amount: 4950,  score: null,level: null,   when: "Sun" },
+  { stage: "paid",      name: "K. Tanaka",           car: "Purosangue",         amount: 7700,  score: null,level: null,   when: "Sat" },
+  { stage: "paid",      name: "Luxe Studios",        car: "750S Spider",        amount: 6250,  score: null,level: null,   when: "Fri" },
+  { stage: "paid",      name: "Bridgepoint Capital", car: "Purosangue",         amount: 37000, score: null,level: null,   when: "Apr 20" },
+
+  { stage: "lost",      name: "Chris L.",            car: "—",                  amount: null,  score: 18,  level: "cold", when: "Yesterday" },
+  { stage: "lost",      name: "Anonymous (track)",   car: "—",                  amount: null,  score: 5,   level: "cold", when: "3d" }
+];
+
+const STAGES = [
+  { id: "new",       label: "New" },
+  { id: "qualified", label: "Qualified" },
+  { id: "quoted",    label: "Quoted" },
+  { id: "awaiting",  label: "Awaiting payment" },
+  { id: "paid",      label: "Paid" },
+  { id: "lost",      label: "Lost" }
+];
+
+function fmtAUD(n) {
+  if (n == null) return "—";
+  return "A$" + n.toLocaleString();
+}
+
+/* ============================================================
    App state + render
    ============================================================ */
 const state = { filter: "all", search: "", selectedId: null };
@@ -917,6 +1432,12 @@ function matchesSearch(it) {
 }
 
 function renderCounts() {
+  // Primary nav totals
+  const inboxTotal = INQUIRIES.filter(i => i.status === "new" || i.unread).length;
+  const leadsTotal = KANBAN.filter(c => c.stage !== "paid" && c.stage !== "lost").length;
+  if ($("#count-inbox-total")) $("#count-inbox-total").textContent = inboxTotal;
+  if ($("#count-leads-total")) $("#count-leads-total").textContent = leadsTotal;
+
   $("#count-all").textContent = INQUIRIES.length;
   $("#count-new").textContent = INQUIRIES.filter(i => i.status === "new").length;
   $("#count-replied").textContent = INQUIRIES.filter(i => i.status === "replied").length;
@@ -1112,6 +1633,360 @@ function renderDetail() {
   `;
 }
 
+/* ============================================================
+   Render functions for non-inbox views
+   ============================================================ */
+function renderOverview() {
+  const el = document.getElementById("overview-body");
+  if (!el) return;
+
+  const pipeline = [
+    { stage: "New",                 n: 12, max: 20, cls: "ok"   },
+    { stage: "Qualified",           n: 8,  max: 20, cls: "warm" },
+    { stage: "Quoted",              n: 5,  max: 20, cls: "warm" },
+    { stage: "Awaiting payment",    n: 3,  max: 20, cls: "hot"  },
+    { stage: "Paid · this month",   n: 14, max: 20, cls: "ok"   },
+    { stage: "Lost",                n: 7,  max: 20, cls: "cold" }
+  ];
+
+  const recent = [
+    { name: "Laila K.",         car: "Purosangue",         method: "Stripe link",    amount: 7700,  when: "10:42 today" },
+    { name: "Hannah Beaumont",  car: "G 63",               method: "Bank transfer",  amount: 9580,  when: "Yesterday · 16:08" },
+    { name: "Foster Design",    car: "DB12 Volante",       method: "Stripe link",    amount: 4950,  when: "Sun · 12:14" },
+    { name: "Ben & Marie",      car: "Spectre · 1 week",   method: "Bank transfer",  amount: 32500, when: "Sat · 09:30" },
+    { name: "K. Tanaka",        car: "Purosangue",         method: "Stripe link",    amount: 7700,  when: "Sat · 11:55" }
+  ];
+
+  el.innerHTML = `
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="lbl">DMs handled · 7d</div><div class="val">47</div><div class="trend up">&uarr; 12 vs prior week</div></div>
+      <div class="kpi-card"><div class="lbl">Hot leads</div><div class="val">8</div><div class="trend">4 awaiting reply</div></div>
+      <div class="kpi-card"><div class="lbl">Revenue · MTD</div><div class="val">A$184,500</div><div class="trend">84% of A$220k target</div></div>
+      <div class="kpi-card"><div class="lbl">Avg first response</div><div class="val">2m 14s</div><div class="trend up">&darr; from 18m without AI</div></div>
+    </div>
+
+    <div class="two-col">
+      <div class="section-card">
+        <div class="head"><h3>Pipeline</h3><span class="sub">All stages, all sources</span></div>
+        ${pipeline.map(p => `
+          <div class="pipeline-row ${p.cls}">
+            <span class="lbl-stage">${p.stage}</span>
+            <span class="bar"><span style="width:${Math.min(100, p.n / p.max * 100)}%"></span></span>
+            <span class="num">${p.n}</span>
+          </div>
+        `).join("")}
+      </div>
+
+      <div class="section-card">
+        <div class="head"><h3>AI activity</h3><span class="sub">Last 7 days</span></div>
+        <p style="color:rgba(245,241,234,0.78);font-size:13px;line-height:1.6;margin:0 0 16px;">
+          AI handled <strong style="color:var(--cream)">89%</strong> of inbound DMs autonomously.
+          <strong style="color:var(--cream)">23 sent</strong> without human edit.
+          <strong style="color:var(--cream)">12 escalated</strong> for review.
+        </p>
+        <div class="pipeline-row ok"><span class="lbl-stage">Auto-replied</span><span class="bar"><span style="width:89%"></span></span><span class="num">42</span></div>
+        <div class="pipeline-row warm"><span class="lbl-stage">Human edit</span><span class="bar"><span style="width:30%"></span></span><span class="num">14</span></div>
+        <div class="pipeline-row cold"><span class="lbl-stage">Escalated</span><span class="bar"><span style="width:25%"></span></span><span class="num">12</span></div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="head"><h3>Recent closes</h3><span class="sub">Past 7 days</span></div>
+      ${recent.map(r => `
+        <div class="activity-row">
+          <div>
+            <div class="who">${r.name}</div>
+            <div class="what">${r.car} &middot; ${r.method}</div>
+          </div>
+          <div class="amt">${fmtAUD(r.amount)}</div>
+          <div class="when">${r.when}</div>
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
+function renderLeads() {
+  const el = document.getElementById("leads-body");
+  if (!el) return;
+  el.innerHTML = `
+    <div class="kanban">
+      ${STAGES.map(stage => {
+        const cards = KANBAN.filter(c => c.stage === stage.id);
+        return `
+          <div class="kanban-col" data-stage="${stage.id}">
+            <div class="kanban-col-head">
+              <span class="name">${stage.label}</span>
+              <span class="n">${cards.length}</span>
+            </div>
+            <div class="kanban-col-body">
+              ${cards.map(c => `
+                <div class="kanban-card">
+                  <div class="name">${escape(c.name)}</div>
+                  <div class="meta">${escape(c.car)} &middot; ${escape(c.when)}</div>
+                  <div class="row">
+                    <span class="amt">${fmtAUD(c.amount)}</span>
+                    ${c.score != null ? `<span class="ai-pip ${c.level}">${c.level} &middot; ${c.score}</span>` : `<span class="ai-pip">paid</span>`}
+                  </div>
+                </div>
+              `).join("")}
+              ${cards.length === 0 ? `<div style="color:var(--subtle);font-size:11px;padding:18px 8px;text-align:center;">No cards</div>` : ""}
+            </div>
+          </div>
+        `;
+      }).join("")}
+    </div>
+  `;
+}
+
+function renderInventory() {
+  const el = document.getElementById("inventory-body");
+  if (!el) return;
+  el.innerHTML = `
+    <div class="inv-grid">
+      ${INVENTORY.map(it => `
+        <div class="inv-card">
+          <div class="img" style="background-image:url('${it.img}')"></div>
+          <div class="body">
+            <h4>${escape(it.name)}</h4>
+            <div class="sub">${escape(it.sub)}</div>
+            <div class="rates">
+              <div class="rate"><div class="v">${fmtAUD(it.daily)}</div><div class="l">Per day</div></div>
+              <div class="rate"><div class="v">${fmtAUD(it.weekly)}</div><div class="l">Per week</div></div>
+              <div class="rate"><div class="v">${fmtAUD(it.deposit)}</div><div class="l">Deposit</div></div>
+            </div>
+            <div class="foot">
+              <span class="status-dot ${it.status}">${escape(it.statusText)}</span>
+              <button class="btn">Edit</button>
+            </div>
+          </div>
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
+function renderOrdersRows(filter) {
+  const matchStatus = (s) => {
+    if (filter === "all") return true;
+    if (filter === "paid") return s === "Paid";
+    if (filter === "awaiting") return s === "Awaiting payment";
+    if (filter === "cancelled") return s === "Cancelled";
+    return true;
+  };
+  const rows = ORDERS.filter(o => matchStatus(o.status));
+  if (!rows.length) return `<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:40px;">No orders match this filter.</td></tr>`;
+  return rows.map(o => {
+    const cls = o.status === "Paid" ? "paid" : o.status === "Awaiting payment" ? "awaiting" : "cancelled";
+    return `
+      <tr>
+        <td class="when">${escape(o.date)}</td>
+        <td>${escape(o.customer)}</td>
+        <td>${escape(o.car)}</td>
+        <td style="color:var(--muted);font-size:12px;">${escape(o.method)}</td>
+        <td class="amt" style="text-align:right">${fmtAUD(o.amount)}</td>
+        <td><span class="status-pill ${cls}">${escape(o.status)}</span></td>
+      </tr>
+    `;
+  }).join("");
+}
+
+function renderOrders() {
+  const el = document.getElementById("orders-body");
+  if (!el) return;
+  const totalPaid = ORDERS.filter(o => o.status === "Paid").reduce((s, o) => s + o.amount, 0);
+  const totalAwait = ORDERS.filter(o => o.status === "Awaiting payment").reduce((s, o) => s + o.amount, 0);
+  const cancelledCount = ORDERS.filter(o => o.status === "Cancelled").length;
+  const cancelledTotal = ORDERS.filter(o => o.status === "Cancelled").reduce((s, o) => s + o.amount, 0);
+
+  el.innerHTML = `
+    <div class="kpi-grid" style="grid-template-columns:repeat(3,minmax(0,1fr));">
+      <div class="kpi-card"><div class="lbl">Paid · MTD</div><div class="val">${fmtAUD(totalPaid)}</div><div class="trend up">${ORDERS.filter(o => o.status === "Paid").length} bookings</div></div>
+      <div class="kpi-card"><div class="lbl">Awaiting payment</div><div class="val">${fmtAUD(totalAwait)}</div><div class="trend">${ORDERS.filter(o => o.status === "Awaiting payment").length} bookings</div></div>
+      <div class="kpi-card"><div class="lbl">Cancelled · 30d</div><div class="val">${cancelledCount}</div><div class="trend">${fmtAUD(cancelledTotal)} lost</div></div>
+    </div>
+
+    <div class="filter-chips" id="orders-filters">
+      <button class="chip active" data-orders-filter="all">All (${ORDERS.length})</button>
+      <button class="chip" data-orders-filter="paid">Paid</button>
+      <button class="chip" data-orders-filter="awaiting">Awaiting payment</button>
+      <button class="chip" data-orders-filter="cancelled">Cancelled</button>
+    </div>
+
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th style="width:90px">Date</th>
+            <th>Customer</th>
+            <th>Vehicle</th>
+            <th>Method</th>
+            <th style="text-align:right;width:120px">Amount</th>
+            <th style="width:170px">Status</th>
+          </tr>
+        </thead>
+        <tbody id="orders-tbody">
+          ${renderOrdersRows("all")}
+        </tbody>
+      </table>
+    </div>
+  `;
+
+  document.querySelectorAll("#orders-filters .chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      document.querySelectorAll("#orders-filters .chip").forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      document.getElementById("orders-tbody").innerHTML = renderOrdersRows(chip.dataset.ordersFilter);
+    });
+  });
+}
+
+function renderSettings() {
+  const el = document.getElementById("settings-body");
+  if (!el) return;
+  el.innerHTML = `
+    <div class="settings-grid">
+      <div>
+        <div class="section-card">
+          <div class="head"><h3>Channels</h3><span class="sub">Where customers reach you</span></div>
+
+          <div class="connected-card">
+            <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></div>
+            <div class="info">
+              <div class="ttl">Instagram &middot; @noctis.sydney</div>
+              <div class="meta">Connected &middot; last sync 14s ago &middot; 12.4k followers &middot; token expires Jul 2026</div>
+            </div>
+            <span class="ok-badge">Live</span>
+          </div>
+
+          <div class="connected-card">
+            <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/></svg></div>
+            <div class="info">
+              <div class="ttl">Signal &middot; concierge number</div>
+              <div class="meta">Connected &middot; routed via Twilio &middot; auto-reply on after-hours</div>
+            </div>
+            <span class="ok-badge">Live</span>
+          </div>
+
+          <div class="connected-card">
+            <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div>
+            <div class="info">
+              <div class="ttl">Email &middot; concierge@noctis.com.au</div>
+              <div class="meta">Forwarded via SES &middot; DMARC pass &middot; open rate 64%</div>
+            </div>
+            <span class="ok-badge">Live</span>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div class="head"><h3>Payment methods</h3><span class="sub">How you collect</span></div>
+
+          <div class="connected-card">
+            <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 11h20"/></svg></div>
+            <div class="info">
+              <div class="ttl">Stripe &middot; acct_1Q4nC&hellip;</div>
+              <div class="meta">Payment Links enabled &middot; default currency AUD &middot; payouts daily</div>
+            </div>
+            <span class="ok-badge">Live</span>
+          </div>
+
+          <div class="field">
+            <label>Bank transfer details</label>
+            <textarea rows="3">Noctis Pty Ltd &middot; BSB 062 124 &middot; Account 1078 9234
+Reference: booking ID. Funds clear next business day.</textarea>
+            <div class="hint">Sent to client when "Send bank info" is tapped in inbox.</div>
+          </div>
+
+          <div class="toggle-row">
+            <div>
+              <div class="lbl">Accept cash on delivery</div>
+              <div class="desc">Requires 30% wire deposit + 5-min ID call before keys are released.</div>
+            </div>
+            <input type="checkbox" class="toggle" checked />
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-card">
+          <div class="head"><h3>AI concierge</h3><span class="sub">Voice & autonomy</span></div>
+
+          <div class="field">
+            <label>Brand voice</label>
+            <textarea rows="6">Warm, understated, never salesy. Speaks like a hotel concierge who happens to know the cars personally — first-name basis if the guest has booked before. Never uses exclamation marks. Refers to vehicles by their model name (Spectre, DB12, Purosangue) — not "the Rolls" or "the Aston". Quotes prices flat: no specials, no haggling.</textarea>
+            <div class="hint">Used in every AI-drafted reply. Updated 6 days ago by Tom.</div>
+          </div>
+
+          <div class="toggle-row">
+            <div>
+              <div class="lbl">Auto-send replies</div>
+              <div class="desc">When confidence is above the threshold, send without human review.</div>
+            </div>
+            <input type="checkbox" class="toggle" />
+          </div>
+
+          <div class="toggle-row">
+            <div>
+              <div class="lbl">Always escalate hot leads</div>
+              <div class="desc">Bookings over A$20k or hotel-partner referrals always wait for Tom.</div>
+            </div>
+            <input type="checkbox" class="toggle" checked />
+          </div>
+
+          <div class="toggle-row">
+            <div>
+              <div class="lbl">Quiet hours</div>
+              <div class="desc">22:00 &rarr; 07:00 Sydney time. AI replies "Tom will be in touch in the morning" only.</div>
+            </div>
+            <input type="checkbox" class="toggle" checked />
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div class="head"><h3>Business</h3><span class="sub">Identity & defaults</span></div>
+
+          <div class="field">
+            <label>Business name</label>
+            <input type="text" value="Noctis Pty Ltd" />
+          </div>
+          <div class="field">
+            <label>Concierge owner</label>
+            <input type="text" value="Tom Fairbairn &middot; concierge@noctis.com.au" />
+          </div>
+          <div class="field">
+            <label>Service zone</label>
+            <input type="text" value="Sydney CBD &middot; Eastern Suburbs &middot; Northern Beaches &middot; Southern Highlands (fee)" />
+            <div class="hint">Quoted as "in-zone" in AI replies. Bowral and beyond add A$280 delivery.</div>
+          </div>
+          <div class="toggle-row">
+            <div>
+              <div class="lbl">Two-factor auth</div>
+              <div class="desc">Required for Tom and any team members with billing access.</div>
+            </div>
+            <input type="checkbox" class="toggle" checked />
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function setView(view) {
+  const valid = ["overview", "inbox", "leads", "inventory", "orders", "settings"];
+  if (!valid.includes(view)) view = "inbox";
+  document.getElementById("app").setAttribute("data-view", view);
+  document.querySelectorAll(".view-btn").forEach(b => {
+    b.classList.toggle("active", b.dataset.view === view);
+  });
+  if (view === "overview")  renderOverview();
+  if (view === "leads")     renderLeads();
+  if (view === "inventory") renderInventory();
+  if (view === "orders")    renderOrders();
+  if (view === "settings")  renderSettings();
+  if (history.replaceState) history.replaceState(null, "", "#" + view);
+  try { localStorage.setItem("noctisCrmView", view); } catch (e) {}
+}
+
 // Pull any live inquiries that the public form submitted into localStorage.
 // These are prepended (newest first) so they sit at the top of the inbox.
 function loadLiveInquiries() {
@@ -1131,13 +2006,36 @@ function init() {
   renderCounts();
   renderList();
 
-  document.querySelectorAll(".nav .item").forEach(el => {
+  // Inbox sub-filter buttons (only the ones inside the inbox-filter wrapper)
+  document.querySelectorAll(".nav-inbox-filters .item").forEach(el => {
     el.addEventListener("click", () => {
-      document.querySelectorAll(".nav .item").forEach(x => x.classList.remove("active"));
+      document.querySelectorAll(".nav-inbox-filters .item").forEach(x => x.classList.remove("active"));
       el.classList.add("active");
       state.filter = el.dataset.filter;
       renderList();
+      // If we're not on the Inbox view, clicking a filter switches us in.
+      if (document.getElementById("app").getAttribute("data-view") !== "inbox") {
+        setView("inbox");
+      }
     });
+  });
+
+  // Primary nav (top of sidebar) — switches between dashboard views
+  document.querySelectorAll(".view-btn").forEach(el => {
+    el.addEventListener("click", () => setView(el.dataset.view));
+  });
+
+  // Decide initial view from #hash, then last-used (localStorage), default to inbox
+  let initial = (location.hash || "").replace("#", "");
+  if (!initial) {
+    try { initial = localStorage.getItem("noctisCrmView") || ""; } catch (e) {}
+  }
+  setView(initial || "inbox");
+
+  // Hash-based deep-linking
+  window.addEventListener("hashchange", () => {
+    const v = (location.hash || "").replace("#", "");
+    if (v) setView(v);
   });
 
   $("#search").addEventListener("input", e => {
